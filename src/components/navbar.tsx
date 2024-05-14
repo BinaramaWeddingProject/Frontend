@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+
+
 const NavBar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
@@ -63,8 +65,24 @@ const NavBar: React.FC = () => {
             </ul>
           )}
         </li>
+
+       
+      
+
+        <ul className='ml-auto relative mx-4'>
+          <li>
+            <Link to="/login" className="text-white hover:text-gray-200">Login</Link>
+          </li>
+          <li>
+            <Link to="/vendorcard" className="text-white hover:text-gray-200">Vendor</Link>
+          </li>
+        </ul>
+
       </ul>
+      
     </nav>
+
+
   );
 };
 
