@@ -11,9 +11,7 @@ import PassVerification from './auth/passverification'
 import NewPassword from './auth/newPassword'
 import Verification from './auth/Verification'
 import Business from './auth/business'
-import Vendorcard from './card/Vendorcard'
-
-
+import VendorsList from './pages/VendorsList'
 
 
 const App = () => {
@@ -32,7 +30,7 @@ const App = () => {
         <Route path='/newpassword' element={<NewPassword/>}/>
         <Route path='/verification' element={<Verification/>}/>
         <Route path='/business' element={<Business/>}/>
-       <Route path='/vendorcard' element={<Vendorcard/>}/>
+       <Route path='/vendorslist' element={<VendorsList/>}/>
       </Routes>
       </Suspense>
     
