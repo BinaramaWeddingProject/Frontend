@@ -44,7 +44,7 @@ const NavBar: React.FC = () => {
           {dropdownOpen === 'Vendors' && (
             <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20"> {/* Added higher z-index */}
               <li>
-                <Link to="/vendors/option1" className="hover:text-gray-200">Option 1</Link>
+                <Link to="/vendorslist" className="hover:text-gray-200">Option 1</Link>
               </li>
               <li>
                 <Link to="/vendors/option2" className="hover:text-gray-200">Option 2</Link>
