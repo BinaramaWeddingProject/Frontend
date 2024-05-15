@@ -30,7 +30,7 @@ function Home() {
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0">
-          <div className="h-screen"></div> {/* Add space after the image */}
+          
         </div>
       </div>
       <div className="flex justify-center items-center"> {/* Flex container to center LocationCardHolder */}
