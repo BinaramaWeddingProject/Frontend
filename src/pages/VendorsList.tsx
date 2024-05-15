@@ -67,7 +67,7 @@ const VendorsList: React.FC<VendorsListProps> = ({ Title = "bridal mehndi", Desc
         </div>
         {/* Second section (1/5 of the screen) */}
         <div className="w-1/4 bg-pink-500">
-          <div className="justify-end p-4">
+          <div className="justify-end p-4" >
             <p className='text-xl font-bold'>{Search}</p>
             <hr className='h-1 bg-cyan-400 my-2'></hr>
             {/* Search bar */}
