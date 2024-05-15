@@ -39,7 +39,7 @@ function Home() {
       <div>
         <Carousel images={dummyImages} />
       </div>
-      <div className="mx-auto  w-screen">
+      <div className="mx-auto  max-w-screen">
         <InformationBanner />
       </div>
       <Footer/>
