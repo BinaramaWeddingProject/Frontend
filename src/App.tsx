@@ -1,9 +1,11 @@
 import { BrowserRouter as Router,Routes,Route} from 'react-router-dom'
-import { lazy,Suspense } from 'react'
+import { Suspense } from 'react'
 import Loader from './components/Loader'
 import Home from './pages/home'
 import UserProfile from './pages/userProfile'
 import UserRegister from './pages/userRegister'
+import Vendor from './pages/vendor'
+
 
 const App = () => {
   return (
@@ -14,6 +16,7 @@ const App = () => {
         <Route path='/' element={<Home />}/>
         <Route path='/userprofile' element={<UserProfile />}/>
         <Route path='/userregister' element={<UserRegister />}/>
+        <Route path='/vendors' element={<Vendor />}/>
       </Routes>
       </Suspense>
     
