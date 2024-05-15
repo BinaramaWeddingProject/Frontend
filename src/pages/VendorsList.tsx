@@ -23,8 +23,10 @@ const VendorsList: React.FC<VendorsListProps> = ({ NumberOfCards=20,NumberOfArti
     <div className="flex bg-blue-100">
       {/* First section (4/5 of the screen) */}
       <div className="justify-start p-4 w-3/4">
-        <p className='text-xl font-bold'>{Title}</p>
-        <p className='text-l font-semibold'>{Description}</p>
+        <div className='bg-slate-100'>
+        <p className='text-xl font-bold mx-2'>{Title}</p>
+        <p className='text-l font-semibold mx-2'>{Description}</p>
+        </div>
         <hr className='h-1 bg-white my-2'></hr>
         
       <div className=" bg-slate-100 flex flex-wrap py-4 justify-center">
@@ -54,11 +56,12 @@ const VendorsList: React.FC<VendorsListProps> = ({ NumberOfCards=20,NumberOfArti
             </button>
           </div>
           <hr className='h-1 bg-gray-200 my-2'></hr>
-
+          <div className='shadow-xl'>
           <AllVendors />
+          </div>
 
-          <img src={Img} alt={ImgTitle2} className="w-full h-[250px] pb-6"/>
-          <p className='text-xl font-semibold pt-2 pb-2 shadow'>Related Article</p>
+          <img src={Img} alt={ImgTitle2} className="w-full h-[250px] p-3 shadow-xl"/>
+          <p className='text-xl font-semibold pt-3 pb-2 shadow'>Related Article</p>
           
           <div className="  flex flex-wrap justify-center shadow">
         {/* Render VendorCard components */}
