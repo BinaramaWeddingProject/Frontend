@@ -4,5 +4,7 @@ export type AllVendorsResponse = {
     success: boolean;
     statusCode: number;
     message:string;
-    vendors: Vendor[];
+    data: {
+      vendors: Vendor[];
+    };
   };
