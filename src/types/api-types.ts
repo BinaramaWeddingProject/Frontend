@@ -8,3 +8,8 @@ export type AllVendorsResponse = {
       vendors: Vendor[];
     };
   };
+
+  export type MessageResponse = {
+    success: boolean;
+    message: string;
+  };

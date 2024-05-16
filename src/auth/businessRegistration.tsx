@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useSignupMutation } from '../redux/api/vendor';
+import { Vendor } from '../types/types';
 
 export const VenueRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
+  
+  const [register , ] = useSignupMutation();
+  
+
 
   const formik = useFormik({
     initialValues: {
@@ -13,7 +19,7 @@ export const VenueRegistrationForm: React.FC = () => {
       yourName: '',
       contact: '',
       email: '',
-      // password: '',
+      password: '',
       // confirmPassword: '',
       comments: ''
     },
@@ -28,10 +34,30 @@ export const VenueRegistrationForm: React.FC = () => {
       // confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match').required('Confirm password is required'),
       comments: Yup.string()
     }),
-    onSubmit: values => {
-      console.log('Vendor registration form submitted:', values);
-      setSubmitted(true);
+    onSubmit: async (values) => {
+      try {
+        console.log('Vendor registration form submitted:', values);
+    
+        // Create a Vendor object from the form values
+        const vendorData: Vendor = {
+          _id: '', // Set these properties based on your actual Vendor type
+          name: values.yourName,
+          password: values.password,
+          phone: values.contact,
+          // Add other properties as needed
+        };
+    
+        // Call the register function with the Vendor object
+        await register(vendorData);
+    
+        // Set submitted to true after successful submission
+        setSubmitted(true);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle errors if needed
+      }
     }
+    
   });
 
   return (
@@ -199,6 +225,17 @@ export const VenueRegistrationForm: React.FC = () => {
 
 export const VendorRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [register , {data , error , isSuccess}] = useSignupMutation();
+  useEffect(()=>{ 
+    if(isSuccess){
+      console.log("user register successfully!!");
+    }
+    if(error){
+      console.log("error while registertion of vendor", error);
+
+    }
+
+  },[data?.message , error , isSuccess])
 
   const formik = useFormik({
     initialValues: {
@@ -209,7 +246,7 @@ export const VendorRegistrationForm: React.FC = () => {
       contact: '',
       email: '',
       password: '',
-      confirmPassword: '',
+    //  confirmPassword: '',
       comments: ''
     },
     validationSchema: Yup.object({
@@ -223,11 +260,32 @@ export const VendorRegistrationForm: React.FC = () => {
       confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match').required('Confirm password is required'),
       comments: Yup.string()
     }),
-    onSubmit: values => {
-      console.log('Vendor registration form submitted:', values);
-      setSubmitted(true);
+    onSubmit: async (values) => {
+      try {
+        console.log('Vendor registration form submitted:', values);
+    
+        // Create a Vendor object from the form values
+        const vendorData: Vendor = {
+          _id: '', // Set these properties based on your actual Vendor type
+          name: values.yourName,
+          password: values.password,
+          phone: values.contact,
+          // Add other properties as needed
+        };
+    
+        // Call the register function with the Vendor object
+        await register(vendorData);
+    
+        // Set submitted to true after successful submission
+        setSubmitted(true);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle errors if needed
+      }
     }
   });
+
+  
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded shadow-md grid grid-cols-2 gap-12">
@@ -360,7 +418,7 @@ export const VendorRegistrationForm: React.FC = () => {
           )}
         </div>
 
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label htmlFor="confirmPassword" className="block mb-1 font-medium">Confirm Password</label>
           <input
             id="confirmPassword"
@@ -374,10 +432,12 @@ export const VendorRegistrationForm: React.FC = () => {
           {formik.touched.confirmPassword && formik.errors.confirmPassword && (
             <div className="text-red-500 mt-1 text-sm">{formik.errors.confirmPassword}</div>
           )}
-        </div>
+        </div> */}
       </div>
 
       <button
+
+
         type="submit"
         className="col-span-2 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
       >
