@@ -9,7 +9,18 @@ export type AllVendorsResponse = {
     };
   };
 
-  export type MessageResponse = {
+export type MessageResponse = {
+  success: boolean;
+  message: string;
+
+};
+
+export type VendorResponse = {
     success: boolean;
-    message: string;
-  };
+    statusCode: number;
+    message:string;
+    data: {
+      vendor: Vendor;
+    };
+}
+

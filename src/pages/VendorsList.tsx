@@ -63,6 +63,7 @@ const VendorsList: React.FC<VendorsListProps> = ({  NumberOfArticaleCards = 10, 
             console.log("vendors :", vendor),
             console.log(vendor?.packages?.price),
             <VendorCard
+              _id = {vendor._id}
               key={index}
               businessName={vendor?.businessName}
               city={vendor?.city}

@@ -1,64 +1,63 @@
-import { useState, useEffect } from "react";
-import { useAllVendorQuery } from "../redux/api/vendor.ts";
-import type { Vendor } from "../types/types.ts";
-//import type {AllVendorsResponse} from "../types/api-types.ts"
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getVendor } from '../redux/api/vendor'; 
+import { Vendor } from '../types/types';
 
-function Vendor() {
+interface Params {
+  [key: string]: string | undefined;
+}
 
-
-  
-  const { data, error, isLoading } = useAllVendorQuery("");
-  const [allvendors, setAllVendors] = useState<Vendor[]>([]);
-
-  
-
-  // const responseData: AllVendorsResponse = {
-  //   statusCode: 200,
-  //   data: {
-  //     vendors: []
-  //   },
-  //   message: "here are all vendors.",
-  //   success: true
-  // };
-
-
-
-  //const vendors: Vendor[] = responseData.data.vendors;
-
+const VendorPage = () => {
+  const { _id } = useParams<Params>();
+  const id = _id ;
+  const [vendorData, setVendorData] = useState<Vendor | null>(null);
+   const [loading, setLoading] = useState<boolean>(true);
+   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (data) {
-      // Set the vendors array from the data object
-      setAllVendors(data.data.vendors);
-    }
-  }, [data]);
+    const fetchData = async () => {
+      try {
+        console.log("vendor:", id)
+        const data = await getVendor(id) as Partial<Vendor>;
+        setVendorData(vendorData);
+        console.log(data)
+        setLoading(false);
+      } catch (error:any) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
 
- 
+    fetchData();
+
+    // Clean up effect
+    return () => {
+      // Cleanup code if needed
+    };
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <div className="h-full w-full">
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error fetching vendors</div>
-      ) : (
+    <div>
+      {vendorData && (
         <div>
-          <h1>Vendors</h1>
-          <ul>
-            {allvendors.map((vendor) => (
-              <li key={vendor._id}>
-                <h2>{vendor.name}</h2>
-                <p>Email: {vendor.summary}</p>
-                <p>Phone: {vendor.portfolio}</p>
-                <p>City: {vendor.city}</p>
-                {/* Add more vendor details as needed */}
-              </li>
-            ))}
-          </ul>
+          <h1>Vendor Details</h1>
+          <p>ID: {vendorData._id}</p>
+          <p>ID: {vendorData.name}</p>
+          <p>ID: {vendorData.email}</p>
+          {/* Render other vendor data */}
+          
         </div>
       )}
     </div>
   );
-}
+};
 
-export default Vendor;
+export default VendorPage;

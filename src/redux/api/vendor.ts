@@ -1,7 +1,8 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {AllVendorsResponse , MessageResponse} from "../../types/api-types.ts"
+import {AllVendorsResponse , MessageResponse , VendorResponse} from "../../types/api-types.ts"
 import { Vendor} from "../../types/types.ts"
+import axios from "axios";
 
 export const vendorAPI = createApi({
   reducerPath: "vendorAPI",
@@ -28,6 +29,20 @@ export const vendorAPI = createApi({
 
   })
 });
+
+export const getVendor = async (id: string |undefined) =>{
+    try {
+      console.log("getVendor:" ,id);
+        const {data}:{data:VendorResponse} = await axios.get(
+          `http://localhost:8000/api/v1/vendor/${id}`
+        );
+        return data; 
+    } catch (error) {
+      console.log(error);
+      return error;
+      
+    }
+} 
 
 // Export the hook from the vendorAPI object
 export const {useAllVendorQuery , useSignupMutation} = vendorAPI;

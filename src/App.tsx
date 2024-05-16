@@ -4,7 +4,7 @@ import Loader from './components/Loader'
 import Home from './pages/home'
 import UserProfile from './pages/userProfile'
 import UserRegister from './pages/userRegister'
-import Vendor from './pages/vendor'
+import VendorPage from './pages/vendor'
 import Login from './auth/Login'
 import ForgetPasswordPage from './auth/Forget'
 import Signup from './auth/SignUp'
@@ -25,7 +25,7 @@ const App = () => {
         <Route path='/userprofile' element={<UserProfile />}/>
         <Route path='/userregister' element={<UserRegister />}/>
 
-        <Route path='/vendors' element={<Vendor />}/>
+       
 
         <Route path='/forget' element={<ForgetPasswordPage />}/>
         <Route path='/login' element={<Login/>}/>
@@ -35,6 +35,9 @@ const App = () => {
         <Route path='/verification' element={<Verification/>}/>
         <Route path='/business' element={<Business/>}/>
        <Route path='/vendorslist' element={<VendorsList/>}/>
+
+       <Route path='/vendors/:_id' element={<VendorPage />}/>
+
 
       </Routes>
       </Suspense>
