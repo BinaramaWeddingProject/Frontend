@@ -15,19 +15,19 @@ import {
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/300",
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/100",
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/500",
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/600",
         },
       ];
     return (
