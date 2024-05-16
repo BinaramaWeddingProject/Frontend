@@ -14,7 +14,7 @@ interface VendorsListProps {
   NumberOfArticaleCards?: number;
 }
 
-const VendorsList: React.FC<VendorsListProps> = ({ NumberOfCards=20,NumberOfArticaleCards=10, Title="bridal mehndi", Description="showinf 27 bridal mehndi artists in delhi", Search="Search Bridal Mehndi Artists By Name", Img="/public/mumbai.jpg", ImgTitle2="mumbai" }) => {
+const VendorsList: React.FC<VendorsListProps> = ({ NumberOfCards=20, NumberOfArticaleCards=10, Title="bridal mehndi", Description="showinf 27 bridal mehndi artists in delhi", Search="Search Bridal Mehndi Artists By Name", Img="/public/mumbai.jpg", ImgTitle2="mumbai" }) => {
   // Create an array of length equal to numberOfCards
   const cardsArray = Array.from({ length: NumberOfCards });
   const ArticleCardsArray = Array.from({ length: NumberOfArticaleCards });
