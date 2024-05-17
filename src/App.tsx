@@ -18,6 +18,9 @@ import VendorServicePage from './pages/VendorServicePage'
 import { ChakraProvider } from '@chakra-ui/react'
 import VenueList from './pages/VenueList'
 import Vendor from './pages/vendor'
+import Login from './auth/Login'
+import Signup from './auth/SignUp'
+import Business from './auth/business'
 
 
 const App = () => {
@@ -34,14 +37,15 @@ const App = () => {
         <Route path='/vendorProfilePage' element={<VendorProfilePage />}/>
         <Route path='/vendorServicePage' element={<VendorServicePage />}/>
         <Route path='/vendors' element={<Vendor />}/>
+        <Route path='/vendors/:_id' element={<VendorServicePage  />}/>
 
         {/* <Route path='/forget' element={<ForgetPasswordPage />}/> */}
-        {/* <Route path='/login' element={<Login/>}/> */}
-        {/* <Route path='/Signup' element={<Signup/>}/> */}
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/Signup' element={<Signup/>}/>
         {/* <Route path='/passverification' element={<PassVerification/>}/> */}
         {/* <Route path='/newpassword' element={<NewPassword/>}/> */}
         {/* <Route path='/verification' element={<Verification/>}/> */}
-        {/* <Route path='/business' element={<Business/>}/> */}
+        <Route path='/business' element={<Business/>}/>
        <Route path='/vendorslist' element={<VendorsList/>}/>
        <Route path='/venuelist' element={<VenueList/>}/>
 

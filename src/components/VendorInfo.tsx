@@ -1,11 +1,11 @@
 import React from 'react';
 
 interface VendorInfoProps {
-    name: string;
-    location: string;
+    name?: string;
+    location?: string;
 }
 
-const VendorInfo: React.FC<VendorInfoProps> = ({ name, location }) => {
+const VendorInfo: React.FC<VendorInfoProps> = ({ name="AWESOME PHOTOGRAPHER", location="DELHI" }) => {
     return (
         <div className="bg-white rounded-lg shadow-md p-6 mb-4">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">{name}</h2>

@@ -8,6 +8,18 @@ import DescriptionCard from '../components/DescriptionCard';
 import TermsAndPolicyCard from '../components/Terms';
 import RelatedArticles from '../components/RelatedArticles';
 
+
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getVendor } from '../redux/api/vendor'; 
+import { Vendor } from '../types/types';
+
+
+interface Params {
+    [key: string]: string | undefined;
+  }
+  
+
 const dummyData = {
     price: 1500,
     rating: 4.5
@@ -42,13 +54,53 @@ const dummyDescription = {
 
 
 function VendorServicePage() {
+
+    const { _id } = useParams<Params>();
+    const id = _id ;
+    const [vendorData, setVendorData] = useState<Vendor | null>(null);
+     const [loading, setLoading] = useState<boolean>(true);
+     const [error, setError] = useState<string | null>(null);
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          console.log("vendor:", id)
+          const data = await getVendor(id) as Partial<Vendor>;
+          setVendorData(vendorData);
+          console.log(data)
+          setLoading(false);
+        } catch (error:any) {
+          setError(error.message);
+          setLoading(false);
+        }
+      };
+  
+      fetchData();
+  
+      // Clean up effect
+      return () => {
+        // Cleanup code if needed
+      };
+    }, [id]);
+  
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+  
+    if (error) {
+      return <div>Error: {error}</div>;
+    }
+  
+
+
     return (
         <div>
             <NavBar />
             <div>
             <div className="container mx-auto">
-            {/* <h1 className="text-3xl font-semibold mb-4">Vendor Information</h1> */}
-            <VendorInfo name={vendorData.name} location={vendorData.location} />
+            <h1 className="text-3xl font-semibold m-6">Vendor Information</h1>
+            {/* <VendorInfo name={vendorData?.name} location={vendorData?.location} /> */}
+            <VendorInfo />
         </div>
                 <div className='flex max-w-full'>
                     <div className='w-3/4'>

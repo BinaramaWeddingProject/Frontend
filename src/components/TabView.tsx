@@ -113,9 +113,9 @@ const OverviewTab = () => {
                 <div>
                     <h3 className="font-semibold font-roboto">Willing to Travel:</h3>
                     {willingToTravel ? (
-                        <img src="public\icons8-tick.svg" alt="Tick" className="w-6 h-6" />
+                        <img src="\icons8-tick.svg" alt="Tick" className="w-6 h-6" />
                     ) : (
-                        <img src="public\icons8-cross.svg" alt="Cross" className="w-6 h-6" />
+                        <img src="\icons8-cross.svg" alt="Cross" className="w-6 h-6" />
                     )}
                 </div>
             </div>

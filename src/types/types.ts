@@ -1,4 +1,4 @@
-export type Vendor = {
+export type Vendor = Partial<{
   _id: string;
   name: string;
   email: string;
@@ -16,13 +16,13 @@ export type Vendor = {
     minAdvance: string;
   };
   portfolio: string[]; 
-  experience?: string;
-  event_completed?: number;
-  willingToTravel?: boolean;
-  usp?: string;
-  summary?: string;
-  bookingPolicy?: string;
-  cancellationPolicy?: string;
-  termAndConditions?: string;
-  review?: string; 
-};
+  experience: string;
+  event_completed: number;
+  willingToTravel: boolean;
+  usp: string;
+  summary: string;
+  bookingPolicy: string;
+  cancellationPolicy: string;
+  termAndConditions: string;
+  review: string; 
+}>;
