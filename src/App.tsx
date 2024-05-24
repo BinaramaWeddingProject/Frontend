@@ -21,6 +21,7 @@ import Vendor from './pages/vendor'
 import Login from './auth/Login'
 import Signup from './auth/SignUp'
 import Business from './auth/business'
+import VenueServicePage from './pages/VenueServicePage'
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
         <Route path='/vendorServicePage' element={<VendorServicePage />}/>
         <Route path='/vendors' element={<Vendor />}/>
         <Route path='/vendors/:_id' element={<VendorServicePage  />}/>
+        <Route path='venueServicePage' element={<VenueServicePage  />}/>
 
         {/* <Route path='/forget' element={<ForgetPasswordPage />}/> */}
         <Route path='/login' element={<Login/>}/>

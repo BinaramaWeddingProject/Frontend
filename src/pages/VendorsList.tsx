@@ -69,7 +69,7 @@ const VendorsList: React.FC<VendorsListProps> = ({  NumberOfArticaleCards = 10, 
               city={vendor?.city}
               packagePrice={vendor?.packages?.price}
               summary={vendor?.summary}
-              image={vendor?.portfolio[0]}
+              image={vendor?.portfolio[4]}
             />
           )) : <h1>No vendors available</h1>}
         </div>
