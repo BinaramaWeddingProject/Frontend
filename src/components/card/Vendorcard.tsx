@@ -23,7 +23,7 @@ const VendorCard: React.FC<VendorCardProps> = ({ _id , image,city , businessName
 
   return (
     <div className='flex justify-center'>
-      <div className="h-[360px] w-[500px] rounded overflow-hidden shadow-xl flex flex-col"> {/* Fixed size */}
+      <div className="h-[400px] w-[500px] rounded overflow-hidden shadow-xl flex flex-col"> {/* Fixed size */}
 
       <Link to={`/vendors/${_id}`}>
        
@@ -34,7 +34,7 @@ const VendorCard: React.FC<VendorCardProps> = ({ _id , image,city , businessName
         
 
 
-        <div className="px-6 py-2">
+        <div className="px-6 py-2 overflow-hidden">
           <div className="font-bold text-xl mb-1 text-center h-[30px]">{businessName} , {city}</div>
           <div className="flex justify-between">
             <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
@@ -44,7 +44,7 @@ const VendorCard: React.FC<VendorCardProps> = ({ _id , image,city , businessName
               Starting Package Price: Rs {packagePrice}
             </span>
           </div>
-          <p className="text-gray-700 text-[12px] text-center mt-1 h-[30px]">{summary}</p>
+          <p className="text-gray-700 text-[12px] text-center mt-1 h-[60px]">{summary}</p>
         </div>
         <div className="px-6 py-0 text-center">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

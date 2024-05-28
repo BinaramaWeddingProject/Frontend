@@ -27,3 +27,28 @@ export type Vendor = Partial<{
   review: string; 
 }>;
 
+//venue type
+
+export interface Venue {
+  yourName?: string;
+  businessName?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  comment?: string;
+  guestCapacity?: string;
+  images?: string[];
+  description?: string;
+  about?: string;
+  howToReach?: string;
+  venueExpertNotes?: string;
+  featuresOfVenue?: string;
+  venuePolicies?: string;
+  summary?: string;
+  review?: string; // Assuming review and foodPackages are stored as string IDs
+  foodPackages?: string;
+  isPasswordCorrect?(password: string | Buffer): Promise<boolean>;
+}

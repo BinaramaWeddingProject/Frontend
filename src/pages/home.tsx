@@ -6,6 +6,7 @@ import { dummyLocations } from './dummyLocations';
 import Carousel from '../components/Carousel';
 import InformationBanner from '../components/InformationBanner';
 import Footer from '../components/Footer';
+import Caro from '../components/Carousel3';
 
 function Home() {
   const imageUrl = "/60828931ff7a8ce3e24b6c19052a21ee.jpg";
@@ -30,14 +31,14 @@ function Home() {
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0">
-          <div className="h-screen"></div> {/* Add space after the image */}
+          
         </div>
       </div>
       <div className="flex justify-center items-center"> {/* Flex container to center LocationCardHolder */}
         <LocationCardHolder locations={dummyLocations} />
       </div>
       <div>
-        <Carousel images={dummyImages} />
+        <Caro/>
       </div>
       <div className="mx-auto  max-w-screen">
         <InformationBanner />

@@ -1,4 +1,4 @@
-import {Vendor} from "./types.ts"
+import {Vendor, Venue} from "./types.ts"
 
 export type AllVendorsResponse = {
     success: boolean;
@@ -24,3 +24,20 @@ export type VendorResponse = {
     };
 }
 
+export type VenueResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    venue: Venue;
+  };
+}
+
+export type AllVenuesResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    venues: Venue[];
+  };
+};

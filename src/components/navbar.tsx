@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-
+import { FaUser } from 'react-icons/fa';
 
 const NavBar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
@@ -11,78 +10,62 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-[#110069] py-4 relative z-10"> {/* Added relative positioning and higher z-index */}
-      <ul className="flex justify-start">
-        <li className="relative mx-4" onMouseEnter={() => toggleDropdown('home')} onMouseLeave={() => toggleDropdown('home')}>
-          <span className="text-white cursor-pointer">Home</span>
-          {dropdownOpen === 'home' && (
-            <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20"> {/* Added higher z-index */}
-              <li>
-                <Link to="/home/option1" className="border-white hover:text-gray-200">Option 1</Link>
-              </li>
-              <li>
-                <Link to="/home/option2" className="hover:text-gray-200">Option 2</Link>
-              </li>
-            </ul>
-          )}
-        </li>
-        <li className="relative mx-4" onMouseEnter={() => toggleDropdown('venues')} onMouseLeave={() => toggleDropdown('venues')}>
-          <span className="text-white cursor-pointer">Venues</span>
-          {dropdownOpen === 'venues' && (
-            <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20"> {/* Added higher z-index */}
-              <li>
-                <Link to="/venues/option1" className="hover:text-gray-200">Option 1</Link>
-              </li>
-              <li>
-                <Link to="/venues/option2" className="hover:text-gray-200">Option 2</Link>
-              </li>
-            </ul>
-          )}
-        </li>
-        <li className="relative mx-4" onMouseEnter={() => toggleDropdown('Vendors')} onMouseLeave={() => toggleDropdown('Vendors')}>
-          <span className="text-white cursor-pointer">Vendors</span>
-          {dropdownOpen === 'Vendors' && (
-            <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20"> {/* Added higher z-index */}
-              <li>
-                <Link to="/vendorslist" className="hover:text-gray-200">Option 1</Link>
-              </li>
-              <li>
-                <Link to="/vendors/option2" className="hover:text-gray-200">Option 2</Link>
-              </li>
-            </ul>
-          )}
-        </li>
-        <li className="relative mx-4" onMouseEnter={() => toggleDropdown('AboutUs')} onMouseLeave={() => toggleDropdown('AboutUs')}>
-          <span className="text-white cursor-pointer">About Us</span>
-          {dropdownOpen === 'AboutUs' && (
-            <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20"> {/* Added higher z-index */}
-              <li>
-                <Link to="/about/option1" className="hover:text-gray-200">Option 1</Link>
-              </li>
-              <li>
-                <Link to="/about/option2" className="hover:text-gray-200">Option 2</Link>
-              </li>
-            </ul>
-          )}
-        </li>
-
-       
-      
-
-        <ul className='ml-auto relative mx-4'>
-          <li>
+    <nav className="bg-[#110069] py-4 relative z-10">
+      <div className="container mx-auto">
+        <ul className="flex justify-start items-center">
+          <li className="relative mx-4">
+            <Link to="/" className="text-white cursor-pointer hover:text-gray-200">Home</Link>
+          </li>
+          <li className="relative mx-4" onMouseEnter={() => toggleDropdown('venues')} onMouseLeave={() => setDropdownOpen(null)}>
+            <Link to="/venuelist" className="text-white cursor-pointer hover:text-gray-200">Venues</Link>
+            {dropdownOpen === 'venues' && (
+              <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md" onMouseEnter={() => setDropdownOpen('venues')} onMouseLeave={() => setDropdownOpen(null)}>
+                <li>
+                  <Link to="/venues/option1" className="hover:text-gray-200">Option 1</Link>
+                </li>
+                <li>
+                  <Link to="/venues/option2" className="hover:text-gray-200">Option 2</Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="relative mx-4" onMouseEnter={() => toggleDropdown('vendors')} onMouseLeave={() => setDropdownOpen(null)}>
+            <Link to="/vendorslist" className="text-white cursor-pointer hover:text-gray-200">Vendors</Link>
+            {dropdownOpen === 'vendors' && (
+              <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md" onMouseEnter={() => setDropdownOpen('vendors')} onMouseLeave={() => setDropdownOpen(null)}>
+                <li>
+                  <Link to="/vendors/option1" className="hover:text-gray-200">Option 1</Link>
+                </li>
+                <li>
+                  <Link to="/vendors/option2" className="hover:text-gray-200">Option 2</Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="relative mx-4" onMouseEnter={() => toggleDropdown('AboutUs')} onMouseLeave={() => setDropdownOpen(null)}>
+            <Link to="/about" className="text-white cursor-pointer hover:text-gray-200">About Us</Link>
+            {dropdownOpen === 'AboutUs' && (
+              <ul className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md" onMouseEnter={() => setDropdownOpen('AboutUs')} onMouseLeave={() => setDropdownOpen(null)}>
+                <li>
+                  <Link to="/about/option1" className="hover:text-gray-200">Option 1</Link>
+                </li>
+                <li>
+                  <Link to="/about/option2" className="hover:text-gray-200">Option 2</Link>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li className="ml-auto relative mx-4">
             <Link to="/login" className="text-white hover:text-gray-200">Login</Link>
           </li>
-          <li>
-            <Link to="/vendorslist" className="text-white hover:text-gray-200">Vendor</Link>
+          <li className="relative mx-4">
+            <Link to="/vendorProfilePage" className="text-white hover:text-gray-200">
+              <FaUser style={{ color: 'white' }} />
+            </Link>
           </li>
         </ul>
-
-      </ul>
-      
+      </div>
     </nav>
-
-
   );
 };
 

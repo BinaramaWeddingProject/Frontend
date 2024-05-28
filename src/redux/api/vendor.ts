@@ -26,6 +26,14 @@ export const vendorAPI = createApi({
       invalidatesTags: ["vendors"],
     }),
 
+    loginVendor: builder.mutation<MessageResponse, { email: string; password: string }>({
+      query: ({ email, password }) => ({
+        url: "login",
+        method: "POST",
+        body: { email, password },
+      }),
+      invalidatesTags: ["vendors"],
+    }),
 
   })
 });
@@ -45,4 +53,4 @@ export const getVendor = async (id: string |undefined) =>{
 } 
 
 // Export the hook from the vendorAPI object
-export const {useAllVendorQuery , useSignupMutation} = vendorAPI;
+export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,} = vendorAPI;
