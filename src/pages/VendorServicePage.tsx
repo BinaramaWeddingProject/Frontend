@@ -62,8 +62,7 @@ function VendorServicePage () {
             <div>
             <div className="container mx-auto">
             <h1 className="text-3xl font-semibold m-6">Vendor Information</h1>
-            {/* <VendorInfo name={vendorData?.name} location={vendorData?.location} /> */}
-            <VendorInfo />
+            <VendorInfo name={vendorData?.name} location={vendorData?.city} />
         </div>
                 <div className='flex max-w-full'>
                     <div className='w-3/4'>
