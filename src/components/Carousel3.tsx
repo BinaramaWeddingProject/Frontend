@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Image,
-  Box,
-  ChakraProvider,
-  AspectRatio,
-} from "@chakra-ui/react";
+import { Image, Box, ChakraProvider, AspectRatio } from "@chakra-ui/react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -21,8 +16,8 @@ const Caro: React.FC<Props> = ({ portfolio }) => {
       <Box p={4} color="white">
         <Carousel infiniteLoop>
           {slides?.map((slide, index) => (
-            <AspectRatio key={index}  maxH={'600px'}  >
-              <Image src={slide.image}  />
+            <AspectRatio key={index} maxH={"600px"}>
+              <Image src={slide.image} />
             </AspectRatio>
           ))}
         </Carousel>

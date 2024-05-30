@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Map, Marker, Overlay } from 'pigeon-maps';
+import React, { useState, useEffect, useRef } from "react";
+import { Map, Marker, Overlay } from "pigeon-maps";
 
 interface VenueLocationProps {
   latitude: number;
@@ -7,7 +7,11 @@ interface VenueLocationProps {
   venueName: string;
 }
 
-const VenueLocation: React.FC<VenueLocationProps> = ({ latitude, longitude, venueName }) => {
+const VenueLocation: React.FC<VenueLocationProps> = ({
+  latitude,
+  longitude,
+  venueName,
+}) => {
   const [center, setCenter] = useState<[number, number]>([latitude, longitude]);
   const [zoom, setZoom] = useState<number>(15);
   const mapRef = useRef<any>(null);
@@ -38,7 +42,9 @@ const VenueLocation: React.FC<VenueLocationProps> = ({ latitude, longitude, venu
         >
           <Marker anchor={center} />
           <Overlay anchor={[latitude, longitude + 0.002]} offset={[120, 20]}>
-            <div className="bg-white p-2 rounded-md shadow-md text-sm">{venueName}</div>
+            <div className="bg-white p-2 rounded-md shadow-md text-sm">
+              {venueName}
+            </div>
           </Overlay>
         </Map>
       </div>
