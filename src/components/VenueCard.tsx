@@ -3,16 +3,6 @@ import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, Fa
 
 interface VenueProps {
   venue: {
-<<<<<<< HEAD
-    name: string;
-    location: string;
-    maxGuests: number;
-    contact: string;
-    description: string;
-    vegPrice: number;
-    nonVegPrice: number;
-    images: string[];
-=======
     name: string | undefined;
     location: string| undefined;
     maxGuests: string | undefined;
@@ -21,7 +11,6 @@ interface VenueProps {
     vegPrice: number| undefined;
     nonVegPrice: number| undefined;
     images: string[] | undefined;
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
   };
 }
 
@@ -35,21 +24,13 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
 
   const handlePrevImage = () => {
     setCurrentImageIndex(
-<<<<<<< HEAD
-      currentImageIndex === 0 ? venue.images.length - 1 : currentImageIndex - 1
-=======
       currentImageIndex === 0 ? venue?.images?.length - 1 : currentImageIndex - 1
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
     );
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex(
-<<<<<<< HEAD
-      currentImageIndex === venue.images.length - 1 ? 0 : currentImageIndex + 1
-=======
       currentImageIndex === venue?.images?.length - 1 ? 0 : currentImageIndex + 1
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
     );
   };
 
@@ -57,11 +38,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
     <div className="flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 border-2 border-gray-300">
       <div className="relative md:w-1/2 max-h-80">
         <img
-<<<<<<< HEAD
-          src={venue.images[currentImageIndex]}
-=======
           src={venue?.images[currentImageIndex]}
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
           alt={`Venue ${currentImageIndex}`}
           className="w-full h-80 md:h-auto object-cover"
         />
@@ -94,13 +71,8 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
         <div className="mb-4 text-lg text-gray-700">
           {showFullDescription
             ? venue.description
-<<<<<<< HEAD
-            : `${venue.description.slice(0, 100)}...`}
-          {venue.description.length > 100 && (
-=======
             : `${venue?.description?.slice(0, 100)}...`}
           {venue?.description?.length > 100 && (
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
             <button
               onClick={toggleDescription}
               className="text-blue-500 hover:text-blue-700 focus:outline-none"

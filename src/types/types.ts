@@ -25,14 +25,7 @@ export type Vendor = Partial<{
   cancellationPolicy: string;
   termAndConditions: string;
   review: string; 
-<<<<<<< HEAD
 }>;
-
-<<<<<<< HEAD
-=======
-}>;
->>>>>>> 4c9dee31b5a2b54837007296cc4aeea005987ee4
-=======
 //venue type
 
 export interface Venue {
@@ -58,4 +51,4 @@ export interface Venue {
   foodPackages?: string;
   isPasswordCorrect?(password: string | Buffer): Promise<boolean>;
 }
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
+

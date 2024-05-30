@@ -1,16 +1,8 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
 import React, { useState  , useEffect} from 'react';
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
 import VenueCard from '../components/VenueCard';
 import NavBar from '../components/navbar';
 import RelatedArticles from '../components/RelatedArticles';
 import Footer from '../components/Footer';
-<<<<<<< HEAD
-
-function VenueList() {
-=======
 import { Venue } from '../types/types';
 import { useAllVenueQuery } from '../redux/api/venue';
 
@@ -36,14 +28,11 @@ function VenueList() {
   }
 console.log("all venues",allvenue)
 
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
       <div className="flex-grow container mx-auto px-4 py-8">
         <div className="grid grid-cols-1">
-<<<<<<< HEAD
-=======
 
 
           <div>
@@ -67,16 +56,11 @@ console.log("all venues",allvenue)
           </div>
 
 
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
           <VenueCard
             venue={{
               name: "Example Venue",
               location: "City, Country",
-<<<<<<< HEAD
-              maxGuests: 100,
-=======
-              maxGuests: "100",
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
+              maxGuests: '100',
               contact: "123-456-7890",
               description: "This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country. ",
               vegPrice: 20,
@@ -92,7 +76,7 @@ console.log("all venues",allvenue)
             venue={{
               name: "Example Venue",
               location: "City, Country",
-              maxGuests: 100,
+              maxGuests: '100',
               contact: "123-456-7890",
               description: "This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country. ",
               vegPrice: 20,
@@ -108,7 +92,7 @@ console.log("all venues",allvenue)
             venue={{
               name: "Example Venue",
               location: "City, Country",
-              maxGuests: 100,
+              maxGuests: '100',
               contact: "123-456-7890",
               description: "This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country. ",
               vegPrice: 20,
@@ -124,7 +108,7 @@ console.log("all venues",allvenue)
             venue={{
               name: "Example Venue",
               location: "City, Country",
-              maxGuests: 100,
+              maxGuests: '100',
               contact: "123-456-7890",
               description: "This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country. ",
               vegPrice: 20,
@@ -140,7 +124,7 @@ console.log("all venues",allvenue)
             venue={{
               name: "Example Venue",
               location: "City, Country",
-              maxGuests: 100,
+              maxGuests: '100',
               contact: "123-456-7890",
               description: "This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country.This is a dummy description for the example venue. It can hold up to 100 guests and is located in City, Country. ",
               vegPrice: 20,

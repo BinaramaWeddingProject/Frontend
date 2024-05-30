@@ -63,19 +63,6 @@ const VendorsList: React.FC<VendorsListProps> = ({  NumberOfArticaleCards = 10, 
             console.log("vendors :", vendor),
             console.log(vendor?.packages?.price),
             <VendorCard
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-              _id = {vendor._id}
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
-              key={index}
-              businessName={vendor?.name}
-              city={vendor?.city}
-              packagePrice={vendor?.packages?.price}
-              summary={vendor?.summary}
-<<<<<<< HEAD
-              image={vendor?.portfolio[0]}
-=======
               _id = {vendor._id}
               key={index}
               businessName={vendor?.name}
@@ -83,10 +70,6 @@ const VendorsList: React.FC<VendorsListProps> = ({  NumberOfArticaleCards = 10, 
               packagePrice={vendor?.packages?.price}
               summary={vendor?.summary}
               image={vendor?.portfolio[4]}
->>>>>>> 4c9dee31b5a2b54837007296cc4aeea005987ee4
-=======
-              image={vendor?.portfolio[4]}
->>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
             />
           )) : <h1>No vendors available</h1>}
         </div>
