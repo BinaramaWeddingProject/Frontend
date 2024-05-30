@@ -35,6 +35,21 @@ export const vendorAPI = createApi({
       invalidatesTags: ["vendors"],
     }),
 
+    getVendorById: builder.query<VendorResponse, string>({
+      query: (id: string | undefined) => `${id}`,
+      providesTags: ["vendors"],
+
+    }),
+
+    updateVendor: builder.mutation<MessageResponse, { id: string, vendor: Vendor }>({
+      query: ({ id, vendor }) => ({
+        url: `${id}`, // Assuming your update route is like 'http://localhost:8000/api/v1/vendor/:id'
+        method: "PUT",
+        body: vendor,
+      }),
+      invalidatesTags: ["vendors"],
+    }),
+
   })
 });
 
@@ -53,5 +68,5 @@ export const getVendor = async (id: string |undefined) =>{
 } 
 
 // Export the hook from the vendorAPI object
-export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,} = vendorAPI;
+export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,  useGetVendorByIdQuery, useUpdateVendorMutation} = vendorAPI;
 

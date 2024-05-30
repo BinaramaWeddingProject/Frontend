@@ -4,95 +4,116 @@ import VendorCarousel from './vendorCarousel';
 import Caro from './Carousel3';
 import { useAllVendorQuery } from '../redux/api/vendor';
 import { string } from 'yup';
+import { useUpdateVendorMutation } from '../redux/api/vendor';
 
-interface ServiceDetails {
-    price: number;
-    portfolio: string[];
-    yearsOfExperience: number;
-    eventsCompleted: number;
-    willingToTravel: boolean;
-    summary: string;
-    packages: { name: string; days: string; price: string; minAdvance: string; }[];
+
+interface Package {
+    name: string;
+    days: string;
+    price: string;
+    minAdvance: string;
 }
 
 interface Props {
-    serviceDetails: ServiceDetails;
+    price?: string;
+    portfolio?: string[] | undefined;
+    experience?: string;
+    event_completed?: number;
+    willingToTravel?: boolean;
+    summary?: string;
+    packages: Package | undefined;
+    id?: string |undefined
+    
 }
 
-const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDetails }) => {
+const ServiceDetailsForm: React.FC<Props> = ({ price, portfolio, experience, event_completed, willingToTravel, summary, packages, id }) => {
+    const [updateVendor, { isLoading }] = useUpdateVendorMutation();
+
+    console.log("packages", packages?.days)
+    
+
     const [editing, setEditing] = useState(false);
-    const [serviceDetails, setServiceDetails] = useState<ServiceDetails>({
-        ...initialServiceDetails,
-        packages: initialServiceDetails.packages.length > 0
-            ? initialServiceDetails.packages
-            : [{ name: '', days: '', price: '', minAdvance: '' }],
+    const [formData, setFormData] = useState<Props>({
+        price: '',  // Initial value for 'price' property
+        portfolio: undefined,
+        experience: '',
+        event_completed: undefined,
+        willingToTravel: false,
+        summary: '',
+        packages: { name: '', days: '', price: '', minAdvance: '' },
+        
     });
-    // const [data,isLoading,isError]=useAllVendorQuery('');    
-    const [currentImages, setCurrentImages] = useState<string[]>([]);
-    const [index, setIndex] = useState(0);
-    // console.log(data);   
+    // Function to handle input changes
+   // Function to handle input changes
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const nextIndex = (index + 1) % (serviceDetails.portfolio.length - 2);
-            setIndex(nextIndex);
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [index, serviceDetails.portfolio]);
-
-    useEffect(() => {
-        setCurrentImages(serviceDetails.portfolio.slice(index, index + 3));
-    }, [index, serviceDetails.portfolio]);
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value, type } = e.target;
-
+    // If the input name starts with "packages.", update the packages state
+    if (name.startsWith("packages.")) {
+        const packageName = name.split(".")[1]; // Extract the package property name
+        setFormData((prevState: Props) => ({
+            ...prevState,
+            packages: {
+                ...prevState.packages,
+                name: prevState.packages?.name || '',
+                days: prevState.packages?.days || '',
+                price: prevState.packages?.price || '',
+                minAdvance: prevState.packages?.minAdvance || '',
+                [packageName]: value
+            }
+        }));
+        
+    } else {
+        // If it's not a package property, update the top-level state properties
         if (type === 'checkbox') {
-            const newValue = (e.target as HTMLInputElement).checked;
-            setServiceDetails(prevState => ({
+            const isChecked = (e.target as HTMLInputElement).checked;
+            setFormData(prevState => ({
                 ...prevState,
-                [name]: newValue
-            }));
-        } else if (name === 'portfolio') {
-            const newValue = Array.from((e.target as HTMLInputElement).files || []).map(file => file.name);
-            setServiceDetails(prevState => ({
-                ...prevState,
-                [name]: newValue
-            }));
-
-        } else if (name.startsWith('packages')) {
-            const [_, indexStr, field] = name.split('.');
-            const index = parseInt(indexStr, 10);
-            setServiceDetails(prevState => ({
-                ...prevState,
-                packages: prevState.packages.map((pkg, i) => {
-                    if (i === index) {
-                        return { ...pkg, [field]: value };
-                    }
-                    return pkg;
-                })
+                [name]: isChecked
             }));
         } else {
-            setServiceDetails(prevState => ({
+            setFormData(prevState => ({
                 ...prevState,
                 [name]: value
             }));
         }
-    };
+    }
+};
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    
+
+    // Function to handle form submission
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Logic to update the service details
-        console.log("Updated service details:", serviceDetails);
+
+        // Here you can submit the updated data (formData) to your backend or perform any other action
+        console.log('Updated Data:', formData);
+        if (!id) return; 
+        const res = await updateVendor({id , vendor: formData   })
+        // Exit editing mode
+        console.log("here is res" , res);
         setEditing(false);
     };
 
+    // Function to handle edit button click
     const handleEditClick = () => {
+        // Populate the formData state with the current values
+        setFormData({
+            price: price || '',
+            portfolio: portfolio || [],
+            experience: experience || '',
+            event_completed: event_completed || 0,
+            willingToTravel: willingToTravel || false,
+            summary: summary || '',
+            packages: packages || { name: '', days: '', price: '', minAdvance: '' }
+        });
+    
+        // Enter editing mode
         setEditing(true);
     };
+    console.log("Pack", packages)
 
-    return (
+     return (
         <div className="bg-gray-200 rounded-lg p-8 mx-auto max-w-full mb-12">
             <div className="flex items-center justify-center">
                 <div className="flex-grow">
@@ -106,7 +127,7 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                     type="text"
                                     id="price"
                                     name="price"
-                                    value={serviceDetails.price}
+                                    value={formData.price}
                                     onChange={handleInputChange}
                                     className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                 />
@@ -130,9 +151,9 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                 </label>
                                 <input
                                     type="text"
-                                    id="yearsOfExperience"
-                                    name="yearsOfExperience"
-                                    value={serviceDetails.yearsOfExperience}
+                                    id="experience"
+                                    name="experience"
+                                    value={formData.experience}
                                     onChange={handleInputChange}
                                     className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                 />
@@ -143,9 +164,9 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                 </label>
                                 <input
                                     type="text"
-                                    id="eventsCompleted"
-                                    name="eventsCompleted"
-                                    value={serviceDetails.eventsCompleted}
+                                    id="event_completed"
+                                    name="event_completed"
+                                    value={formData.event_completed}
                                     onChange={handleInputChange}
                                     className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                 />
@@ -158,7 +179,7 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                     type="checkbox"
                                     id="willingToTravel"
                                     name="willingToTravel"
-                                    checked={serviceDetails.willingToTravel}
+                                    checked={formData.willingToTravel}
                                     onChange={handleInputChange}
                                     className="mr-2 bg-white text-[#110069]"
                                 />
@@ -170,7 +191,7 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                 <textarea
                                     id="summary"
                                     name="summary"
-                                    value={serviceDetails.summary}
+                                    value={formData.summary}
                                     onChange={handleInputChange}
                                     className="w-3/4 h-32 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                 />
@@ -180,49 +201,53 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                 <label htmlFor="packages" className="block mb-4 font-bold text-2xl text-[#110069]">
                                     Packages:
                                 </label>
-                                {serviceDetails.packages.map((pkg, index) => (
-                                    <div key={index} className="flex gap-4 mb-4">
+                                
+                                    <div  className="flex gap-4 mb-4">
                                         <input
                                             type="text"
-                                            name={`packages.${index}.name`}
-                                            value={pkg.name || ''} // Use an empty string as a fallback value
+                                            id="packages.name"
+                                            name="packages.name"
+                                            value={formData?.packages?.name}
                                             onChange={handleInputChange}
                                             placeholder="Package Name"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
                                         <input
                                             type="text"
-                                            name={`packages.${index}.days`}
-                                            value={pkg.days || ''} // Use an empty string as a fallback value
+                                            id="packages.days"
+                                            name="packages.days"
+                                            value={formData.packages?.days} 
                                             onChange={handleInputChange}
                                             placeholder="Days"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
                                         <input
                                             type="text"
-                                            name={`packages.${index}.price`}
-                                            value={pkg.price || ''} // Use an empty string as a fallback value
+                                            id="packages.price"
+                                            name="packages.price"
+                                            value={formData.packages?.price} // Use an empty string as a fallback value
                                             onChange={handleInputChange}
                                             placeholder="Price"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
                                         <input
                                             type="text"
-                                            name={`packages.${index}.minAdvance`}
-                                            value={pkg.minAdvance || ''} // Use an empty string as a fallback value
+                                            id="packages.minAdvance"
+                                            name="packages.minAdvance"
+                                            value={formData.packages?.minAdvance} // Use an empty string as a fallback value
                                             onChange={handleInputChange}
                                             placeholder="Minimum Advance"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
                                     </div>
-                                ))}
-                                <button
+                                
+                                {/* <button
                                     type="button"
-                                    onClick={() => setServiceDetails({ ...serviceDetails, packages: [...serviceDetails.packages, { name: '', days: '', price: '', minAdvance: '' }] })}
+                                    //  onClick={() => }
                                     className="bg-white text-[#110069] px-4 py-2 rounded-md"
                                 >
                                     Add Package
-                                </button>
+                                </button> */}
                             </div>
                             <button type="submit" className="bg-white text-[#110069] px-8 py-4 rounded-md text-xl">
                                 Update
@@ -233,47 +258,50 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Price:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                                    ₹{serviceDetails.price}
+                                    ₹{price}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Years of Experience:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                                    {serviceDetails.yearsOfExperience}
+                                    {experience}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Events Completed:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                                    {serviceDetails.eventsCompleted}
+                                    {event_completed}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Willing to Travel:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                                    {serviceDetails.willingToTravel ? 'Yes' : 'No'}
+                                    {willingToTravel ? 'Yes' : 'No'}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Summary:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center h-auto w-3/6 mx-auto">
-                                    {serviceDetails.summary}
+                                    {summary}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Packages:</p>
-                                {serviceDetails.packages.map((pkg, index) => (
-                                    <div key={index} className="flex gap-4 mb-4">
-                                        <p className="text-lg bg-white text-[#110069] p-2 rounded-md">{pkg.name}</p>
-                                        <p className="text-lg bg-white text-[#110069] p-2 rounded-md">{pkg.days}</p>
-                                        <p className="text-lg bg-white text-[#110069] p-2 rounded-md">₹{pkg.price}</p>
-                                        <p className="text-lg bg-white text-[#110069] p-2 rounded-md">{pkg.minAdvance}</p>
-                                    </div>
-                                ))}
+                               
+    
+        <div  className="flex gap-4 mb-4">
+            <p className="text-lg bg-white text-[#110069] p-2 rounded-md">{packages?.name}</p>
+            <p className="text-lg bg-white text-[#110069] p-2 rounded-md">{packages?.days}</p>
+            <p className="text-lg bg-white text-[#110069] p-2 rounded-md">₹{packages?.price}</p>
+            <p className="text-lg bg-white text-[#110069] p-2 rounded-md">{packages?.minAdvance}</p>
+        </div>
+    
+
+
                             </div>
                             <div className="flex flex-wrap justify-center">
                                 <p className="text-[#110069] text-xl font-bold">Portfolio:</p>
-                                {currentImages.map((imageUrl, index) => (
+                                {portfolio && portfolio.map((imageUrl, index) => (
                                     <img
                                         key={index}
                                         src={imageUrl}
@@ -283,7 +311,7 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                 ))}
                             </div>
                             <div>
-                                <Caro />
+                                <Caro portfolio={portfolio}/>
                             </div>
                             <button
                                 onClick={handleEditClick}

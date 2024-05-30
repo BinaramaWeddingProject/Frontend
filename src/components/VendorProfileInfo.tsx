@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface VendorProfileInfoProps {
-    businessName: string;
-    typeOfBusiness: string;
+    businessName: string | undefined;
+    typeOfBusiness: string | undefined;
 }
 
 const VendorProfileInfo: React.FC<VendorProfileInfoProps> = ({ businessName, typeOfBusiness }) => {

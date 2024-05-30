@@ -9,9 +9,9 @@ import TermsAndPolicyCard from '../components/Terms';
 import RelatedArticles from '../components/RelatedArticles';
 
 
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getVendor } from '../redux/api/vendor'; 
+import { useGetVendorByIdQuery } from '../redux/api/vendor'; 
 import { Vendor } from '../types/types';
 
 
@@ -19,80 +19,43 @@ interface Params {
     [key: string]: string | undefined;
   }
   
-
 const dummyData = {
-    price: 1500,
-    rating: 4.5
-};
-
-const dummyServiceDetails = {
-    price: 100,
-    portfolio: ["https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200", "https://picsum.photos/200"],
-    yearsOfExperience: 5,
-    eventsCompleted: 10,
-    willingToTravel: true,
-    summary: "Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet",
-    packages :[{
-        name: "Basic Package",
-        days: "1",
-        price: "100",
-        minAdvance: "50"
-    },]
-};
-
-const vendorData = {
-    name: "Awesome Photography",
-    location: "123 Main Street, City, Country",
-};
-
-const dummyDescription = {
-    title: "Service Description",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque mi vitae sapien tempor, non luctus turpis ultrices. Integer ut lorem magna. Vestibulum bibendum quam eu urna iaculis, nec vehicula velit vehicula. Nam id est a odio vulputate bibendum. Nunc porttitor interdum nunc, a dapibus quam. Suspendisse aliquam risus quis metus fermentum, vel tempor urna sodales. Sed non risus in sapien sollicitudin viverra et sit amet lorem. Sed vitae interdum lorem, nec vestibulum dolor. Sed congue efficitur justo, eget egestas ante semper in. Phasellus ultricies justo non lorem dapibus lobortis. Vivamus tempus purus in enim faucibus convallis. Sed dictum augue ligula, sed vehicula arcu auctor eget. Morbi tincidunt risus eget erat eleifend, non pharetra orci varius. Ut et pulvinar quam."
-  };
-  
+  rating : 4,
+}
 
 
-
-function VendorServicePage() {
+function VendorServicePage () {
 
     const { _id } = useParams<Params>();
     const id = _id ;
-    const [vendorData, setVendorData] = useState<Vendor | null>(null);
-     const [loading, setLoading] = useState<boolean>(true);
-     const [error, setError] = useState<string | null>(null);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          console.log("vendor:", id)
-          const data = await getVendor(id) as Partial<Vendor>;
-          setVendorData(vendorData);
-          console.log(data)
-          setLoading(false);
-        } catch (error:any) {
-          setError(error.message);
-          setLoading(false);
-        }
-      };
-  
-      fetchData();
-  
-      // Clean up effect
-      return () => {
-        // Cleanup code if needed
-      };
-    }, [id]);
-  
-    if (loading) {
+    
+    // const id = '6647077ca07a6f12501a2b6c';   
+
+
+    const { data: vendor, error, isLoading } = useGetVendorByIdQuery(id ? id : "");
+    
+   const vendorData  = vendor?.data.vendor
+   console.log("vendor:" ,vendor )
+ 
+   console.log("the use vendor:",vendor?.data.vendor)
+
+   
+
+  if (!id) {
+      return <div>No ID provided.</div>;
+  }
+
+  if (isLoading) {
       return <div>Loading...</div>;
-    }
-  
-    if (error) {
-      return <div>Error: {error}</div>;
-    }
-  
+  }
 
+  if (error) {
+      return <div>Error: {error.message}</div>;
+  }
 
+  
+    console.log("Vendor data outside:" , vendorData)
+    //console.log("detail", VendorData?.packages?.price)
     return (
         <div>
             <NavBar />
@@ -104,17 +67,17 @@ function VendorServicePage() {
         </div>
                 <div className='flex max-w-full'>
                     <div className='w-3/4'>
-                        <Caro />
+                        <Caro portfolio={vendorData?.portfolio}/>
                         <div className='max-w-full'>
-                            <TabView />
+                            <TabView vendorData =  {vendorData} />
                         </div>
                     </div>
                     <div className='mx-8 w-1/4'>
-                        <PriceCard price={dummyData.price} rating={dummyData.rating} />
+                        <PriceCard price={vendorData?.packages?.price} rating={dummyData.rating} />
                     </div>
                 </div>
                 <div className='my-4'>
-                <DescriptionCard title={dummyDescription.title} description={dummyDescription.description} />
+                <DescriptionCard title={vendorData?.packages?.name} description={vendorData?.summary} />
                 </div>
                 <div>
                     <TermsAndPolicyCard/>
