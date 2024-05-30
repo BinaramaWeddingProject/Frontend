@@ -4,10 +4,6 @@ import Loader from './components/Loader'
 import Home from './pages/home'
 import UserProfile from './pages/userProfile'
 import UserRegister from './pages/userRegister'
-
-
-
-
 import VendorsList from './pages/VendorsList'
 import VendorProfilePage from './pages/VendorProfilePage'
 import VendorServicePage from './pages/VendorServicePage'
