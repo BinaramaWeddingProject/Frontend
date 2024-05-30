@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PortfolioCarousel from './PortfolioCarousel';
 import VendorCarousel from './vendorCarousel';
 import Caro from './Carousel3';
-
+import { useAllVendorQuery } from '../redux/api/vendor';
+import { string } from 'yup';
 
 interface ServiceDetails {
     price: number;
@@ -13,6 +14,7 @@ interface ServiceDetails {
     summary: string;
     packages: { name: string; days: string; price: string; minAdvance: string; }[];
 }
+
 interface Props {
     serviceDetails: ServiceDetails;
 }
@@ -21,10 +23,14 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
     const [editing, setEditing] = useState(false);
     const [serviceDetails, setServiceDetails] = useState<ServiceDetails>({
         ...initialServiceDetails,
-        packages: [],
+        packages: initialServiceDetails.packages.length > 0
+            ? initialServiceDetails.packages
+            : [{ name: '', days: '', price: '', minAdvance: '' }],
     });
+    // const [data,isLoading,isError]=useAllVendorQuery('');    
     const [currentImages, setCurrentImages] = useState<string[]>([]);
     const [index, setIndex] = useState(0);
+    // console.log(data);   
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -54,13 +60,18 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                 ...prevState,
                 [name]: newValue
             }));
+
         } else if (name.startsWith('packages')) {
-            const [, index, field] = name.split(/\[(.*?)\]/);
-            const updatedPackages = [...serviceDetails.packages];
-            updatedPackages[parseInt(index)][field as keyof typeof updatedPackages[0]] = value; // Update the specific field of the package at the specified index
+            const [_, indexStr, field] = name.split('.');
+            const index = parseInt(indexStr, 10);
             setServiceDetails(prevState => ({
                 ...prevState,
-                packages: updatedPackages
+                packages: prevState.packages.map((pkg, i) => {
+                    if (i === index) {
+                        return { ...pkg, [field]: value };
+                    }
+                    return pkg;
+                })
             }));
         } else {
             setServiceDetails(prevState => ({
@@ -69,7 +80,6 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
             }));
         }
     };
-
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -81,8 +91,9 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
     const handleEditClick = () => {
         setEditing(true);
     };
+
     return (
-        <div className="bg-gray-200 rounded-lg p-8 mx-auto max-w-full  mb-12">
+        <div className="bg-gray-200 rounded-lg p-8 mx-auto max-w-full mb-12">
             <div className="flex items-center justify-center">
                 <div className="flex-grow">
                     {editing ? (
@@ -173,32 +184,32 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                     <div key={index} className="flex gap-4 mb-4">
                                         <input
                                             type="text"
-                                            name={`packages[${index}].name`}
-                                            value={pkg.name}
+                                            name={`packages.${index}.name`}
+                                            value={pkg.name || ''} // Use an empty string as a fallback value
                                             onChange={handleInputChange}
                                             placeholder="Package Name"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
                                         <input
                                             type="text"
-                                            name={`packages[${index}].days`}
-                                            value={pkg.days}
+                                            name={`packages.${index}.days`}
+                                            value={pkg.days || ''} // Use an empty string as a fallback value
                                             onChange={handleInputChange}
                                             placeholder="Days"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
                                         <input
                                             type="text"
-                                            name={`packages[${index}].price`}
-                                            value={pkg.price}
+                                            name={`packages.${index}.price`}
+                                            value={pkg.price || ''} // Use an empty string as a fallback value
                                             onChange={handleInputChange}
                                             placeholder="Price"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
                                         <input
                                             type="text"
-                                            name={`packages[${index}].minAdvance`}
-                                            value={pkg.minAdvance}
+                                            name={`packages.${index}.minAdvance`}
+                                            value={pkg.minAdvance || ''} // Use an empty string as a fallback value
                                             onChange={handleInputChange}
                                             placeholder="Minimum Advance"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
@@ -227,25 +238,25 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Years of Experience:</p>
-                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center  w-3/6  mx-auto">
+                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
                                     {serviceDetails.yearsOfExperience}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Events Completed:</p>
-                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center  w-3/6  mx-auto">
+                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
                                     {serviceDetails.eventsCompleted}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Willing to Travel:</p>
-                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center  w-3/6  mx-auto">
+                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
                                     {serviceDetails.willingToTravel ? 'Yes' : 'No'}
                                 </p>
                             </div>
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Summary:</p>
-                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center h-auto  w-3/6  mx-auto">
+                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center h-auto w-3/6 mx-auto">
                                     {serviceDetails.summary}
                                 </p>
                             </div>
@@ -260,7 +271,7 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                     </div>
                                 ))}
                             </div>
-                            {/* <div className="flex flex-wrap justify-center">
+                            <div className="flex flex-wrap justify-center">
                                 <p className="text-[#110069] text-xl font-bold">Portfolio:</p>
                                 {currentImages.map((imageUrl, index) => (
                                     <img
@@ -270,13 +281,7 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
                                         className="w-48 h-48 object-cover m-2 rounded-md"
                                     />
                                 ))}
-                            </div> */}
-                            {/* <div className="flex flex-wrap justify-center">
-
-                            <PortfolioCarousel portfolio={serviceDetails.portfolio} />
-
-                                </div> */}
-
+                            </div>
                             <div>
                                 <Caro />
                             </div>
@@ -293,4 +298,5 @@ const ServiceDetailsForm: React.FC<Props> = ({ serviceDetails: initialServiceDet
         </div>
     );
 };
+
 export default ServiceDetailsForm;

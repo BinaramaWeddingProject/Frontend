@@ -15,19 +15,19 @@ import {
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/300",
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/100",
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/500",
         },
         {
           image:
-            "https://picsum.photos/200",
+            "https://picsum.photos/600",
         },
       ];
     return (
@@ -36,7 +36,7 @@ import {
           <Carousel infiniteLoop>
             {slides.map((slide) => {
               return (
-                <AspectRatio maxH="500px" ratio={4 / 3}>
+                <AspectRatio maxH="500px" ratio={1 / 2}>
                   <Image src={slide.image} height="auto" />
                 </AspectRatio>
               );

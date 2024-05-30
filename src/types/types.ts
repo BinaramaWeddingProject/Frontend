@@ -25,5 +25,9 @@ export type Vendor = Partial<{
   cancellationPolicy: string;
   termAndConditions: string;
   review: string; 
+<<<<<<< HEAD
 }>;
 
+=======
+}>;
+>>>>>>> 4c9dee31b5a2b54837007296cc4aeea005987ee4

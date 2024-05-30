@@ -1,71 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-const Carousel: React.FC<{ images: string[] }> = ({ images }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+// Define a type for the images prop
+type Image = string;
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-    }, 3000); // Change image every 3 seconds
+interface CarouselProps {
+  images: Image[];
+}
 
-    return () => clearInterval(intervalId);
-  }, [images]);
+const Carousel: React.FC<CarouselProps> = ({ images }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const handleBulletClick = (index: number) => {
-    setCurrentIndex(index);
+  const handlePrevImage = () => {
+    setCurrentImageIndex(
+      currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1
+    );
   };
 
-  const nextSlide = () => {
-    setCurrentIndex(prevIndex => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex(prevIndex => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+  const handleNextImage = () => {
+    setCurrentImageIndex(
+      currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1
+    );
   };
 
   return (
-    <div className="relative w-full h-96"> {/* Set a fixed height for the carousel */}
-      <div className="w-full h-full flex">
-        {images.map((image, index) => (
-          <div
-            key={index} // Use index as the key
-            className={`flex-shrink-0 w-40 h-40 transition-opacity duration-500 ${
-              index === currentIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <img
-              className="w-auto h-full mx-auto object-contain" 
-              src={image}
-              alt={`Slide ${index}`}
-            />
-          </div>
-        ))}
+    <div className="relative">
+      <img
+        src={images[currentImageIndex]}
+        alt={`Image ${currentImageIndex}`}
+        className="w-full h-[400px] object-cover"
+      />
+      <div className="absolute inset-y-0 left-0 flex justify-center items-center">
+        <button
+          onClick={handlePrevImage}
+          className="bg-white rounded-full p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+        >
+          Previous
+        </button>
       </div>
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {images.map((__, index) => (
-          <button
-            key={index}
-            className={`h-4 w-4 rounded-full bg-gray-500 focus:outline-none ${
-              index === currentIndex ? 'bg-white' : ''
-            }`}
-            onClick={() => handleBulletClick(index)}
-          />
-        ))}
+      <div className="absolute inset-y-0 right-0 flex justify-center items-center">
+        <button
+          onClick={handleNextImage}
+          className="bg-white rounded-full p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+        >
+          Next
+        </button>
       </div>
-      <button
-        className="absolute top-1/2 transform -translate-y-1/2 left-0 bg-gray-500 text-white py-2 px-4 rounded-l-md focus:outline-none"
-        onClick={prevSlide}
-      >
-        Prev
-      </button>
-      <button
-        className="absolute top-1/2 transform -translate-y-1/2 right-0 bg-gray-500 text-white py-2 px-4 rounded-r-md focus:outline-none"
-        onClick={nextSlide}
-      >
-        Next
-      </button>
     </div>
-  )
-}
+  );
+};
 
 export default Carousel;
