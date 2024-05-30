@@ -22,11 +22,16 @@
     "axios": "^1.6.8",
     "formik": "^2.4.6",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "framer-motion": "^11.2.0",
 =======
     "framer-motion": "^11.1.9",
     "pigeon-maps": "^0.21.5",
 >>>>>>> 4c9dee31b5a2b54837007296cc4aeea005987ee4
+=======
+    "framer-motion": "^11.1.9",
+    "pigeon-maps": "^0.21.5",
+>>>>>>> b8ea3ec828a077fc2cb6d9155852aea1e37b0588
     "react": "^18.2.0",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
@@ -41,6 +46,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/node": "^20.12.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/react-slick": "^0.23.13",
