@@ -22,6 +22,11 @@ import Login from './auth/Login'
 import Signup from './auth/SignUp'
 import Business from './auth/business'
 import VenueServicePage from './pages/VenueServicePage'
+import VendorCategory from './pages/VendorCategory'
+import AboutUs from './pages/AboutUs'
+import VenueProfilePage from './pages/VenueProfilePage'
+import UserProfilePage from './pages/UserProfilePage'
+import VendorsListByCategory from './pages/VendorListByCategory'
 
 
 const App = () => {
@@ -36,10 +41,15 @@ const App = () => {
         <Route path='/userprofile' element={<UserProfile />}/>
         <Route path='/userregister' element={<UserRegister />}/>
         <Route path='/vendorProfilePage' element={<VendorProfilePage />}/>
+        <Route path='/venueProfilePage' element={<VenueProfilePage />}/>
+        <Route path='/userProfilePage' element={<UserProfilePage/>}/>
         <Route path='/vendorServicePage' element={<VendorServicePage />}/>
         <Route path='/vendors' element={<Vendor />}/>
         <Route path='/vendors/:_id' element={<VendorServicePage  />}/>
         <Route path='venueServicePage' element={<VenueServicePage  />}/>
+        <Route path='vendorCategory' element={<VendorCategory  />}/>
+        <Route path='aboutus1' element={<AboutUs />}/>
+        {/* <Route path='aboutus2' element={<AboutUs2 />}/> */}
 
         {/* <Route path='/forget' element={<ForgetPasswordPage />}/> */}
         <Route path='/login' element={<Login/>}/>
@@ -50,6 +60,7 @@ const App = () => {
         <Route path='/business' element={<Business/>}/>
        <Route path='/vendorslist' element={<VendorsList/>}/>
        <Route path='/venuelist' element={<VenueList/>}/>
+       <Route path='/vendors/category/:category' element={<VendorsListByCategory />} />
 
       </Routes>
       </Suspense>

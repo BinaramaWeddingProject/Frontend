@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaDrumstickBite } from 'react-icons/fa';
+import { Link, To } from 'react-router-dom';
+// import { LocationDescriptor } from 'history'; // Import this to type the `to` prop correctly
 
 interface VenueProps {
   venue: {
-    name: string;
-    location: string;
-    maxGuests: number;
-    contact: string;
-    description: string;
-    vegPrice: number;
-    nonVegPrice: number;
-    images: string[];
+    name: string | undefined;
+    location: string | undefined;
+    maxGuests: string | undefined;
+    contact: string | undefined;
+    description: string | undefined;
+    vegPrice: number | undefined;
+    nonVegPrice: number | undefined;
+    images: string[] | undefined;
   };
 }
 
@@ -24,13 +26,13 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
 
   const handlePrevImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === 0 ? venue.images.length - 1 : currentImageIndex - 1
+      currentImageIndex === 0 ? venue?.images?.length - 1 : currentImageIndex - 1
     );
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === venue.images.length - 1 ? 0 : currentImageIndex + 1
+      currentImageIndex === venue?.images?.length - 1 ? 0 : currentImageIndex + 1
     );
   };
 
@@ -38,7 +40,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
     <div className="flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 border-2 border-gray-300">
       <div className="relative md:w-1/2 max-h-80">
         <img
-          src={venue.images[currentImageIndex]}
+          src={venue?.images[currentImageIndex]}
           alt={`Venue ${currentImageIndex}`}
           className="w-full h-80 md:h-auto object-cover"
         />
@@ -71,8 +73,8 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
         <div className="mb-4 text-lg text-gray-700">
           {showFullDescription
             ? venue.description
-            : `${venue.description.slice(0, 100)}...`}
-          {venue.description.length > 100 && (
+            : `${venue?.description?.slice(0, 100)}...`}
+          {venue?.description?.length > 100 && (
             <button
               onClick={toggleDescription}
               className="text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -92,9 +94,16 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
             <span className="font-bold">Non-Veg Price:</span> {venue.nonVegPrice}
           </div>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none text-lg">
-          View Venue
-        </button>
+        <Link
+          to={{
+            pathname: "/VenueServicePage",
+            state: { venue }
+          } as To} // Use To type instead of LocationDescriptor
+        >
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none text-lg">
+            View Venue
+          </button>
+        </Link>
       </div>
     </div>
   );
