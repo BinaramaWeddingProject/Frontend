@@ -1,12 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaBell } from "react-icons/fa";
 
 const NavBar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
+  const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
 
   const toggleDropdown = (link: string) => {
     setDropdownOpen((prevLink) => (prevLink === link ? null : link));
+  };
+
+  const toggleNotification = () => {
+    setNotificationOpen((prevNotification) => !prevNotification);
+  };
+
+  const closeNotification = () => {
+    setNotificationOpen(false);
   };
 
   return (
@@ -21,6 +30,7 @@ const NavBar: React.FC = () => {
               Home
             </Link>
           </li>
+          {/* Venues Dropdown */}
           <li
             className="relative mx-4"
             onMouseEnter={() => toggleDropdown("venues")}
@@ -51,6 +61,7 @@ const NavBar: React.FC = () => {
               </ul>
             )}
           </li>
+          {/* Vendors Dropdown */}
           <li
             className="relative mx-4"
             onMouseEnter={() => toggleDropdown("vendors")}
@@ -81,6 +92,7 @@ const NavBar: React.FC = () => {
               </ul>
             )}
           </li>
+          {/* About Us Dropdown */}
           <li
             className="relative mx-4"
             onMouseEnter={() => toggleDropdown("AboutUs")}
@@ -111,11 +123,42 @@ const NavBar: React.FC = () => {
               </ul>
             )}
           </li>
+          {/* Login */}
           <li className="ml-auto relative mx-4">
             <Link to="/login" className="text-white hover:text-gray-200">
               Login
             </Link>
           </li>
+
+          {/* Notification */}
+          <li className="nl-auto relative mx-4">
+            <button
+              className="text-white hover:text-gray-200"
+              onClick={toggleNotification}
+            >
+              <FaBell style={{ color: "white" }} />
+            </button>
+            {notificationOpen && (
+              <ul
+                className="absolute top-full right-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md"
+                onClick={closeNotification}
+              >
+                {/* Notification Items */}
+                <li>
+                  <Link to="/notifications" className="hover:text-gray-200">
+                    Notification 1
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/notifications" className="hover:text-gray-200">
+                    Notification 2
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+
+          {/* User Profile */}
           <li className="relative mx-4">
             <Link
               to="/vendorProfilePage"
