@@ -57,7 +57,7 @@ const NavBar: React.FC = () => {
             onMouseLeave={() => setDropdownOpen(null)}
           >
             <Link
-              to={`/vendorslist/AllVendors`}
+              to={`/vendor/AllVendors`}
               className="text-white cursor-pointer hover:text-gray-200"
             >
               Vendors

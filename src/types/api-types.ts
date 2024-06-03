@@ -43,4 +43,3 @@ export type AllVenuesResponse = {
     venues: Venue[];
   };
 };
-

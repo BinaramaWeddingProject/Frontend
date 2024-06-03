@@ -32,6 +32,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
   const ArticleCardsArray = Array.from({ length: NumberOfArticaleCards });
   const { data, error, isLoading } = useAllVendorQuery("");
   const [allvendors, setAllVendors] = useState<Vendor[]>([]);
+  const [filteredVendors, setFilteredVendors] = useState<Vendor[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const type = useParams();
   console.log("param value", type.type);
@@ -42,6 +44,28 @@ const VendorsList: React.FC<VendorsListProps> = ({
       setAllVendors(data.data.vendors);
     }
   }, [data]);
+  console.log("hello", searchQuery)
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setFilteredVendors(allvendors);
+    } else {
+      const filtered = allvendors.filter((vendor) =>
+        vendor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredVendors(filtered);
+    }
+  }, [searchQuery, allvendors]);
+
+  const handleSearch = () => {
+    // Perform search based on searchQuery
+    // Here you can filter the vendors based on the searchQuery
+    // For example:
+    // const filteredVendors = allvendors.filter(vendor =>
+    //   vendor.businessName.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+    // setFilteredVendors(filteredVendors);
+  };
 
   if (error) {
     return <h1>Error while loading data</h1>;
@@ -114,13 +138,18 @@ const VendorsList: React.FC<VendorsListProps> = ({
                 type="text"
                 placeholder="Enter artist name..."
                 className="w-full px-3 py-2 border rounded-l-md outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button className="bg-blue-400 text-white px-4 py-2 rounded-r-md">
+              <button
+                className="bg-blue-400 text-white px-4 py-2 rounded-r-md"
+                onClick={handleSearch}
+              >
                 <FaSearch />
               </button>
             </div>
             <hr className="h-1 bg-gray-200 my-2"></hr>
-            <div className="shadow-xl">
+            <div className="shadow-xl mt-8">
               <AllVendors />
             </div>
 

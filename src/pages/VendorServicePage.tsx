@@ -10,6 +10,7 @@ import RelatedArticles from "../components/RelatedArticles";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetVendorByIdQuery } from "../redux/api/vendor";
+import AllVendors from "../components/card/AllVendors";
 
 interface Params {
   [key: string]: string | undefined;
@@ -55,12 +56,25 @@ function VendorServicePage() {
   //console.log("detail", VendorData?.packages?.price)
   return (
     <div>
-      <NavBar />
+      <NavBar/>
       <div>
-        <div className="container mx-auto">
-          <h1 className="text-3xl font-semibold m-6">Vendor Information</h1>
-          <VendorInfo name={vendorData?.name} location={vendorData?.city} />
+        <div className="container mx-auto shadow-xl bg-slate-100">
+          <div className="absolute">
+            <h1 className="text-3xl font-semibold ml-6 my-6">
+              Vendor Information
+            </h1>
+            <VendorInfo
+              name={vendorData?.name}
+              location={vendorData?.city}
+              businessName={vendorData?.businessName}
+              typeOfBusiness={vendorData?.type_Of_Business}
+            />
+          </div>
+          <div className=" relative mr-6">
+            <AllVendors />
+          </div>
         </div>
+
         <div className="flex max-w-full">
           <div className="w-3/4">
             <Caro portfolio={vendorData?.portfolio} />
@@ -68,7 +82,7 @@ function VendorServicePage() {
               <TabView vendorData={vendorData} />
             </div>
           </div>
-          <div className="mx-8 w-1/4">
+          <div className="mx-8 mt-2 w-1/4">
             <PriceCard
               price={vendorData?.packages?.price}
               rating={dummyData.rating}

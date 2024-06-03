@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AllVenuesResponse , MessageResponse} from "../../types/api-types";
+import { AllVenuesResponse , MessageResponse,VenueResponse} from "../../types/api-types";
 import { Venue } from "../../types/types";
 
 
@@ -33,10 +33,27 @@ export const VenueAPI = createApi({
             }),
             invalidatesTags: ["venues"], // Invalidate venues tag after login
         }),
+        
+        getVenueById: builder.query<VenueResponse, string>({
+            query: (id: string | undefined) => `${id}`,
+            providesTags: ["venues"],
+      
+          }),
+
+          updateVenue: builder.mutation<MessageResponse, { id: string, venue: Venue }>({
+            query: ({ id, venue }) => ({
+              url: `${id}`, 
+              method: "PUT",
+              body: venue,
+            }),
+            invalidatesTags: ["venues"],
+          }),
+
+        
     }),
 
     
 })
 
 // Export the hook from the vendorAPI object
-export const {useAllVenueQuery , useSignupVenueMutation, useLoginVenueMutation} = VenueAPI;
+export const {useAllVenueQuery , useSignupVenueMutation, useLoginVenueMutation, useGetVenueByIdQuery, useUpdateVenueMutation} = VenueAPI;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface Props {
   price: string | undefined ;
@@ -6,6 +6,8 @@ interface Props {
 }
 
 const PriceCard: React.FC<Props> = ({ price, rating }) => {
+  const [isWishlistSelected, setIsWishlistSelected] = useState(false);
+  const [isEnquirySelected, setIsEnquirySelected] = useState(false);
   // Function to render star ratings
   const renderStars = (rating: number) => {
     const stars = [];
@@ -27,11 +29,25 @@ const PriceCard: React.FC<Props> = ({ price, rating }) => {
         {renderStars(rating)}
       </div>
       <div className="flex flex-col justify-center items-center">
-        <button className="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 px-6 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 mb-4 w-full">
-          Send Enquiry
+      <button 
+          className={`${
+            isEnquirySelected
+              ? "bg-purple-500 text-white"
+              : "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+          } py-3 px-6 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 mb-4 w-full`}
+          onClick={() => setIsEnquirySelected(!isEnquirySelected)}
+        >
+          {isEnquirySelected ? "Enquiry Sent" : "Send Enquiry"}
         </button>
-        <button className="bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 w-full">
-          Add to Shortlist
+        <button 
+          className={`${
+            isWishlistSelected
+              ? "bg-green-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          } py-3 px-6 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 mb-4 w-full`}
+          onClick={() => setIsWishlistSelected(!isWishlistSelected)}
+        >
+          {isWishlistSelected ? "Added to Wishlist" : "Add to Wishlist"}
         </button>
       </div>
     </div>

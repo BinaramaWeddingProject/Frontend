@@ -30,7 +30,7 @@ const VenueLocation: React.FC<VenueLocationProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h2 className="text-2xl font-bold mb-4">Venue Location</h2>
+      <h2 className="text-2xl font-thin mb-4 tracking-widest">VENUE LOCATION</h2>
       <div className="w-full h-96 relative">
         <Map
           center={center}

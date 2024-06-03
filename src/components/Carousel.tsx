@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 // Define a type for the images prop
-type Image = string;
+
 
 interface CarouselProps {
-  images: Image[];
+  images?: string[];
 }
 
 const Carousel: React.FC<CarouselProps> = ({ images }) => {
@@ -12,20 +12,20 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
 
   const handlePrevImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1
+      currentImageIndex === 0 ? (images?.length ?? 0) - 1 : currentImageIndex - 1
     );
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1
+      currentImageIndex === (images?.length ?? 0) - 1 ? 0 : currentImageIndex + 1
     );
   };
 
   return (
     <div className="relative">
       <img
-        src={images[currentImageIndex]}
+        src={images?.[currentImageIndex]}
         alt={`Image ${currentImageIndex}`}
         className="w-full h-[400px] object-cover"
       />

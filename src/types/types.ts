@@ -26,6 +26,7 @@ export type Vendor = Partial<{
   termAndConditions: string;
   review: string; 
 }>;
+
 //venue type
 
 export interface Venue {
@@ -51,4 +52,3 @@ export interface Venue {
   foodPackages?: string;
   isPasswordCorrect?(password: string | Buffer): Promise<boolean>;
 }
-
