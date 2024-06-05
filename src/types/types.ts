@@ -40,7 +40,7 @@ export interface Venue {
   state?: string;
   comment?: string;
   guestCapacity?: string;
-  images?: string[];
+  images: string[];
   description?: string;
   about?: string;
   howToReach?: string;

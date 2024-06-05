@@ -10,7 +10,7 @@ interface VenueProps {
     description: string | undefined;
     vegPrice: number| undefined;
     nonVegPrice: number| undefined;
-    images: string[] | undefined;
+    images: string[];
   };
 }
 
