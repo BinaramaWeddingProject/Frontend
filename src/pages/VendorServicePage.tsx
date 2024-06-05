@@ -79,13 +79,14 @@ function VendorServicePage() {
           <div className="w-3/4">
             <Caro portfolio={vendorData?.portfolio} />
             <div className="max-w-full">
-              <TabView vendorData={vendorData} />
+              <TabView vendorData={vendorData}/>
             </div>
           </div>
           <div className="mx-8 mt-2 w-1/4">
             <PriceCard
               price={vendorData?.packages?.price}
               rating={dummyData.rating}
+              vendorId={id}
             />
           </div>
         </div>

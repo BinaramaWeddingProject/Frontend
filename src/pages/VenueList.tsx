@@ -5,6 +5,9 @@ import RelatedArticles from '../components/RelatedArticles';
 import Footer from '../components/Footer';
 import { Venue } from '../types/types';
 import { useAllVenueQuery } from '../redux/api/venue';
+import TopFilter from '../components/TopFilter';
+import FilterBar from '../components/FilterBar';
+import { mockVenues } from '../data';
 
 
 
@@ -12,7 +15,7 @@ function VenueList() {
   const { data, error, isLoading } = useAllVenueQuery("");
   const [allvenue, setAllVenues] = useState<Venue[]>([]);
 
-
+ 
   useEffect(() => {
     if (data) {
       setAllVenues(data.data.venues);
@@ -31,9 +34,10 @@ console.log("all venues",allvenue)
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
+      {/* <TopFilter/> */}
       <div className="flex-grow container mx-auto px-4 py-8">
         <div className="grid grid-cols-1">
-
+        {/* <FilterBar venues={mockVenues} /> */}
 
           <div>
           {
@@ -49,6 +53,7 @@ console.log("all venues",allvenue)
                 vegPrice: 20,
                 nonVegPrice: 30,
                 images: venue.images,
+                id:venue._id
               }}
               />
           )) : <div>No Vneue found</div>

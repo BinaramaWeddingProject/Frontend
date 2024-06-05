@@ -16,12 +16,14 @@ import RelatedArticles from '../components/RelatedArticles';
 import ContactForm from '../components/ContactForm';
 import VenueSummary from '../components/VenueSummary';
 import FAQSection from '../components/FaqSection';
-import { Params, useParams } from 'react-router-dom';
+
 import { useGetVenueByIdQuery } from '../redux/api/venue';
+import { useParams } from 'react-router-dom';
 
   const VenueServicePage = () => {
-    const {_id} = useParams<Params>();
-    const id = "6654342528aa54d4db41612f";
+    const {id} = useParams();
+    // const id = "6654342528aa54d4db41612f";
+    console.log("your data is here",id)
 
     const {data: venue ,error,isLoading} = useGetVenueByIdQuery(id ? id:"");
     const venueData = venue?.data.venue;
