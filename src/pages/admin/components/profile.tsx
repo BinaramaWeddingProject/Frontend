@@ -120,7 +120,7 @@ const Profile: FC<ProfileProps> = ({
               <img
                 src={avatar}
                 alt="Avatar"
-                className="w-24 h-24 rounded-full m-4 bg-blue-900"
+                className="w-24 h-24 rounded-full m-auto bg-blue-900"
               />
 
               <h3 className="text-lg font-semibold text-center m-2">

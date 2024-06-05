@@ -32,7 +32,7 @@ const AdminDashboard = () => {
             case "Booking Management":
                 return <BookingManagement/>
             default:
-                return null; // Render nothing by default or for other sections
+                return <Profile/>; // Render nothing by default or for other sections
         }
     };
 

@@ -32,6 +32,10 @@ import UserProfilePage from './pages/UserProfilePage'
 import VendorsListByCategory from './pages/VendorListByCategory'
 
 
+
+
+
+
 const App = () => {
   return (
     <ChakraProvider>
@@ -46,10 +50,6 @@ const App = () => {
         <Route path='/vendorProfilePage' element={<VendorProfilePage />}/>
         <Route path='/venueProfilePage' element={<VenueProfilePage />}/>
         <Route path='/userProfilePage' element={<UserProfilePage/>}/>
-
-     
-       
-        
         <Route path='vendorCategory' element={<VendorCategory  />}/>
         <Route path='aboutus1' element={<AboutUs />}/>
         {/* <Route path='aboutus2' element={<AboutUs2 />}/> */}
@@ -80,6 +80,7 @@ const App = () => {
 
 
             <Route path="/adminDashboard" element={<AdminDashboard/>}/>
+           
 
           </Routes>
         </Suspense>
