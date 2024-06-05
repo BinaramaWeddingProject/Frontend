@@ -8,7 +8,7 @@ interface Admin {
   contact: string;
 }
 
-const AdminManagement: React.FC = () => {
+const VenueManagement: React.FC = () => {
   // Sample list of admins
   const admins: Admin[] = [
     { index: 1, name: "Admin 1", email: "email", contact: "2344" },
@@ -138,4 +138,4 @@ const AdminManagement: React.FC = () => {
   );
 };
 
-export default AdminManagement;
+export default VenueManagement;

@@ -116,7 +116,7 @@ const Profile: FC<ProfileProps> = ({
           </div>
         ) : (
           <div className="flex justify-center m-4 border-2">
-            <div className="flex flex-col justify-center">
+            <div>
               <img
                 src={avatar}
                 alt="Avatar"

@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { FaCheckSquare, FaRegSquare, FaTrash } from "react-icons/fa";
+import { FaCheckSquare, FaEye, FaRegSquare, FaTrash } from "react-icons/fa";
 
-interface Admin {
+interface User {
   index: number;
   name: string;
   email: string;
   contact: string;
 }
 
-const AdminManagement: React.FC = () => {
+const UserManagement: React.FC = () => {
   // Sample list of admins
-  const admins: Admin[] = [
-    { index: 1, name: "Admin 1", email: "email", contact: "2344" },
-    { index: 2, name: "Admin 2", email: "email", contact: "2344" },
-    { index: 3, name: "Admin 3", email: "email", contact: "2344" },
-    { index: 4, name: "Admin 4", email: "email", contact: "2344" },
-    { index: 5, name: "Admin 5", email: "email", contact: "2344" },
+  const admins: User[] = [
+    { index: 1, name: "User 1", email: "email", contact: "2344"},
+    { index: 2, name: "User 2", email: "email", contact: "2344" },
+    { index: 3, name: "User 3", email: "email", contact: "2344" },
+    { index: 4, name: "User 4", email: "email", contact: "2344" },
+    { index: 5, name: "User 5", email: "email", contact: "2344" },
     // Add more admins here as needed
   ];
 
@@ -71,6 +71,10 @@ const AdminManagement: React.FC = () => {
     setCheckboxStates(newCheckboxStates);
   };
 
+  function viewUser(index: number): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div className="bg-white shadow-md rounded-md p-6 flex h-screen">
       <div className="w-3/4 mb-4 shadow-2xl shadow-slate-400 border-2">
@@ -79,7 +83,8 @@ const AdminManagement: React.FC = () => {
             <div className="w-1/12 bg-blue-300 ml-2 mt-2 mr-1">Index</div>
             <div className="w-3/12 bg-green-300 font-bold mt-2 mr-1">Name</div>
             <div className="w-3/12 bg-green-300 font-bold mt-2 mr-1">Email</div>
-            <div className="w-3/12 bg-green-300 font-bold mt-2 mr-1">Contact</div>
+            <div className="w-2/12 bg-green-300 font-bold mt-2 mr-1">Contact</div>
+            <div className="w-1/12 bg-green-300 font-bold mt-2 mr-1">View</div>
             <div className="w-1/12 bg-pink-300 mt-2 mr-1">Select</div>
             <div className="w-1/12 bg-cyan-300 mt-2 mr-2">Delete</div>
           </div>
@@ -91,7 +96,10 @@ const AdminManagement: React.FC = () => {
                 <div className="w-1/12 bg-blue-300 mt-2 ml-2 mr-1">{admin.index}</div>
                 <div className="w-3/12 bg-green-300 font-bold mt-2 mr-1">{admin.name}</div>
                 <div className="w-3/12 bg-green-300 font-bold mt-2 mr-1">{admin.email}</div>
-                <div className="w-3/12 bg-green-300 font-bold mt-2 mr-1">{admin.contact}</div>
+                <div className="w-2/12 bg-green-300 font-bold mt-2 mr-1">{admin.contact}</div>
+                <div className="w-1/12 bg-pink-300 mt-2 mr-1 cursor-pointer flex justify-center items-center" onClick={() => viewUser(index)}>
+  {<FaEye size={20} />}
+</div>
                 <div className="w-1/12 bg-pink-300 mt-2 mr-1 cursor-pointer flex justify-center items-center" onClick={() => toggleCheckbox(index)}>
                   {checkboxStates[index] ? <FaCheckSquare size={20} /> : <FaRegSquare size={20} />}
                 </div>
@@ -138,4 +146,4 @@ const AdminManagement: React.FC = () => {
   );
 };
 
-export default AdminManagement;
+export default UserManagement;
