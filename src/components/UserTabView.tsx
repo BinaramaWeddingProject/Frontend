@@ -1,70 +1,157 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as solidStar, faHome, faPhoneAlt, faImages, faBoxOpen, faStar as regularStar } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useGetWishlistQuery } from '../redux/api/wishlist';
+import { useAllVenueQuery } from '../redux/api/venue';
+import VenueCard from './VenueCard';
+import { Venue, Vendor } from '../types/types';
+import { useAllVendorQuery } from '../redux/api/vendor';
+import VendorCard from './card/Vendorcard';
+import { useGetUserQuery } from '../redux/api/user';
+// const userId = "665d6d766063ea750000e096"
+import { useUpdateUserMutation } from '../redux/api/user';
 
 const dummyPackages = [
     {
-      name: "Basic History",
-      days: "1 day",
-      price: "$100",
-      minAdvance: "$20",
+        name: "Basic History",
+        days: "1 day",
+        price: "$100",
+        minAdvance: "$20",
     },
     {
-      name: "Standard History",
-      days: "3 days",
-      price: "$250",
-      minAdvance: "$50",
+        name: "Standard History",
+        days: "3 days",
+        price: "$250",
+        minAdvance: "$50",
     },
     {
-      name: "Premium History",
-      days: "5 days",
-      price: "$500",
-      minAdvance: "$100",
+        name: "Premium History",
+        days: "5 days",
+        price: "$500",
+        minAdvance: "$100",
     },
-  ];
-  
+];
+
+interface ProfileData {
+    name: string;
+    phoneNumber: string;
+    address: string;
+    email: string;
+    avatarUrl: string;
+}
+
+interface OverviewTabProps {
+    profileData: ProfileData;
+    isEditing: boolean;
+    handleEditClick: () => void;
+    handleSaveClick: (e: React.FormEvent<HTMLFormElement>) => void;
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const userId = "665d6d766063ea750000e096";
 
 const UserTabView = () => {
-    const [activeTab, setActiveTab] = useState('Profile');
+    const { data: user, refetch } = useGetUserQuery(userId)
+    const [updateUser, { isLoading }] = useUpdateUserMutation()
+    console.log("checking for data", user?.data?.user)
 
-    const handleTabClick = (tabName: string) => {
-        setActiveTab(tabName);
+    const userData = user?.data?.user
+
+    const [activeTab, setActiveTab] = useState('Profile');
+    const [isEditing, setIsEditing] = useState(false);
+    const [profileData, setProfileData] = useState({
+        name: userData?.fullName || '',
+        phoneNumber: userData?.phone || '',
+        address: userData?.city || '',
+        email: userData?.email || '',
+        avatarUrl: 'https://via.placeholder.com/150',
+    });
+
+    useEffect(() => {
+        if (userData) {
+            setProfileData({
+                name: userData.fullName,
+                phoneNumber: userData.phone,
+                address: userData.city,
+                email: userData.email,
+                avatarUrl: 'https://via.placeholder.com/150',
+            });
+        }
+    }, [userData]);
+
+    const handleTabClick = (tab: string) => {
+        setActiveTab(tab);
+    };
+
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+   
+    const handleSaveClick = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsEditing(false);
+
+        try {
+            console.log("ispe kuchlikhdo comment", profileData);
+            const updatedUser = await updateUser({
+                id: userId,
+                user: {
+                    fullName: profileData.name,
+                    phone: profileData.phoneNumber,
+                    city: profileData.address,
+                    email: profileData.email,
+                    avatarUrl: profileData.avatarUrl,
+                }
+            }).unwrap();
+            
+            setProfileData({
+                name: updatedUser.fullName,
+                phoneNumber: updatedUser.phone,
+                address: updatedUser.city,
+                email: updatedUser.email,
+                avatarUrl: updatedUser.avatarUrl,
+            });
+            refetch(); // Optionally refetch user data to ensure it's up to date
+        } catch (error) {
+            console.error("Failed to update user: ", error);
+        }
+    };
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setProfileData((prevData) => ({
+            ...prevData,
+            [e.target.name]: e.target.value,
+        }));
     };
 
     return (
-        <div className="border p-2 border-white h-full">
+        <div className="border p-2 border-white overflow-scroll h-screen">
             <nav className="flex max-w-full">
                 <button
-                    className={`${
-                        activeTab === 'Profile' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'
-                    } py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
+                    className={`${activeTab === 'Profile' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'} py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
                     onClick={() => handleTabClick('Profile')}
                 >
                     <FontAwesomeIcon icon={faHome} className="mr-2" />
                     Profile
                 </button>
                 <button
-                    className={`${
-                        activeTab === 'Wishlist' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'
-                    } py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
+                    className={`${activeTab === 'Wishlist' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'} py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
                     onClick={() => handleTabClick('Wishlist')}
                 >
-                    <FontAwesomeIcon icon={faPhoneAlt} className="mr-2" />
+                    <FontAwesomeIcon icon={faHeart} className="mr-2" />
                     Wishlist
                 </button>
                 <button
-                    className={`${
-                        activeTab === 'Bookings' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'
-                    } py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
+                    className={`${activeTab === 'Bookings' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'} py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
                     onClick={() => handleTabClick('Bookings')}
                 >
                     <FontAwesomeIcon icon={faImages} className="mr-2" />
                     Bookings
                 </button>
                 <button
-                    className={`${
-                        activeTab === 'History' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'
-                    } py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
+                    className={`${activeTab === 'History' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'} py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
                     onClick={() => handleTabClick('History')}
                 >
                     <FontAwesomeIcon icon={faBoxOpen} className="mr-2" />
@@ -72,8 +159,8 @@ const UserTabView = () => {
                 </button>
             </nav>
             <div className="mt-4">
-                {activeTab === 'Profile' && <OverviewTab />}
-                {activeTab === 'Wishlist' && <ContactTab />}
+                {activeTab === 'Profile' && <OverviewTab profileData={profileData} isEditing={isEditing} handleEditClick={handleEditClick} handleSaveClick={handleSaveClick} handleChange={handleChange} />}
+                {activeTab === 'Wishlist' && <Wishlist />}
                 {activeTab === 'Bookings' && <PortfolioTab />}
                 {activeTab === 'History' && <PackageTab packages={dummyPackages} />}
                 {activeTab === 'Ratings' && <RatingsTab />}
@@ -82,31 +169,147 @@ const UserTabView = () => {
     );
 };
 
-const OverviewTab = () => {
-    const willingToTravel = true; // This value should be fetched from data
+// ***********************
+const OverviewTab: React.FC<OverviewTabProps> = ({ profileData, isEditing, handleEditClick, handleSaveClick, handleChange }) => {
+    const [editImage, setEditImage] = useState(false);
+    const [imageUrl, setImageUrl] = useState(profileData.avatarUrl);
+
+    const handleImageChange = (newImageUrl: string) => {
+        handleChange({ target: { name: 'avatarUrl', value: newImageUrl } } as ChangeEvent<HTMLInputElement>);
+    };
+
+    const handleSaveImage = () => {
+        handleImageChange(imageUrl);
+        setEditImage(false);
+    };
+
+    const { name, phoneNumber, address, email, avatarUrl } = profileData;
 
     return (
-        <div className="flex flex-col items-center my-4">
+        <div className="flex flex-col my-4 p-6 bg-white rounded-lg shadow-md text-black">
             <h2 className="text-2xl font-semibold mb-4 font-roboto">Profile</h2>
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <h3 className="font-semibold font-roboto">History Price:</h3>
-                    <p className="font-roboto">Enter package price here</p>
-                </div>
-                <div>
-                    <h3 className="font-semibold font-roboto">Phone Number:</h3>
-                    <p className="font-roboto">Enter phone number here</p>
-                </div>
-                <div>
-                    <h3 className="font-semibold font-roboto">Address:</h3>
-                    <p className="font-roboto">Enter address here</p>
-                </div>
-                <div>
-                    <h3 className="font-semibold font-roboto">Willing to Travel:</h3>
-                    {willingToTravel ? (
-                        <img src="\icons8-tick.svg" alt="Tick" className="w-6 h-6" />
+            <div className="flex w-full ">
+                <div className="flex-1 mr-20">
+                    {isEditing ? (
+                        <form className="flex flex-col gap-4" onSubmit={handleSaveClick}>
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">NAME :</h3>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={name}
+                                    onChange={handleChange}
+                                    className="font-roboto w-full px-3 py-2 bg-gray-100 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">Phone Number:</h3>
+                                <input
+                                    type="text"
+                                    name="phoneNumber"
+                                    value={phoneNumber}
+                                    onChange={handleChange}
+                                    className="font-roboto w-full px-3 py-2 bg-gray-100 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">Address:</h3>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={address}
+                                    onChange={handleChange}
+                                    className="font-roboto w-full px-3 py-2 bg-gray-100 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">Email:</h3>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={email}
+                                    onChange={handleChange}
+                                    className="font-roboto w-full px-3 py-2 bg-gray-100 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                />
+                            </div>
+                            <div>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white px-4 py-2 rounded font-roboto transition-colors duration-300 hover:bg-blue-600"
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </form>
                     ) : (
-                        <img src="\icons8-cross.svg" alt="Cross" className="w-6 h-6" />
+                        <div className="flex flex-col gap-4">
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">NAME :</h3>
+                                <p className="font-roboto">{name}</p>
+                            </div>
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">Phone Number:</h3>
+                                <p className="font-roboto">{phoneNumber}</p>
+                            </div>
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">Address:</h3>
+                                <p className="font-roboto">{address}</p>
+                            </div>
+                            <div>
+                                <h3 className="font-semibold font-roboto text-gray-600">Email:</h3>
+                                <p className="font-roboto">{email}</p>
+                            </div>
+                            <div>
+                                <button
+                                    onClick={handleEditClick}
+                                    className="bg-blue-500 text-white px-4 py-2 rounded font-roboto transition-colors duration-300 hover:bg-blue-600"
+                                >
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+                <div className="flex-shrink-0">
+                    <img
+                        src={imageUrl}
+                        alt="Avatar"
+                        className="w-60 h-60 rounded-full shadow-md object-cover"
+                    />
+                </div>
+                <div>
+                    {editImage ? (
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                value={imageUrl}
+                                onChange={(e) => setImageUrl(e.target.value)}
+                                className="font-roboto w-full px-3 py-2 bg-gray-100 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+                                placeholder="Enter new image URL"
+                            />
+                            <div className="flex justify-end">
+                                <button
+                                    onClick={handleSaveImage}
+                                    className="bg-blue-500 text-white px-4 py-2 rounded font-roboto transition-colors duration-300 hover:bg-blue-600 mr-2"
+                                >
+                                    Save
+                                </button>
+                                <button
+                                    onClick={() => setEditImage(false)}
+                                    className="bg-gray-500 text-white px-4 py-2 rounded font-roboto transition-colors duration-300 hover:bg-gray-600"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <button
+                            onClick={() => setEditImage(true)}
+                            className="bg-blue-500 text-white px-4 py-2  rounded-full font-roboto transition-colors duration-300 hover:bg-blue-600 mt-2"
+                        >
+                            <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                            Edit
+                        </button>
                     )}
                 </div>
             </div>
@@ -115,22 +318,90 @@ const OverviewTab = () => {
 };
 
 
-const ContactTab = () => {
+
+
+const Wishlist = () => {
+    const { data: wishlistData, refetch: refetchWishlist } = useGetWishlistQuery(userId);
+    const { data: allVenuesData, error: venueError, isLoading: venueLoading } = useAllVenueQuery("");
+    const { data: allVendorsData, error: vendorError, isLoading: vendorLoading } = useAllVendorQuery("");
+
+    const [wishlistVenues, setWishlistVenues] = useState<Venue[]>([]);
+    const [wishlistVendors, setWishlistVendors] = useState<Vendor[]>([]);
+
+    useEffect(() => {
+        if (wishlistData && allVenuesData && allVendorsData) {
+            const itemArray = wishlistData.wishlist.items || [];
+            const wishlistVendorItems = itemArray.filter(item => item.itemType === 'vendor');
+            const wishlistVenueItems = itemArray.filter(item => item.itemType === 'venue');
+
+            const allVenues = allVenuesData.data.venues;
+            const allVendors = allVendorsData.data.vendors;
+
+            const filteredVenues = allVenues.filter(venue => wishlistVenueItems.some(item => item.itemId === venue._id));
+            const filteredVendors = allVendors.filter(vendor => wishlistVendorItems.some(item => item.itemId === vendor._id));
+
+            setWishlistVenues(filteredVenues);
+            setWishlistVendors(filteredVendors);
+        }
+    }, [wishlistData, allVenuesData, allVendorsData]);
+
+    if (venueError || vendorError) {
+        return <h1>Error while loading data</h1>;
+    }
+
+    if (venueLoading || vendorLoading) {
+        return <h1>Loading</h1>;
+    }
+
     const phoneNumber = "123-456-7890"; // Replace with actual phone number from your data
     const address = "123 Street, City, Country"; // Replace with actual address from your data
 
     return (
         <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-semibold mb-4 font-roboto">Wishlist</h2>
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <h3 className="font-semibold font-roboto">Phone Number:</h3>
-                    <p className="font-roboto">{phoneNumber}</p>
-                </div>
-                <div>
-                    <h3 className="font-semibold font-roboto">Address:</h3>
-                    <p className="font-roboto">{address}</p>
-                </div>
+           
+            
+            <div className='flex'>
+
+            <div className=" w-[50%] overflow-scroll border-2 border-white">
+                <h3 className="text-xl font-semibold  font-roboto mt-4 mb-12 text-center">Vendors</h3>
+                
+                    {wishlistVendors.length > 0 ? wishlistVendors.map((vendor, index) => (
+                        <div className=' mix-blend-screen scale-90'>
+                        <VendorCard
+                            key={index}
+                            _id={vendor._id}
+                            businessName={vendor.name}
+                            city={vendor.city}
+                            packagePrice={vendor.packages?.price}
+                            summary={vendor.summary}
+                            image={vendor.portfolio[4]}
+                        
+                        />
+                          </div>
+                    )) : <div>No Vendor found</div>}
+              </div>
+              <div className=" w-[50%] overflow-scroll border-2 border-white">
+                <h3 className="text-xl font-semibold mt-4 mb-2 font-roboto text-center">Venues</h3>
+                
+                    {wishlistVenues.length > 0 ? wishlistVenues.map((venue, index) => (
+                        <div className='mix-blend-screen -ml-24 pr-2 scale-75 h-[20%] w-[135%]'>
+                        <VenueCard
+                            key={index}
+                            venue={{
+                                name: venue.businessName,
+                                location: venue.city,
+                                maxGuests: venue.guestCapacity,
+                                contact: venue.phone,
+                                description: venue.summary,
+                                vegPrice: 20,
+                                nonVegPrice: 30,
+                                images: venue.images,
+                                id: venue._id
+                            }}
+                        /> </div>
+                    )) : <div>No Venue found</div>}
+               
+            </div>
             </div>
         </div>
     );
@@ -188,7 +459,6 @@ const PackageTab = ({ packages }: { packages: { name: string; days: string; pric
 };
 
 const RatingsTab = () => {
-    // Dummy ratings data
     const ratings = [
         { stars: 5, review: "Excellent service!" },
         { stars: 4, review: "Very good experience." },
@@ -197,7 +467,6 @@ const RatingsTab = () => {
         { stars: 1, review: "Poor service." },
     ];
 
-    // Function to render stars based on rating
     const renderStars = (rating: number) => {
         const starArray = [];
         for (let i = 0; i < 5; i++) {
@@ -212,20 +481,19 @@ const RatingsTab = () => {
 
     return (
         <div>
-
             <h2 className="text-2xl font-semibold mb-4 font-roboto text-center">Ratings</h2>
-        <div className='flex flex-row justify-center items-center'>
-            {ratings.map((rating, index) => (
-                <div key={index} className="mb-4 p-4 mx-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                    <div className="flex items-center mb-2">
-                        <div className="mr-2">{renderStars(rating.stars)}</div>
-                        <span className="text-gray-600 font-roboto">{rating.stars} stars</span>
+            <div className='flex flex-row justify-center items-center'>
+                {ratings.map((rating, index) => (
+                    <div key={index} className="mb-4 p-4 mx-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+                        <div className="flex items-center mb-2">
+                            <div className="mr-2">{renderStars(rating.stars)}</div>
+                            <span className="text-gray-600 font-roboto">{rating.stars} stars</span>
+                        </div>
+                        <p className="text-gray-800 font-roboto">{rating.review}</p>
                     </div>
-                    <p className="text-gray-800 font-roboto">{rating.review}</p>
-                </div>
-            ))}
-        </div>
+                ))}
             </div>
+        </div>
     );
 };
 

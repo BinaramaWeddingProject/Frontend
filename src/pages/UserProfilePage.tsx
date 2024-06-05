@@ -4,32 +4,35 @@ import Footer from '../components/Footer';
 import { useGetVenueByIdQuery } from '../redux/api/venue';
 import UserSidebar from '../components/UserSidebar';
 import UserTabView from '../components/UserTabView';
+import { useGetUserQuery } from '../redux/api/user';
 
-const vendorid = '6654342528aa54d4db41612a';
+
+const userId = '665d6d766063ea750000e096'
 
 // Corrected function declaration
 const VenueProfilePage = () => {
-    console.log('hello')
-    const { data: venue, error, isLoading: isFetching } = useGetVenueByIdQuery(vendorid);
+
+  const { data: user, refetch} = useGetUserQuery(userId);
+  console.log("checking the data",user)
     // const { data: venues, error, isLoading } = useAllVenueQuery('');
 
     // console.log("updatevendor", updatevendor)
-    const venueData = venue?.data?.venue;
-    console.log("vendue data", venueData);
+    const userData = user?.data?.user;
+    console.log(userData);
 
 
 
-    return (
+    return ( 
         <>
             <NavBar />
-            <div className='flex '>
+            <div className='flex  h-full bg-blue-900 '>
             <div className=" flex-col-1 justify-start border-2 border-white">
                     <div className="w-80">
                         <UserSidebar
-                            yourName={venueData?.yourName}
-                            phone={venueData?.phone}
-                            email={venueData?.email}
-                            id={vendorid}
+                            yourName={userData?.fullName}
+                            phone={userData?.phone}
+                            email={userData?.email}
+                            id={userId}
                         />
                     </div>
                 </div>
