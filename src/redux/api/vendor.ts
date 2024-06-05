@@ -1,20 +1,29 @@
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {AllVendorsResponse , MessageResponse , VendorResponse} from "../../types/api-types.ts"
-import { Vendor} from "../../types/types.ts"
-import axios from "axios";
+import {
+  AllVendorsResponse,
+  MessageResponse,
+  VendorResponse,
+} from "../../types/api-types.ts";
+import { Vendor } from "../../types/types.ts";
+
 
 export const vendorAPI = createApi({
   reducerPath: "vendorAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api/v1/vendor/',
+    baseUrl: "http://localhost:8000/api/v1/vendor/",
   }),
-  tagTypes: ["vendors"],
+  tagTypes: ["vendors","vendor"],
   endpoints: (builder) => ({
-
-    allVendor: builder.query<AllVendorsResponse , string>({
+    allVendor: builder.query<AllVendorsResponse, string>({
       query: () => "all",
-      providesTags: ["vendors"]
+      providesTags: ["vendors"],
+    }),
+
+    // Define endpoint for fetching a single vendor
+    getVendorById: builder.query<VendorResponse, string>({
+      query: (id: string | undefined) => `${id}`,
+      providesTags: ["vendors"],
+
     }),
 
     signup: builder.mutation<MessageResponse, Vendor>({
@@ -35,22 +44,25 @@ export const vendorAPI = createApi({
       invalidatesTags: ["vendors"],
     }),
 
-  })
+    updateVendor: builder.mutation<MessageResponse, { id: string, vendor: Vendor }>({
+      query: ({ id, vendor }) => ({
+        url: `${id}`, // Assuming your update route is like 'http://localhost:8000/api/v1/vendor/:id'
+        method: "PUT",
+        body: vendor,
+      }),
+      invalidatesTags: ["vendors"],
+    }),
+
+    
+    getVendorByType: builder.query<VendorResponse, string>({
+      query: (typeOfBusiness: string) => ({
+        url: `/category/${typeOfBusiness}`, // Adjust endpoint URL as needed
+      }),
+      providesTags: ["vendor"],
+    }),
+  }),
 });
 
-export const getVendor = async (id: string |undefined) =>{
-    try {
-      console.log("getVendor:" ,id);
-        const {data}:{data:VendorResponse} = await axios.get(
-          `http://localhost:8000/api/v1/vendor/${id}`
-        );
-        return data; 
-    } catch (error) {
-      console.log(error);
-      return error;
-      
-    }
-} 
-
 // Export the hook from the vendorAPI object
-export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,} = vendorAPI;
+export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,  useGetVendorByIdQuery, useUpdateVendorMutation, useGetVendorByTypeQuery} = vendorAPI;
+

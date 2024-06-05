@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaDrumstickBite } from 'react-icons/fa';
+import { Link, To } from 'react-router-dom';
+// import { LocationDescriptor } from 'history'; // Import this to type the `to` prop correctly
 
 interface VenueProps {
   venue: {
     name: string | undefined;
-    location: string| undefined;
+    location: string | undefined;
     maxGuests: string | undefined;
     contact: string | undefined;
     description: string | undefined;
-    vegPrice: number| undefined;
-    nonVegPrice: number| undefined;
-    images: string[];
+    vegPrice: number | undefined;
+    nonVegPrice: number | undefined;
+    images: string[] | undefined;
   };
 }
 
@@ -92,9 +94,16 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
             <span className="font-bold">Non-Veg Price:</span> {venue.nonVegPrice}
           </div>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none text-lg">
-          View Venue
-        </button>
+        <Link
+          to={{
+            pathname: "/VenueServicePage",
+            state: { venue }
+          } as To} // Use To type instead of LocationDescriptor
+        >
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none text-lg">
+            View Venue
+          </button>
+        </Link>
       </div>
     </div>
   );

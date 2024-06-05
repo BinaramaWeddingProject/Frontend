@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 interface DescriptionCardProps {
-    title: string;
-    description: string;
+    title: string | undefined;
+    description: string | undefined;
 }
 
 const DescriptionCard: React.FC<DescriptionCardProps> = ({ title, description }) => {
@@ -16,7 +16,7 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ title, description })
         <div className="border border-gray-200 rounded p-4">
             <h2 className="text-xl font-semibold mb-4">{title}</h2>
             <p className="text-gray-600">
-                {expanded ? description : `${description.slice(0, 150)}...`}
+                {expanded ? description : `${description?.slice(0, 150)}...`}
                 <span
                     className="text-blue-500 cursor-pointer ml-2"
                     onClick={toggleExpansion}

@@ -9,8 +9,76 @@ import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
 import MenuCard from '../components/MenuCard';
 import VenueLocation from '../components/VenueLocation';
+import ScheduleVisit from '../components/ScheduleVisit';
+import VenueImageCarousel from '../components/VenueImageCarousel';
+import VenuePolicies from '../components/VenuePolicies';
+import RelatedArticles from '../components/RelatedArticles';
+import ContactForm from '../components/ContactForm';
+import VenueSummary from '../components/VenueSummary';
+import FAQSection from '../components/FaqSection';
+import { Params, useParams } from 'react-router-dom';
+import { useGetVenueByIdQuery } from '../redux/api/venue';
 
-function VenueServicePage() {
+  const VenueServicePage = () => {
+    const {_id} = useParams<Params>();
+    const id = "6654342528aa54d4db41612f";
+
+    const {data: venue ,error,isLoading} = useGetVenueByIdQuery(id ? id:"");
+    const venueData = venue?.data.venue;
+
+console.log("hello", venue?.data.venue  )
+
+
+    const handleContactFormSubmit = (phoneNumber: string) => {
+        // Add your logic here to submit the phone number to the database
+        console.log('Phone number submitted:', phoneNumber);
+      };
+
+    const venuePolicies = {
+        timings: "11:00 PM",
+        morningSlot: "8:00 AM - 11:00 PM",
+        changingRoom: {
+            count: 2,
+            isAc: true,
+        },
+        advance: {
+            amount: 118000,
+            adjustmentPolicy: "6 months",
+        },
+        taxes: {
+            fnb: "18.00%",
+        },
+        parking: {
+            valet: false,
+            space: 100,
+        },
+        cancellation: "Non cancellable",
+        lodging: "No rooms available",
+        alcohol: {
+            allowed: true,
+            outsideAllowed: true,
+            corkageCost: true,
+        },
+        otherPolicies: [
+            "No Music allowed late",
+            "Halls are air conditioned",
+            "No ample parking",
+            "Baarat allowed",
+            "No fire crackers allowed",
+            "Hawan allowed",
+            "No overnight wedding allowed"
+        ],
+        food: [
+            "Food provided by the venue",
+            "No outside food/caterer allowed at the venue",
+            "Non-Veg allowed at the venue"
+        ],
+        decoration: [
+            "No Outside decorators allowed",
+            "Decor provided by the venue"
+        ]
+    };
+
     const handleContactClick = () => {
         alert('Contact button clicked!');
     };
@@ -21,22 +89,22 @@ function VenueServicePage() {
         return date.getDay() % 2 === 0; // Example: available on even days
     };
 
-    const venue = {
-        name: "Elegant Banquet Hall",
-        address: "1234 Elm Street, Springfield, IL 62704"
+    const handleScheduleVisit = (date: Date, time: string) => {
+        // Replace with actual API call to check availability and schedule visit
+        alert(`Scheduled visit on ${date.toDateString()} at ${time}`);
     };
 
-    const dummyImages = [
-        'https://picsum.photos/id/200/800/400',
-        'https://picsum.photos/800/400',
-        'https://picsum.photos/id/210/800/400',
-        // Add more image URLs here
-    ];
+    // const dummyImages = [
+    //     'https://picsum.photos/id/200/800/400',
+    //     'https://picsum.photos/800/400',
+    //     'https://picsum.photos/id/210/800/400',
+    //     'https://picsum.photos/id/200/800/400',
+    //     'https://picsum.photos/800/400',
+    //     'https://picsum.photos/id/210/800/400',
 
-    const aboutVenue = {
-        about: "Our venue offers a beautiful and spacious area perfect for any type of event. With top-notch amenities and a dedicated staff, we ensure your event is a memorable one.",
-        contactNumber: "+1 (234) 567-890"
-    };
+
+
+    // ];
 
     const vegItems = [
         { name: 'Chaat Counter', quantity: 1 },
@@ -69,23 +137,25 @@ function VenueServicePage() {
         { name: 'Assorted Breads/Rotis', quantity: 2 },
         { name: 'Desserts', quantity: 1 },
     ];
+
     return (
-        <div className="p-4 bg-gray-100">
+        <div className=" bg-gray-100">
             <NavBar />
             <div className="mb-8">
-                <Carousel images={dummyImages} />
+                <Carousel images={venueData?.images} />
             </div>
             <div className="w-full flex flex-col lg:flex-row lg:space-x-4">
                 <div className="w-3/4 space-y-4">
                     <div className="bg-white p-4 rounded-lg shadow-lg">
-                        <SlimVenueCard name={venue.name} address={venue.address} />
+                        <SlimVenueCard name={venueData?.yourName} address={venueData?.address} />
                     </div>
                     <div className="bg-white p-4 rounded-lg shadow-lg">
-                        <VenueAboutCard about={aboutVenue.about} contactNumber={aboutVenue.contactNumber} />
+                        <VenueAboutCard about={venueData?.about} contactNumber={venueData?.phone} />
                     </div>
                     <div className="flex flex-col lg:flex-row lg:space-x-4">
                         <div className="w-full lg:w-1/2">
                             <VenueBooking checkAvailability={checkAvailability} />
+                            <VenueSummary summary={venueData?.summary}/>
                         </div>
                         <div className="w-full lg:w-1/2">
                             <RatingsAndReviews
@@ -118,7 +188,31 @@ function VenueServicePage() {
                     />
                 </div>
             </div>
-                <VenueLocation latitude={12.9716} longitude={77.5946} venueName="My Venue" />
+            <div className='flex w-full justify-end'>
+                <div className='w-2/3 m-12'>
+                    <VenueLocation latitude={12.9716} longitude={77.5946} venueName="My Venue" />
+                </div>
+                <div className='1/3 mt-20'>
+                    <ScheduleVisit onScheduleVisit={handleScheduleVisit} />
+                </div>
+            </div>
+            <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
+                <VenueImageCarousel images={venueData?.images} /> {/* Add the new component here */}
+            </div>
+            <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
+                <VenuePolicies policies={venuePolicies} /> {/* Add the new component here */}
+            </div>
+            <div className='flex flex-col justify-center'>
+                <h2 className="text-2xl font-thin mb-4 tracking-widest flex justify-center m-4">RELATED ARTICLES</h2>
+
+                <RelatedArticles />
+            </div>
+            <div>
+            <ContactForm onSubmit={handleContactFormSubmit} />
+            </div>
+            <div>
+                <FAQSection/>
+            </div>
             <Footer />
         </div>
     );

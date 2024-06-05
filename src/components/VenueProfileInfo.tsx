@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface VendorProfileInfoProps {
+interface VenueProfileInfoProps {
     businessName: string | undefined;
-    typeOfBusiness: string | undefined;
+    address?: string | undefined;
 }
 
-const VendorProfileInfo: React.FC<VendorProfileInfoProps> = ({ businessName, typeOfBusiness }) => {
+const VenueProfileInfo: React.FC<VenueProfileInfoProps> = ({ businessName, address }) => {
     return (
         <div className="bg-gray-200 rounded-lg p-8 mx-auto max-w-full mt-6 mb-2">
             <div className="flex items-center justify-center">
@@ -17,9 +17,9 @@ const VendorProfileInfo: React.FC<VendorProfileInfoProps> = ({ businessName, typ
                         </p>
                     </div>
                     <div className="mb-8 border-b pb-4">
-                        <p className="text-[#110069] text-3xl font-bold text-center mb-4">Type of Business:</p>
+                        <p className="text-[#110069] text-3xl font-bold text-center mb-4">Address:</p>
                         <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                            {typeOfBusiness}
+                            {address}
                         </p>
                     </div>
                 </div>
@@ -28,4 +28,4 @@ const VendorProfileInfo: React.FC<VendorProfileInfoProps> = ({ businessName, typ
     );
 };
 
-export default VendorProfileInfo;
+export default VenueProfileInfo;

@@ -2,8 +2,8 @@ import React from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 
 interface SlimVenueCardProps {
-  name: string;
-  address: string;
+  name?: string;
+  address?: string;
 }
 
 const SlimVenueCard: React.FC<SlimVenueCardProps> = ({ name, address }) => {

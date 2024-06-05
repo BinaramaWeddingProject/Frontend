@@ -2,8 +2,8 @@ import React from 'react';
 import { FaPhoneAlt } from 'react-icons/fa';
 
 interface VenueAboutCardProps {
-  about: string;
-  contactNumber: string;
+  about?: string;
+  contactNumber?: string;
 }
 
 const VenueAboutCard: React.FC<VenueAboutCardProps> = ({ about, contactNumber }) => {

@@ -9,6 +9,7 @@ export type AllVendorsResponse = {
     };
   };
 
+
 export type MessageResponse = {
   success: boolean;
   message: string;
@@ -16,6 +17,7 @@ export type MessageResponse = {
 };
 
 export type VendorResponse = {
+
     success: boolean;
     statusCode: number;
     message:string;

@@ -1,3 +1,6 @@
+
+import AdminDashboard from "./pages/admin/adminDashboard";
+
 import { BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import { Suspense } from 'react'
 import Loader from './components/Loader'
@@ -22,42 +25,68 @@ import Login from './auth/Login'
 import Signup from './auth/SignUp'
 import Business from './auth/business'
 import VenueServicePage from './pages/VenueServicePage'
+import VendorCategory from './pages/VendorCategory'
+import AboutUs from './pages/AboutUs'
+import VenueProfilePage from './pages/VenueProfilePage'
+import UserProfilePage from './pages/UserProfilePage'
+import VendorsListByCategory from './pages/VendorListByCategory'
+
+
+
+
 
 
 const App = () => {
   return (
     <ChakraProvider>
+      <Router>
+        {/* {Header} */}
+        <Suspense fallback={<Loader />}>
+          <Routes>
 
-    <Router>
-      {/* {Header} */}
-      <Suspense fallback={<Loader />}>
-      <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/userprofile' element={<UserProfile />}/>
         <Route path='/userregister' element={<UserRegister />}/>
         <Route path='/vendorProfilePage' element={<VendorProfilePage />}/>
-        <Route path='/vendorServicePage' element={<VendorServicePage />}/>
-        <Route path='/vendors' element={<Vendor />}/>
-        <Route path='/vendors/:_id' element={<VendorServicePage  />}/>
-        <Route path='venueServicePage' element={<VenueServicePage  />}/>
+        <Route path='/venueProfilePage' element={<VenueProfilePage />}/>
+        <Route path='/userProfilePage' element={<UserProfilePage/>}/>
+        <Route path='vendorCategory' element={<VendorCategory  />}/>
+        <Route path='aboutus1' element={<AboutUs />}/>
+        {/* <Route path='aboutus2' element={<AboutUs2 />}/> */}
 
         {/* <Route path='/forget' element={<ForgetPasswordPage />}/> */}
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/Signup' element={<Signup/>}/>
+       
         {/* <Route path='/passverification' element={<PassVerification/>}/> */}
         {/* <Route path='/newpassword' element={<NewPassword/>}/> */}
         {/* <Route path='/verification' element={<Verification/>}/> */}
         <Route path='/business' element={<Business/>}/>
-       <Route path='/vendorslist' element={<VendorsList/>}/>
+      
        <Route path='/venuelist' element={<VenueList/>}/>
+       <Route path='/vendors/category/:category' element={<VendorsListByCategory />} />
 
-      </Routes>
-      </Suspense>
-    
-    </Router>
 
+            <Route path="/vendors" element={<Vendor />} />
+            <Route path="/vendor/:type/:_id" element={<VendorServicePage />} />
+            <Route path="/venueServicePage" element={<VenueServicePage />} />
+
+            {/* <Route path='/forget' element={<ForgetPasswordPage />}/> */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/Signup" element={<Signup />} />
+            {/* <Route path='/passverification' element={<PassVerification/>}/> */}
+            {/* <Route path='/newpassword' element={<NewPassword/>}/> */}
+            {/* <Route path='/verification' element={<Verification/>}/> */}
+            <Route path="/business" element={<Business />} />
+            <Route path="/vendor/:type" element={<VendorsList />} />
+
+
+            <Route path="/adminDashboard" element={<AdminDashboard/>}/>
+           
+
+          </Routes>
+        </Suspense>
+      </Router>
     </ChakraProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

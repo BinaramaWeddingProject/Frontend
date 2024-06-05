@@ -58,7 +58,7 @@ const dummyArticles = [
 
 const RelatedArticles = () => {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center m-4">
             {dummyArticles.map((article, index) => (
                 <ArticleCard key={index} article={article} />
             ))}
