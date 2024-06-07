@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaDrumstickBite } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaDrumstickBite, FaHeart } from 'react-icons/fa';
 import { Link, To } from 'react-router-dom';
+import { useGetWishlistQuery } from '../redux/api/wishlist';
 // import { LocationDescriptor } from 'history'; // Import this to type the `to` prop correctly
+
+const userId = "665d6d766063ea750000e096"
 
 interface VenueProps {
   venue: {
@@ -13,12 +16,29 @@ interface VenueProps {
     vegPrice: number | undefined;
     nonVegPrice: number | undefined;
     images: string[] | undefined;
+    id: string | undefined;
   };
 }
 
 const VenueCard: React.FC<VenueProps> = ({ venue }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const { data: wishlistData, refetch } = useGetWishlistQuery(userId);
+
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  console.log("some textttt", venue.id);
+  const itemId = venue.id
+
+  console.log("message to seeeeee", venue);
+
+
+  useEffect(() => {
+    if (wishlistData) {
+      const isWishlisted = wishlistData?.wishlist?.items.some(item => item.itemId === itemId);
+      setIsInWishlist(isWishlisted);
+    }
+  }, [wishlistData, itemId]);
 
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
@@ -60,6 +80,12 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
         </div>
       </div>
       <div className="md:w-1/2 p-4 text-center">
+        <div
+          className={`text-end items-end ${isInWishlist ? "text-red-500 transform scale-125" : "text-white transform scale-125 "
+            }`}
+        >
+          <FaHeart size={25} />
+        </div>
         <h2 className="text-3xl font-bold mb-2">{venue.name}</h2>
         <p className="text-xl text-gray-600 mb-2">{venue.location}</p>
         <div className="mb-4 flex justify-center">
@@ -96,7 +122,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
         </div>
         <Link
           to={{
-            pathname: "/VenueServicePage",
+            pathname: `/venuelist/${venue?.id}`,
             state: { venue }
           } as To} // Use To type instead of LocationDescriptor
         >
