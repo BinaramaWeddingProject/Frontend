@@ -23,8 +23,18 @@ export const blogAPI = createApi({
         method: 'POST',
         body: blogFormData,
       }),
+
+      
+    }),
+
+    updateBlog: builder.mutation<BlogResponse, { id: string, blogFormData: FormData }>({
+      query: ({ id, blogFormData }) => ({
+        url: `/${id}`,
+        method: 'PATCH',
+        body: blogFormData,
+      }),
     }),
   }),
 });
 
-export const { useGetBlogByIdQuery, useGetAllBlogsQuery, useAddBlogMutation } = blogAPI;
+export const { useGetBlogByIdQuery, useGetAllBlogsQuery, useAddBlogMutation, useUpdateBlogMutation } = blogAPI;
