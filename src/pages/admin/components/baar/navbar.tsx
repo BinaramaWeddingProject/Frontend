@@ -1,12 +1,6 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaUser, FaBell } from "react-icons/fa";
-
-
-
 
 const NavBar = () => {
-  
   return (
     <nav className="bg-[#110069] py-4 relative z-10">
       <div className="container mx-auto">
@@ -22,16 +16,16 @@ const NavBar = () => {
 
           <li className="relative mx-4">
             <Link
-              to={`/adminDashboard/${'Admin Management'}`}
+              to={`/adminDashboard/${"Admin Management"}`}
               className="text-white cursor-pointer hover:text-gray-200"
             >
               Admin Management
             </Link>
           </li>
-          
+
           <li className="relative mx-4">
             <Link
-              to={`/adminDashboard/${'Vendor Management'}`}
+              to={`/adminDashboard/${"Vendor Management"}`}
               className="text-white cursor-pointer hover:text-gray-200"
             >
               Vendor Management
@@ -40,7 +34,7 @@ const NavBar = () => {
 
           <li className="relative mx-4">
             <Link
-              to={`/adminDashboard/${'Venue Management'}`}
+              to={`/adminDashboard/${"Venue Management"}`}
               className="text-white cursor-pointer hover:text-gray-200"
             >
               Venue Management
@@ -49,13 +43,12 @@ const NavBar = () => {
 
           <li className="relative mx-4">
             <Link
-              to={`/adminDashboard/${'User Management'}`}
+              to={`/adminDashboard/${"User Management"}`}
               className="text-white cursor-pointer hover:text-gray-200"
             >
               User Management
             </Link>
           </li>
-
         </ul>
       </div>
     </nav>
