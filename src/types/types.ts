@@ -19,6 +19,7 @@ export type Vendor = Partial<{
   experience: string;
   event_completed: number;
   willingToTravel: boolean;
+  isVerified: 'Approved' | 'Rejected' | 'Pending';
   usp: string;
   summary: string;
   bookingPolicy: string;
@@ -48,6 +49,7 @@ export interface Venue {
   venueExpertNotes?: string;
   featuresOfVenue?: string;
   venuePolicies?: string;
+  isVerified?: 'Approved' | 'Rejected' | 'Pending';
   summary?: string;
   review?: string; // Assuming review and foodPackages are stored as string IDs
   foodPackages?: string;
@@ -69,3 +71,24 @@ export interface User{
   city?: string;
 }
 
+
+export interface Admin{
+ profile:{
+    name?: string;
+    email?: string;
+    password?: string;
+    contact?: string;
+    address?: string;
+    city?: string;
+ }
+}
+
+export interface BodyAdmin{
+ 
+  name?: string;
+  email?: string;
+  password?: string;
+  contact?: string;
+  address?: string;
+  city?: string;
+}

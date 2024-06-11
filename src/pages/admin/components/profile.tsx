@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useGetAdminQuery, useUpdateAdminMutation } from "../../../redux/api/admin";
 
 // Define interface for props
 interface ProfileProps {
@@ -6,32 +7,81 @@ interface ProfileProps {
   name?: string;
   email?: string;
   contact?: string;
+  address?: string;
+  city?: string;
 }
+
+const id="665ee38ffd074e3e7c25f70b";
 
 // Use interface in component props
 const Profile: FC<ProfileProps> = ({
   avatar = "default-avatar.jpg",
-  name = "John Doe",
-  email = "john.doe@example.com",
-  contact = "123-456-7890",
+  name,
+  email,
+  contact,
+  address,
+  city
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedAvatar, setEditedAvatar] = useState(avatar);
-  const [editedName, setEditedName] = useState(name);
-  const [editedContact, setEditedContact] = useState(contact);
+  const [editedName, setEditedName] = useState(name || undefined);
+  
+  const [editedContact, setEditedContact] = useState(contact || undefined);
+  const [editedCity, setEditedCity] = useState(city || undefined);
+  const [editedAddress, setEditedAddress] = useState(address || undefined);
   const [editedPassword, setEditedPassword] = useState("");
+  const { data: admin, refetch } = useGetAdminQuery(id);
+  // const { data :updateAdmin } = useUpdateAdminMutation();
+  const [updateAdmin] = useUpdateAdminMutation();
+
+  
+
+
+  avatar = "default-avatar.jpg"
+  name = admin?.profile.name
+  email = admin?.profile.email
+  contact = admin?.profile.contact
+  address = admin?.profile.address
+  city = admin?.profile.city
+
+  console.log("sjdf",admin);
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async() => {
     // Perform save action, for now just log the edited values
     console.log("Edited Avatar:", editedAvatar);
     console.log("Edited Name:", editedName);
     console.log("Edited Contact:", editedContact);
     console.log("Edited Password:", editedPassword);
+    console.log("Edited Address:", editedAddress);
+    console.log("Edited City", editedCity);
 
+
+    const updatedData = {
+      id: id,
+       admin: {
+        name:editedName,
+        contact: editedContact,
+        address: editedAddress,
+        city: editedCity,
+        // You may want to include other fields here if needed
+      },
+    };
+    console.log(updatedData)
+
+    try {
+      console.log("Before API call");
+    const reponse =  await updateAdmin(updatedData).unwrap();
+      refetch();
+      console.log("updatedAdmin",reponse)
+
+    } catch (error) {
+      console.error("Failed to update user: ", error);
+  }
+  
     // Reset edit mode
     setIsEditing(false);
   };
@@ -42,6 +92,8 @@ const Profile: FC<ProfileProps> = ({
     setEditedName(name);
     setEditedContact(contact);
     setEditedPassword("");
+    setEditedAddress(address);
+    setEditedCity(city);
 
     // Reset edit mode
     setIsEditing(false);
@@ -113,6 +165,40 @@ const Profile: FC<ProfileProps> = ({
                 className="w-1/3 mb-2 rounded-md p-2 text-center border-2 border-slate-300"
               />
             </div>
+
+            <div className="flex flex-col items-center">
+              <label
+                htmlFor="cityInput"
+                className="mb-2 font-semibold text-lg"
+              >
+                City:
+              </label>
+              <input
+                id="cityInput"
+                type="city"
+                value={editedCity}
+                onChange={(e) => setEditedCity(e.target.value)}
+                placeholder="City"
+                className="w-1/3 mb-2 rounded-md p-2 text-center border-2 border-slate-300"
+              />
+            </div>
+
+            <div className="flex flex-col items-center">
+              <label
+                htmlFor="addressInput"
+                className="mb-2 font-semibold text-lg"
+              >
+                Address:
+              </label>
+              <input
+                id="addressInput"
+                type="address"
+                value={editedAddress}
+                onChange={(e) => setEditedAddress(e.target.value)}
+                placeholder="Address"
+                className="w-1/3 mb-2 rounded-md p-2 text-center border-2 border-slate-300"
+              />
+            </div>
           </div>
         ) : (
           <div className="flex justify-center m-4 border-2">
@@ -128,6 +214,8 @@ const Profile: FC<ProfileProps> = ({
               </h3>
               <p className=" text-center m-2">Email: {email}</p>
               <p className=" text-center m-2">Contact: {contact}</p>
+              <p className=" text-center m-2">City: {city}</p>
+              <p className=" text-center m-2">Address: {address}</p>
             </div>
           </div>
         )}

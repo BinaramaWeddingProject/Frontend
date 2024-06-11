@@ -60,9 +60,17 @@ export const vendorAPI = createApi({
       }),
       providesTags: ["vendor"],
     }),
+
+    deleteVendorById: builder.mutation<VendorResponse, string>({
+      query: (id: string | undefined) => ({
+        url:`${id}`,
+        method: 'DELETE'
+      })
+    }),
+
   }),
 });
 
 // Export the hook from the vendorAPI object
-export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,  useGetVendorByIdQuery, useUpdateVendorMutation, useGetVendorByTypeQuery} = vendorAPI;
+export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,  useGetVendorByIdQuery, useUpdateVendorMutation, useGetVendorByTypeQuery, useDeleteVendorByIdMutation} = vendorAPI;
 
