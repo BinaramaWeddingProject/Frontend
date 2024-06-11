@@ -92,3 +92,12 @@ export interface BodyAdmin{
   address?: string;
   city?: string;
 }
+export interface Blog{
+  _id:string
+  title?: string;
+  images?: string[];
+  content?: string;
+  author?: string;
+  category?: string;
+}
+
