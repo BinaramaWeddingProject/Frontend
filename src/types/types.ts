@@ -101,3 +101,11 @@ export interface Blog{
   category?: string;
 }
 
+export interface Notification{
+  _id:string;
+  name?: string;
+  email?: string;
+  contact?: string;
+  address?: string;
+  city?: string;
+ }

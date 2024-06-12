@@ -7,6 +7,7 @@ import { wishlistAPI } from "./api/wishlist.ts";
 import {userAPI } from "./api/user.ts";
 import { adminAPI } from "./api/admin.ts";
 import { blogAPI } from "./api/blog.ts";
+import { notificationApi } from "./api/notification.ts";
 
 export const store = configureStore({
   reducer: {
@@ -16,9 +17,10 @@ export const store = configureStore({
     [userAPI.reducerPath]: userAPI.reducer,
     [adminAPI.reducerPath]: adminAPI.reducer,
     [blogAPI.reducerPath]:blogAPI.reducer,
+    [notificationApi.reducerPath]:notificationApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(vendorAPI.middleware , VenueAPI.middleware, wishlistAPI.middleware, userAPI.middleware, adminAPI.middleware, blogAPI.middleware),
+    getDefaultMiddleware().concat(vendorAPI.middleware , VenueAPI.middleware, wishlistAPI.middleware, userAPI.middleware, adminAPI.middleware, blogAPI.middleware, notificationApi.middleware),
   });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaBell } from "react-icons/fa";
+import { useGetAllNotificationQuery } from "../redux/api/notification";
 
 const NavBar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
+  const [clickedNotification, setClickedNotification] = useState<string | null>(null);
+
+  const { data: notifications } = useGetAllNotificationQuery();
+  const notification= notifications?.notifications;
+
+  console.log("notidfications", notification);
 
   const toggleDropdown = (link: string) => {
     setDropdownOpen((prevLink) => (prevLink === link ? null : link));
@@ -16,6 +23,13 @@ const NavBar: React.FC = () => {
 
   const closeNotification = () => {
     setNotificationOpen(false);
+  };
+
+  const handleNotificationClick = (id: string) => {
+    // Toggle clicked state of notification
+    setClickedNotification((prevClickedNotification) =>
+      prevClickedNotification === id ? null : id
+    );
   };
 
   return (
@@ -33,8 +47,8 @@ const NavBar: React.FC = () => {
           {/* Venues Dropdown */}
           <li
             className="relative mx-4"
-            onMouseEnter={() => toggleDropdown("venues")}
-            onMouseLeave={() => setDropdownOpen(null)}
+            // onMouseEnter={() => toggleDropdown("venues")}
+            // onMouseLeave={() => setDropdownOpen(null)}
           >
             <Link
               to="/venuelist"
@@ -42,7 +56,7 @@ const NavBar: React.FC = () => {
             >
               Venues
             </Link>
-            {dropdownOpen === "venues" && (
+            {/* {dropdownOpen === "venues" && (
               <ul
                 className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md"
                 onMouseEnter={() => setDropdownOpen("venues")}
@@ -59,13 +73,13 @@ const NavBar: React.FC = () => {
                   </Link>
                 </li>
               </ul>
-            )}
+            )} */}
           </li>
           {/* Vendors Dropdown */}
           <li
             className="relative mx-4"
-            onMouseEnter={() => toggleDropdown("vendors")}
-            onMouseLeave={() => setDropdownOpen(null)}
+            // onMouseEnter={() => toggleDropdown("vendors")}
+            // onMouseLeave={() => setDropdownOpen(null)}
           >
             <Link
               to={`/vendor/AllVendors`}
@@ -73,7 +87,7 @@ const NavBar: React.FC = () => {
             >
               Vendors
             </Link>
-            {dropdownOpen === "vendors" && (
+            {/* {dropdownOpen === "vendors" && (
               <ul
                 className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md"
                 onMouseEnter={() => setDropdownOpen("vendors")}
@@ -89,14 +103,14 @@ const NavBar: React.FC = () => {
                     Option 2
                   </Link>
                 </li>
-              </ul>
-            )}
+              </ul> */}
+            {/* )} */}
           </li>
           {/* About Us Dropdown */}
           <li
             className="relative mx-4"
-            onMouseEnter={() => toggleDropdown("AboutUs")}
-            onMouseLeave={() => setDropdownOpen(null)}
+            // onMouseEnter={() => toggleDropdown("AboutUs")}
+            // onMouseLeave={() => setDropdownOpen(null)}
           >
             <Link
               to="/about"
@@ -104,7 +118,7 @@ const NavBar: React.FC = () => {
             >
               About Us
             </Link>
-            {dropdownOpen === "AboutUs" && (
+            {/* {dropdownOpen === "AboutUs" && (
               <ul
                 className="absolute top-full left-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md"
                 onMouseEnter={() => setDropdownOpen("AboutUs")}
@@ -121,7 +135,7 @@ const NavBar: React.FC = () => {
                   </Link>
                 </li>
               </ul>
-            )}
+            )} */}
           </li>
           {/* Login */}
           <li className="ml-auto relative mx-4">
@@ -131,7 +145,7 @@ const NavBar: React.FC = () => {
           </li>
 
           {/* Notification */}
-          <li className="nl-auto relative mx-4">
+          <li className="ml-auto relative mx-4">
             <button
               className="text-white hover:text-gray-200"
               onClick={toggleNotification}
@@ -140,20 +154,22 @@ const NavBar: React.FC = () => {
             </button>
             {notificationOpen && (
               <ul
-                className="absolute top-full right-0 bg-[#110069] text-white p-2 z-20 rounded-md shadow-md"
+                className="absolute right-0 bg-blue-200 text-white p-2 m-2 w-48 rounded-md shadow-md"
                 onClick={closeNotification}
               >
-                {/* Notification Items */}
-                <li>
-                  <Link to="/notifications" className="hover:text-gray-200">
-                    Notification 1
+                {/* Render notifications dynamically */}
+                {notification?.map((notification: any) => (
+                  <li key={notification.id}>
+                  <Link
+                    to={`/notifications/${notification._id}`}
+                    className={`hover:text-gray-200 m-4 border-b border-white ${clickedNotification === notification._id ? 'bg-gray-400' : ''}`}
+                    onClick={() => handleNotificationClick(notification._id)}
+                  >
+                    New User Available
                   </Link>
                 </li>
-                <li>
-                  <Link to="/notifications" className="hover:text-gray-200">
-                    Notification 2
-                  </Link>
-                </li>
+                ))}
+                {!notification?.length && <li>No notifications</li>}
               </ul>
             )}
           </li>

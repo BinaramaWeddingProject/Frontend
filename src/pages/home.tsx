@@ -1,9 +1,7 @@
-import React from "react";
 import NavBar from "../components/navbar";
 import LocationSelector from "../components/Locationselector";
 import LocationCardHolder from "../components/LocationCardHolder";
 import { dummyLocations } from "./dummyLocations";
-import Carousel from "../components/Carousel";
 import InformationBanner from "../components/InformationBanner";
 import Footer from "../components/Footer";
 import Caro from "../components/Carousel3";
@@ -11,11 +9,6 @@ import Caro from "../components/Carousel3";
 function Home() {
   const imageUrl = "/60828931ff7a8ce3e24b6c19052a21ee.jpg";
 
-  const dummyImages = [
-    "https://picsum.photos/200",
-    "https://picsum.photos/200",
-    "https://picsum.photos/200",
-  ];
 
   return (
     <div>
