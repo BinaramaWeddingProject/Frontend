@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaBell } from "react-icons/fa";
-import { useGetAllNotificationQuery } from "../redux/api/notification";
+// import { useGetAllNotificationQuery } from "../redux/api/notification";
 
 const NavBar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
   const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
   const [clickedNotification, setClickedNotification] = useState<string | null>(null);
 
-  const { data: notifications } = useGetAllNotificationQuery();
-  const notification= notifications?.notifications;
+  // const { data: notifications } = useGetAllNotificationQuery();
+  // const notification= notifications?.notifications;
 
-  console.log("notidfications", notification);
+  // console.log("notidfications", notification);
 
   const toggleDropdown = (link: string) => {
     setDropdownOpen((prevLink) => (prevLink === link ? null : link));
@@ -158,18 +158,18 @@ const NavBar: React.FC = () => {
                 onClick={closeNotification}
               >
                 {/* Render notifications dynamically */}
-                {notification?.map((notification: any) => (
-                  <li key={notification.id}>
-                  <Link
+                {/* {notification?.map((notification: any) => (
+                  <li key={notification.id}> */}
+                  {/* <Link
                     to={`/notifications/${notification._id}`}
                     className={`hover:text-gray-200 m-4 border-b border-white ${clickedNotification === notification._id ? 'bg-gray-400' : ''}`}
                     onClick={() => handleNotificationClick(notification._id)}
                   >
                     New User Available
-                  </Link>
-                </li>
-                ))}
-                {!notification?.length && <li>No notifications</li>}
+                  </Link> */}
+                {/* </li> */}
+                {/* ))} */}
+                {/* {!notification?.length && <li>No notifications</li>} */}
               </ul>
             )}
           </li>
