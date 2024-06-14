@@ -78,6 +78,8 @@ export type AdminResponse = {
 }
 
 export type NotificationtResponse = {
+  users:string[];
+  status:string[];
   success: boolean;
   statusCode: number;
   message:string;

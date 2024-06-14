@@ -33,7 +33,7 @@ export const notificationApi = createApi({
       query: ({ nId, vId }) => ({
         url: 'update',
         method: "PATCH",
-        body: { nId, vId },
+        body: { vId, nId },
       }),
     }),
 
@@ -42,9 +42,16 @@ export const notificationApi = createApi({
       url: `notif/${nId}`,
       method:'GET',
       params: {vId}
-    })
-  })
+    }),
   }),
+
+  getAllNotificationByVId: builder.query<NotificationtResponse,{vId:string}>({
+    query: ({vId}) => ({
+      url: `notification/${vId}`,
+      method:'GET',
+  }),
+  }),
+})
 });
 
-export const {useAddNotificationMutation, useGetNotificationByIdQuery, useUpdateNotificationMutation, useGetNotificationIdStatusQuery} = notificationApi
+export const {useAddNotificationMutation, useGetNotificationByIdQuery, useUpdateNotificationMutation, useGetNotificationIdStatusQuery, useGetAllNotificationByVIdQuery} = notificationApi
