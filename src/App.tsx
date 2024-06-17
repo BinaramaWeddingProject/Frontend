@@ -39,6 +39,7 @@ import BlogList from "./pages/BlogList";
 import NewBlog from "./pages/NewBlog";
 import Loader from "./components/Loader";
 import BlogPost from "./pages/BlogPost";
+import UserNotification from "./pages/notification/notification";
 
 const App: React.FC = () => {
   return (
@@ -92,6 +93,7 @@ const App: React.FC = () => {
             <Route path="/blogs" element={<BlogList />} />
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/blog/new" element={<NewBlog />} />
+            <Route path="/notification" element={<UserNotification/>}/>
           </Routes>
         </Suspense>
       </Router>

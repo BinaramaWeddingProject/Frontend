@@ -19,31 +19,39 @@ export const notificationApi = createApi({
       }),
     }),
 
-    getNotification: builder.query<NotificationtResponse, { userId: string }>({
-      query: ({ userId }) => ({
-        url: `${userId}`,
+    getNotificationById: builder.query<NotificationtResponse, { vId: string }>({
+      query: ({ vId }) => ({
+        url: `${vId}`,
         method: "GET",
       }),
     }),
 
     updateNotification: builder.mutation<
       void,
-      { Id: string, status: string }
+      { nId: string, vId: string }
     >({
-      query: ({ Id, status }) => ({
-        url: `${Id}`,
+      query: ({ nId, vId }) => ({
+        url: 'update',
         method: "PATCH",
-        body: { status },
+        body: { vId, nId },
       }),
     }),
 
-    getAllNotification: builder.query<NotificationtResponse, void>({
-      query: () => ({
-      url: '/all/notif',
-      method:'GET'
-    })
-  })
+    getNotificationIdStatus: builder.query<NotificationtResponse, {nId: string, vId: string}>({
+      query: ({nId, vId}) => ({
+      url: `notif/${nId}`,
+      method:'GET',
+      params: {vId}
+    }),
   }),
+
+  getAllNotificationByVId: builder.query<NotificationtResponse,{vId:string}>({
+    query: ({vId}) => ({
+      url: `notification/${vId}`,
+      method:'GET',
+  }),
+  }),
+})
 });
 
-export const {useAddNotificationMutation, useGetNotificationQuery, useUpdateNotificationMutation, useGetAllNotificationQuery} = notificationApi
+export const {useAddNotificationMutation, useGetNotificationByIdQuery, useUpdateNotificationMutation, useGetNotificationIdStatusQuery, useGetAllNotificationByVIdQuery} = notificationApi
