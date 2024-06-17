@@ -1,33 +1,34 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
-      <div className="container mx-auto flex flex-col lg:flex-row justify-center lg:justify-evenly items-center">
+    <footer className="bg-gray-900 text-white py-10">
+      <div className="container mx-auto px-8 lg:px-20 flex flex-col lg:flex-row justify-between items-center space-y-8 lg:space-y-0">
         <div className="text-center lg:text-left">
-          <h2 className="text-lg font-bold">Stay Connected</h2>
-          <div className="flex justify-center md:justify-start items-start space-x-4 mt-4">
+          <h2 className="text-2xl font-bold mb-4">Stay Connected</h2>
+          <div className="flex justify-center lg:justify-start items-center space-x-6">
             <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-              <FaFacebook className="text-3xl hover:text-blue-500" />
+              <FaFacebook className="text-3xl hover:text-blue-500 transition duration-300 ease-in-out" />
             </a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <FaTwitter className="text-3xl hover:text-blue-500" />
+              <FaTwitter className="text-3xl hover:text-blue-500 transition duration-300 ease-in-out" />
             </a>
-            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-              <FaInstagram className="text-3xl hover:text-blue-500" />
-            </a>
-            <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-              <FaLinkedin className="text-3xl hover:text-blue-500" />
+            <a href="https://www.instagram.com/weddingzvenue.in_?igsh=cG90dXR2Nml2NHMy&utm_source=qr" target="_blank" rel="noopener noreferrer">
+              <FaInstagram className="text-3xl hover:text-blue-500 transition duration-300 ease-in-out" />
             </a>
           </div>
         </div>
-        <div className="text-center lg:text-left mt-8 lg:mt-0">
-          <h2 className="text-lg font-bold">Contact Us</h2>
-          <p className="mt-4">123 Street, City, Country</p>
-          <p>Phone: +1234567890</p>
-          <p>Email: info@example.com</p>
+        <div className="text-center lg:text-left">
+          <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
+          <p className="mb-2">Shakti Khand 2, Indirapuram</p>
+          <p className="mb-2">Ghaziabad, 201014</p>
+          <p className="mb-2">Phone: <a href="tel:+918076207112" className="hover:underline">+91 8076207112</a></p>
+          <p>Email: <a href="mailto:Weddingzvenue.in@gmail.com" className="hover:underline">Weddingzvenue.in@gmail.com</a></p>
         </div>
+      </div>
+      <div className="mt-8 border-t border-gray-700 pt-6 text-center">
+        <p>&copy; {new Date().getFullYear()} Weddingz Venue. All rights reserved.</p>
       </div>
     </footer>
   );

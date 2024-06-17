@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaDrumstickBite, FaHeart } from 'react-icons/fa';
 import { Link, To } from 'react-router-dom';
 import { useGetWishlistQuery } from '../redux/api/wishlist';
-// import { LocationDescriptor } from 'history'; // Import this to type the `to` prop correctly
 
-const userId = "665d6d766063ea750000e096"
+const userId = "665d6d766063ea750000e096";
 
 interface VenueProps {
   venue: {
@@ -24,14 +23,10 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const { data: wishlistData, refetch } = useGetWishlistQuery(userId);
+  const { data: wishlistData } = useGetWishlistQuery(userId);
 
   const [isInWishlist, setIsInWishlist] = useState(false);
-  console.log("some textttt", venue.id);
-  const itemId = venue.id
-
-  console.log("message to seeeeee", venue);
-
+  const itemId = venue.id;
 
   useEffect(() => {
     if (wishlistData) {
@@ -58,11 +53,11 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
 
   return (
     <div className="flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 border-2 border-gray-300">
-      <div className="relative md:w-1/2 max-h-80">
+      <div className="relative md:w-1/2 h-56 md:h-80">
         <img
           src={venue?.images[currentImageIndex]}
           alt={`Venue ${currentImageIndex}`}
-          className="w-full h-80 md:h-auto object-cover"
+          className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 flex justify-between items-center px-4">
           <button
@@ -81,22 +76,21 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
       </div>
       <div className="md:w-1/2 p-4 text-center">
         <div
-          className={`text-end items-end ${isInWishlist ? "text-red-500 transform scale-125" : "text-white transform scale-125 "
-            }`}
+          className={`flex justify-center text-end items-end ${isInWishlist ? "text-red-500 transform scale-125" : "text-white transform scale-125 "}`}
         >
           <FaHeart size={25} />
         </div>
-        <h2 className="text-3xl font-bold mb-2">{venue.name}</h2>
-        <p className="text-xl text-gray-600 mb-2">{venue.location}</p>
+        <h2 className="text-xl md:text-3xl font-bold mb-2">{venue.name}</h2>
+        <p className="text-lg md:text-xl text-gray-600 mb-2">{venue.location}</p>
         <div className="mb-4 flex justify-center">
-          <p className="text-lg text-gray-600 mr-4">
+          <p className="text-sm md:text-lg text-gray-600 mr-4">
             <span className="font-bold">Max Guests:</span> {venue.maxGuests}
           </p>
-          <p className="text-lg text-gray-600">
+          <p className="text-sm md:text-lg text-gray-600">
             <span className="font-bold">Contact:</span> {venue.contact}
           </p>
         </div>
-        <div className="mb-4 text-lg text-gray-700">
+        <div className="mb-4 text-sm md:text-lg text-gray-700">
           {showFullDescription
             ? venue.description
             : `${venue?.description?.slice(0, 100)}...`}
@@ -111,11 +105,11 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
           )}
         </div>
         <div className="mb-4 flex justify-center">
-          <div className="mr-8 text-lg text-gray-600 flex items-center">
+          <div className="mr-8 text-sm md:text-lg text-gray-600 flex items-center">
             <FaCarrot size={20} className="mr-2" />
             <span className="font-bold">Veg Price:</span> {venue.vegPrice}
           </div>
-          <div className="text-lg text-gray-600 flex items-center">
+          <div className="text-sm md:text-lg text-gray-600 flex items-center">
             <FaDrumstickBite size={20} className="mr-2" />
             <span className="font-bold">Non-Veg Price:</span> {venue.nonVegPrice}
           </div>
@@ -124,9 +118,9 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
           to={{
             pathname: `/venuelist/${venue?.id}`,
             state: { venue }
-          } as To} // Use To type instead of LocationDescriptor
+          } as To}
         >
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none text-lg">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none text-sm md:text-lg">
             View Venue
           </button>
         </Link>
