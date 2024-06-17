@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
-  FaCheckSquare,
   FaEye,
-  FaRegSquare,
   FaTimes,
-  FaTrash,
+ 
 } from "react-icons/fa";
 
 interface Admin {
@@ -73,15 +71,15 @@ const BookingManagement: React.FC = () => {
   const [areAllCheckboxesSelected, setAreAllCheckboxesSelected] =
     useState(false);
 
-  const toggleCheckbox = (index: number) => {
-    const newCheckboxStates = [...checkboxStates];
-    newCheckboxStates[index] = !newCheckboxStates[index];
-    setCheckboxStates(newCheckboxStates);
-  };
+  // const toggleCheckbox = (index: number) => {
+  //   const newCheckboxStates = [...checkboxStates];
+  //   newCheckboxStates[index] = !newCheckboxStates[index];
+  //   setCheckboxStates(newCheckboxStates);
+  // };
 
   const handleDelete = (index: number) => {
     // Remove the admin at the specified index
-    const updatedAdmins = admins.filter((_, i) => i !== index);
+   // const updatedAdmins = admins.filter((_, i) => i !== index);
     // Update the state to reflect the new list of admins
     console.log("admin deleted", index);
     // setAdmins(updatedAdmins);
@@ -115,6 +113,7 @@ const BookingManagement: React.FC = () => {
 
   function viewUser(index: number): void {
     throw new Error("Function not implemented.");
+    console.log(index)
   }
 
   return (

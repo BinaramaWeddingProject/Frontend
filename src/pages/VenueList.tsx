@@ -1,13 +1,10 @@
-import React, { useState  , useEffect} from 'react';
+import { useState  , useEffect} from 'react';
 import VenueCard from '../components/VenueCard';
 import NavBar from '../components/navbar';
 import RelatedArticles from '../components/RelatedArticles';
 import Footer from '../components/Footer';
 import { Venue } from '../types/types';
 import { useAllVenueQuery } from '../redux/api/venue';
-import TopFilter from '../components/TopFilter';
-import FilterBar from '../components/FilterBar';
-import { mockVenues } from '../data';
 
 
 

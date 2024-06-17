@@ -45,6 +45,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
     }
   }, [data]);
   console.log("hello", searchQuery)
+  console.log(filteredVendors)
 
   useEffect(() => {
     if (searchQuery.trim() === "") {
@@ -118,7 +119,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
                   city={vendor?.city}
                   packagePrice={vendor?.packages?.price}
                   summary={vendor?.summary}
-                  image={vendor?.portfolio[4]}
+                  image={vendor?.portfolio ? vendor.portfolio[4] : ""}
                  
                 />
               ))

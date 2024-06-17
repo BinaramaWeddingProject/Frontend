@@ -6,11 +6,12 @@ import {
 } from "../../types/api-types.ts";
 import { Vendor } from "../../types/types.ts";
 
+const server = import.meta.env.VITE_API_Server;
 
 export const vendorAPI = createApi({
   reducerPath: "vendorAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api/v1/vendor/",
+    baseUrl: `${server}/api/v1/vendor/`,
   }),
   tagTypes: ["vendors","vendor"],
   endpoints: (builder) => ({

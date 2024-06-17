@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Carousel from '../components/Carousel';
 import VenuePriceCard from '../components/VenuePriceCard';
 import SlimVenueCard from '../components/SlimVenueCard';
@@ -25,7 +25,7 @@ import { useParams } from 'react-router-dom';
     // const id = "6654342528aa54d4db41612f";
     console.log("your data is here",id)
 
-    const {data: venue ,error,isLoading} = useGetVenueByIdQuery(id ? id:"");
+    const {data: venue } = useGetVenueByIdQuery(id ? id:"");
     const venueData = venue?.data.venue;
 
 console.log("hello", venue?.data.venue  )

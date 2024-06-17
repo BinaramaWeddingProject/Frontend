@@ -15,7 +15,7 @@ export type Vendor = Partial<{
     price: string;
     minAdvance: string;
   };
-  portfolio: string[]; 
+  portfolio?: string[]; 
   experience: string;
   event_completed: number;
   willingToTravel: boolean;
@@ -61,7 +61,8 @@ export interface wishlist{
 }
 
 export interface User{
-  _id:string;
+  _id?:string;
+  role?:string;
   fullName?: string;
   email?: string;
   password?: string;

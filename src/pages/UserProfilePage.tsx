@@ -1,22 +1,26 @@
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
 // import { useUpdateVendorMutation } from '../redux/api/vendor';
-import { useGetVenueByIdQuery } from '../redux/api/venue';
+// import { useGetVenueByIdQuery } from '../redux/api/venue';
 import UserSidebar from '../components/UserSidebar';
 import UserTabView from '../components/UserTabView';
 import { useGetUserQuery } from '../redux/api/user';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
-const userId = '665d6d766063ea750000e096'
 
-// Corrected function declaration
+
+
 const VenueProfilePage = () => {
 
-  const { data: user, refetch} = useGetUserQuery(userId);
-  console.log("checking the data",user)
-    // const { data: venues, error, isLoading } = useAllVenueQuery('');
+    const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+    console.log("user" , userId)
 
-    // console.log("updatevendor", updatevendor)
+
+  const { data: user} = useGetUserQuery(userId || "");
+  console.log("checking the data",user)
+    
     const userData = user?.data?.user;
     console.log(userData);
 

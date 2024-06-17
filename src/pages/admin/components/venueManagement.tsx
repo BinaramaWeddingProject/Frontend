@@ -41,7 +41,7 @@ const VenueManagement: React.FC = () => {
 
   const handleDelete = (index: number) => {
     // Remove the admin at the specified index
-    const updatedAdmins = admins.filter((_, i) => i !== index);
+    // const updatedAdmins = admins.filter((_, i) => i !== index);
     // Update the state to reflect the new list of admins
     console.log("admin deleted", index)
     // setAdmins(updatedAdmins);

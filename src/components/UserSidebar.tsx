@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import {  logout } from '../redux/reducer/auth';
+import { useDispatch } from 'react-redux';
+import {  AppDispatch } from '../redux/store';
 
 interface Props {
   yourName: string | undefined;
@@ -11,9 +14,9 @@ interface Props {
   id?: string | undefined;
 }
 
-const UserSidebar: React.FC<Props> = ({ yourName, profile, phone, email, password, id }) => {
+const UserSidebar: React.FC<Props> = ({ yourName, profile, phone, email }) => {
 
-
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
  
@@ -30,7 +33,10 @@ const UserSidebar: React.FC<Props> = ({ yourName, profile, phone, email, passwor
         navigate('/list-service');
         break;
       case 'Logout':
-        // Perform logout logic here
+         // Perform logout logic here
+         dispatch(logout());
+         navigate('/');
+ 
         break;
       default:
         break;

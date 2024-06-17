@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUpdateVenueMutation } from '../redux/api/venue';
+import {  logout } from '../redux/reducer/auth';
+import { useDispatch } from 'react-redux';
+import {  AppDispatch } from '../redux/store';
+
+
+
 
 interface Props {
   yourName: string | undefined;
@@ -12,7 +18,8 @@ interface Props {
 }
 
 const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, email, password, id }) => {
-  const [updateVenue, { isLoading }] = useUpdateVenueMutation();
+  const dispatch = useDispatch<AppDispatch>();
+  const [updateVenue] = useUpdateVenueMutation();
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
     yourName,
@@ -67,7 +74,9 @@ const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, email, pa
         navigate('/list-service');
         break;
       case 'Logout':
-        // Perform logout logic here
+         // Perform logout logic here
+         dispatch(logout());
+         navigate('/');
         break;
       default:
         break;

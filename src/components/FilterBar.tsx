@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { mockVenues, Venue } from './../data';
 
 enum FilterCategories {
@@ -23,7 +23,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ venues }) => {
         [FilterCategories.Facilities]: [],
         [FilterCategories.MealPreferences]: [],
     });
-
+    console.log(venues)
     const handleFilterChange = (category: FilterCategories, value: string) => {
         setSelectedFilters((prevFilters) => ({
             ...prevFilters,
@@ -40,22 +40,22 @@ const FilterBar: React.FC<FilterBarProps> = ({ venues }) => {
         }));
     };
 
-    const filterVenue = (venue: Venue, filters: typeof selectedFilters) => {
-        return (
-            (filters[FilterCategories.Locality].length === 0 || filters[FilterCategories.Locality].includes(venue.locality)) &&
-            (filters[FilterCategories.Budget].length === 0 || filters[FilterCategories.Budget].includes(venue.budget)) &&
-            (filters[FilterCategories.VenueType].length === 0 || filters[FilterCategories.VenueType].includes(venue.venueType)) &&
-            (filters[FilterCategories.Facilities].length === 0 ||
-                filters[FilterCategories.Facilities].every((facility) => venue.facilities.includes(facility))) &&
-            (filters[FilterCategories.MealPreferences].length === 0 || filters[FilterCategories.MealPreferences].includes(venue.mealPreferences))
-        );
-    };
+    // const filterVenue = (venue: Venue, filters: typeof selectedFilters) => {
+    //     return (
+    //         (filters[FilterCategories.Locality].length === 0 || filters[FilterCategories.Locality].includes(venue.locality)) &&
+    //         (filters[FilterCategories.Budget].length === 0 || filters[FilterCategories.Budget].includes(venue.budget)) &&
+    //         (filters[FilterCategories.VenueType].length === 0 || filters[FilterCategories.VenueType].includes(venue.venueType)) &&
+    //         (filters[FilterCategories.Facilities].length === 0 ||
+    //             filters[FilterCategories.Facilities].every((facility) => venue.facilities.includes(facility))) &&
+    //         (filters[FilterCategories.MealPreferences].length === 0 || filters[FilterCategories.MealPreferences].includes(venue.mealPreferences))
+    //     );
+    // };
 
-    const filteredVenues = useMemo(() => {
-        return venues.filter((venue) => {
-            return filterVenue(venue, selectedFilters);
-        });
-    }, [venues, selectedFilters]);
+    // const filteredVenues = useMemo(() => {
+    //     return venues.filter((venue) => {
+    //         return filterVenue(venue, selectedFilters);
+    //     });
+    // }, [venues, selectedFilters]);
 
     return (
         <div className="bg-gray-800 p-2 sticky top-0 left-[75%]">

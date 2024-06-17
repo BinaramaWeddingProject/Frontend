@@ -30,6 +30,8 @@ import AboutUs from './pages/AboutUs'
 import VenueProfilePage from './pages/VenueProfilePage'
 import UserProfilePage from './pages/UserProfilePage'
 import VendorsListByCategory from './pages/VendorListByCategory'
+import Dashboard from "./pages/Test";
+// import PopupForm from "./components/PopUp"
 
 
 
@@ -41,6 +43,7 @@ const App = () => {
     <ChakraProvider>
       <Router>
         {/* {Header} */}
+        {/* <PopupForm /> */}
         <Suspense fallback={<Loader />}>
           <Routes>
 
@@ -80,6 +83,7 @@ const App = () => {
 
 
             <Route path="/adminDashboard" element={<AdminDashboard/>}/>
+            <Route path="/test" element={<Dashboard/>}/>
            
 
           </Routes>

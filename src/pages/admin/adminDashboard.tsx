@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Profile from './components/profile'; // Assuming 'profile' is the name of the file containing the Profile component
 import AdminManagement from './components/adminManagement';
 import VendorManagement from './components/vendorManagement';

@@ -2,11 +2,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AllVenuesResponse , MessageResponse,VenueResponse} from "../../types/api-types";
 import { Venue } from "../../types/types";
 
+const server = import.meta.env.VITE_API_Server;
 
 export const VenueAPI = createApi({
     reducerPath: "venueAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8000/api/v1/venue/',
+        baseUrl: `${server}/api/v1/venue/`,
       }),
     tagTypes: ["venues"],
 

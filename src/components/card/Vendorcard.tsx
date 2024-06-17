@@ -26,8 +26,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
   rating = 3,
   packagePrice,
   summary,
-  h,
-  w,
+
 }) => {
   // console.log("Received props:", {
   //   image,
@@ -38,7 +37,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
   //   summary,
   //   _id,
   // });
-  const { data: wishlistData, refetch} = useGetWishlistQuery(userId);
+  const { data: wishlistData} = useGetWishlistQuery(userId);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isEnquirySelected, setIsEnquirySelected] = useState(false);
   const itemId=_id;

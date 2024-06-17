@@ -5,6 +5,10 @@ import { vendorAPI } from "./api/vendor.ts";
 import { VenueAPI } from "./api/venue.ts";
 import { wishlistAPI } from "./api/wishlist.ts";
 import {userAPI } from "./api/user.ts";
+import userReducer from "./reducer/auth.ts";
+import authReducer from "./reducer/auth.ts";
+
+
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +16,8 @@ export const store = configureStore({
     [VenueAPI.reducerPath]: VenueAPI.reducer,
     [wishlistAPI.reducerPath]: wishlistAPI.reducer,
     [userAPI.reducerPath]: userAPI.reducer,
+    user: userReducer,
+    auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(vendorAPI.middleware , VenueAPI.middleware, wishlistAPI.middleware, userAPI.middleware),

@@ -6,7 +6,6 @@ import NavBar from '../components/navbar';
 import RelatedArticles from '../components/RelatedArticles';
 import InformationBanner from '../components/InformationBanner';
 import Footer from '../components/Footer';
-import VendorsListByCategory from './VendorListByCategory';
 import { useNavigate } from 'react-router-dom';
 
 

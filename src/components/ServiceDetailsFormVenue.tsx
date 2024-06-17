@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 
 import Caro from './Carousel3';
-import { string } from 'yup';
 
 import { useUpdateVenueMutation } from '../redux/api/venue';
 
 
-interface Package {
-    name: string;
-    days: string;
-    phone: string;
-    minAdvance: string;
-}
+// interface Package {
+//     name: string;
+//     days: string;
+//     phone: string;
+//     minAdvance: string;
+// }
 
 interface Props {
     phone?: string;
@@ -26,7 +25,7 @@ interface Props {
 }
 
 const ServiceDetailsFormVenue: React.FC<Props> = ({ phone, images, featuresOfVenue, guestCapacity, howToReach, summary, venuePolicies, id }) => {
-    const [updateVenue, { isLoading }] = useUpdateVenueMutation();
+    const [updateVenue] = useUpdateVenueMutation();
 
     console.log("venuePolicies", venuePolicies)
     
@@ -45,7 +44,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({ phone, images, featuresOfVen
     // Function to handle input changes
    // Function to handle input changes
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
 
     // If the input name starts with "venuePolicies.", update the venuePolicies state
     // if (name.startsWith("venuePolicies.")) {
