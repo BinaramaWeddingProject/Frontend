@@ -11,7 +11,7 @@ const VenueManagement: React.FC = () => {
   const [verify] = useUpdateVenueMutation();
   const [deleteVenue] = useDeleteVenueByIdMutation();
 
-  console.log("vendor data", venue?.data.venues);
+  // console.log("vendor data", venue?.data.venues);
   const admins = venue?.data.venues;
 
   const [reloadTrigger, setReloadTrigger] = useState(false); // State to trigger reload
@@ -27,15 +27,15 @@ const VenueManagement: React.FC = () => {
   const handleApproval = async (id: string) => {
     const verificationStatus = "Approved"; // Setting the verification status to "Approved"
     const res = await verify({ id, venue: { isVerified: verificationStatus } });
-    console.log("isverifies", res);
-    console.log("id of vendor", id);
-    console.log("vendor", admins);
+    // console.log("isverifies", res);
+    // console.log("id of vendor", id);
+    // console.log("vendor", admins);
   };
 
   const handleRejection = async (id: string) => {
     const verificationStatus = "Rejected"; // Setting the verification status to "Approved"
     const res = await verify({ id, venue: { isVerified: verificationStatus } });
-    console.log("isverifies", res);
+    // console.log("isverifies", res);
     // You may want to perform other actions related to rejection here
   };
 
@@ -49,7 +49,7 @@ const VenueManagement: React.FC = () => {
       const res = await deleteVenue(id);
       setReloadTrigger(true); // Trigger reload after deletion
       // Update the state to reflect the new list of admins
-      console.log("admin deleted", res);
+      // console.log("admin deleted", res);
     }
 
     // You may want to perform other actions related to deletion here

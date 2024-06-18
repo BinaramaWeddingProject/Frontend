@@ -26,7 +26,7 @@ const AdminManagement: React.FC = () => {
     // Check if the admin ID matches the specific value
     if (id === superadmin) {
       // Skip deletion if the ID matches
-      console.log("Skipping deletion for admin with ID:", id);
+      // console.log("Skipping deletion for admin with ID:", id);
       alert("bhsdk papa hai hum");
       alert("nikal laude");
       alert("pehli fursat me nikal");
@@ -60,7 +60,7 @@ const AdminManagement: React.FC = () => {
           address: event.currentTarget.address.value,
         },
       });
-      console.log("New admin added:", data);
+      // console.log("New admin added:", data);
       setReloadTrigger(true); // Trigger reload after addition
     } catch (error) {
       console.error("Error adding admin:", error);

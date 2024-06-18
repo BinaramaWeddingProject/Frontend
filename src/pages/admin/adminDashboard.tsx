@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const section = useParams();
 
-  console.log("hello buddy", section);
+  // console.log("hello buddy", section);
   const [selectedSection, setSelectedSection] = useState<string | undefined>(
     ""
   ); // Provide a default value of an empty string
@@ -33,7 +33,7 @@ const AdminDashboard = () => {
   };
 
   const renderSection = () => {
-    console.log("welcome", selectedSection);
+    // console.log("welcome", selectedSection);
     switch (selectedSection) {
       case "Admin Management":
         return <AdminManagement />;

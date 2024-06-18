@@ -58,12 +58,12 @@ const BookingManagement: React.FC = () => {
 
   const add = () => {
     // Add functionality
-    console.log("Add clicked");
+    // console.log("Add clicked");
   };
 
   const remove = () => {
     // Remove functionality
-    console.log("Remove clicked");
+    // console.log("Remove clicked");
   };
 
   const [checkboxStates, setCheckboxStates] = useState(
@@ -83,7 +83,7 @@ const BookingManagement: React.FC = () => {
     // Remove the admin at the specified index
     const updatedAdmins = admins.filter((_, i) => i !== index);
     // Update the state to reflect the new list of admins
-    console.log("admin deleted", index);
+    // console.log("admin deleted", index);
     // setAdmins(updatedAdmins);
     // You may want to perform other actions related to deletion here
   };

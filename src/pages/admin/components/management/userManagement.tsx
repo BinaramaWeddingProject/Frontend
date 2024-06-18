@@ -12,7 +12,7 @@ const UserManagement: React.FC = () => {
   const [deleteUser] = useDeleteUserMutation();
 
   const admins = user?.data.users;
-  console.log("user data", admins);
+  // console.log("user data", admins);
 
   const [reloadTrigger, setReloadTrigger] = useState(false); // State to trigger reload
 
@@ -31,7 +31,7 @@ const UserManagement: React.FC = () => {
     if (confirmDelete) {
     const res = await deleteUser(id);
     setReloadTrigger(true); // Trigger reload after deletion
-    console.log("admin deleted", res);
+    // console.log("admin deleted", res);
     }
   };
 

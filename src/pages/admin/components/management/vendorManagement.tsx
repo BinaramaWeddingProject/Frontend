@@ -13,7 +13,7 @@ const VendorManagement: React.FC = () => {
   const [verify] = useUpdateVendorMutation();
   const [deleteVendor] = useDeleteVendorByIdMutation();
 
-  console.log("vendor data", vendor?.data.vendors);
+  // console.log("vendor data", vendor?.data.vendors);
   const admins = vendor?.data.vendors;
 
 
@@ -33,9 +33,9 @@ const VendorManagement: React.FC = () => {
       id,
       vendor: { isVerified: verificationStatus },
     });
-    console.log("isverifies", res);
-    console.log("id of vendor", id);
-    console.log("vendor", admins);
+    // console.log("isverifies", res);
+    // console.log("id of vendor", id);
+    // console.log("vendor", admins);
   };
 
   const handleRejection = async (id: string) => {
@@ -44,7 +44,7 @@ const VendorManagement: React.FC = () => {
       id,
       vendor: { isVerified: verificationStatus },
     });
-    console.log("isverifies", res);
+    // console.log("isverifies", res);
     // You may want to perform other actions related to rejection here
   };
 
@@ -55,7 +55,7 @@ const VendorManagement: React.FC = () => {
     if (confirmDelete) {
     const res = await deleteVendor(id);
 setReloadTrigger(true);
-    console.log("admin deleted", res);
+    // console.log("admin deleted", res);
     }
   };
 
