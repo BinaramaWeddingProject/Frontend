@@ -21,6 +21,7 @@ const TabView: FC<ItabView> = ({ vendorData }) => {
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
+
   // Dummy ratings data
   const ratings = [
     { stars: 5, review: "Excellent service!" },
@@ -32,7 +33,7 @@ const TabView: FC<ItabView> = ({ vendorData }) => {
 
   return (
     <div className="border-b border-gray-200">
-      <nav className="flex justify-center max-w-full">
+      <nav className="flex flex-wrap justify-center overflow-x-auto">
         <button
           className={`${
             activeTab === "Overview"
@@ -116,6 +117,7 @@ const TabView: FC<ItabView> = ({ vendorData }) => {
     </div>
   );
 };
+
 const OverviewTab = ({
   price,
   phone,
@@ -130,7 +132,7 @@ const OverviewTab = ({
   return (
     <div className="flex flex-col items-center my-4">
       <h2 className="text-2xl font-semibold mb-4 font-roboto">Overview</h2>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <h3 className="font-semibold font-roboto">Package Price:</h3>
           <p className="font-roboto">{price}</p>
@@ -146,9 +148,9 @@ const OverviewTab = ({
         <div>
           <h3 className="font-semibold font-roboto">Willing to Travel:</h3>
           {willingToTravel ? (
-            <img src="\icons8-tick.svg" alt="Tick" className="w-6 h-6" />
+            <img src="/icons8-tick.svg" alt="Tick" className="w-6 h-6" />
           ) : (
-            <img src="\icons8-cross.svg" alt="Cross" className="w-6 h-6" />
+            <img src="/icons8-cross.svg" alt="Cross" className="w-6 h-6" />
           )}
         </div>
       </div>
@@ -163,11 +165,10 @@ const ContactTab = ({
   phone: string | undefined;
   address: string | undefined;
 }) => {
-  console.log("phone", phone);
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-semibold mb-4 font-roboto">Contact</h2>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <h3 className="font-semibold font-roboto">Phone Number:</h3>
           <p className="font-roboto">{phone}</p>
@@ -185,7 +186,7 @@ const PortfolioTab = ({ portfolio }: { portfolio: string[] | undefined }) => {
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-semibold mb-4 font-roboto">Portfolio</h2>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {portfolio?.map((image, index) => (
           <img key={index} src={image} alt={`Portfolio Image ${index}`} />
         ))}
@@ -204,30 +205,24 @@ const PackageTab = ({
   if (!packages) {
     return <div>No packages available</div>;
   }
-  console.log("package: ", packages);
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-semibold mb-4 font-roboto">Packages</h2>
-      <div className="grid grid-cols-2 gap-8">
-        {/* {packages?.map((pkg, index) => (
-                    <div
-                        key={index}
-                        className="border rounded-lg p-6 shadow-md transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-lg"
-                    > */}
-        <h3 className="font-semibold text-lg font-roboto">
-          Name: {packages.name}
-        </h3>
-        <p className="font-semibold text-lg font-roboto">
-          Price: {packages.price}
-        </p>
-        <p className="font-semibold text-lg font-roboto">
-          Duration: {packages.days}
-        </p>
-        <p className="font-semibold text-lg font-roboto">
-          Minimum Advance: {packages.minAdvance}
-        </p>
-        {/* </div> */}
-        {/* ))} */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 className="font-semibold text-lg font-roboto">
+            Name: {packages.name}
+          </h3>
+          <p className="font-semibold text-lg font-roboto">
+            Price: {packages.price}
+          </p>
+          <p className="font-semibold text-lg font-roboto">
+            Duration: {packages.days}
+          </p>
+          <p className="font-semibold text-lg font-roboto">
+            Minimum Advance: {packages.minAdvance}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -268,7 +263,7 @@ const RatingsTab = ({
       <h2 className="text-2xl font-semibold mb-4 font-roboto text-center">
         Ratings
       </h2>
-      <div className="flex flex-row justify-center items-center">
+      <div className="flex flex-wrap justify-center items-center">
         {ratings?.map((rating, index) => (
           <div
             key={index}

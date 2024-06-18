@@ -7,9 +7,8 @@ const NavBar: React.FC = () => {
   return (
     <nav className="bg-[#110069] py-4 relative z-10">
       <div className="container mx-auto">
-        <ul className="flex justify-start items-center">
-          {/* Home */}
-          <li className="relative mx-4">
+        <ul className="flex justify-center items-center">
+          <li className="relative">
             <Link
               to="/"
               className="text-white cursor-pointer hover:text-gray-200"

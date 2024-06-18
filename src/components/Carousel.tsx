@@ -32,17 +32,17 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
       <div className="absolute inset-y-0 left-0 flex justify-center items-center">
         <button
           onClick={handlePrevImage}
-          className="bg-white rounded-full p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+          className="bg-white rounded-full p-2 text-gray-600 hover:text-gray-800 focus:outline-none m-2"
         >
-          Previous
+          &lt;
         </button>
       </div>
       <div className="absolute inset-y-0 right-0 flex justify-center items-center">
         <button
           onClick={handleNextImage}
-          className="bg-white rounded-full p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
+          className="bg-white rounded-full p-2 text-gray-600 hover:text-gray-800 focus:outline-none m-2"
         >
-          Next
+          &gt;
         </button>
       </div>
     </div>

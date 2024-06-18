@@ -65,92 +65,70 @@ setReloadTrigger(true);
 
   return (
     <>
-     <h2 className="text-center font-bold text-2xl">Vendors</h2>
-    <hr className="border-2"></hr>
-    <div className="bg-white shadow-md rounded-md px-6 pb-6 pt-2 flex h-screen">
-   
-      <div className="w-full mb-4 shadow-2xl shadow-slate-400 border-2">
-        <div className="flex w-full bg-slate-300">
-          <div className="h-fit flex w-full text-lg font-bold text-center">
-            <div className="w-1/12 bg-slate-200 ml-2 mt-2 mr-1">Index</div>
-            <div className="w-3/12 bg-slate-200 font-bold mt-2 mr-1">Name</div>
-            <div className="w-3/12 bg-slate-200 font-bold mt-2 mr-1">Email</div>
-            <div className="w-1/12 bg-slate-200 font-bold mt-2 mr-1">
-              Contact
-            </div>
-            <div className="w-1/12 bg-slate-200 font-bold mt-2 mr-1">
-              City
-            </div>
-            <div className="w-1/12 bg-slate-200 mt-2 mr-1">View</div>
-            <div className="w-1/12 bg-slate-200 mt-2 mr-1">Approval</div>
-            <div className="w-1/12 bg-slate-200 mt-2 mr-2">Delete</div>
+      <h2 className="text-center font-bold text-3xl mb-6">Vendor Management</h2>
+      <div className="bg-white shadow-md rounded-md px-6 pb-6 pt-2 h-screen">
+        <div className="w-full mb-4 shadow-lg rounded-md overflow-hidden border">
+          <div className="flex bg-gray-200 text-gray-700 font-bold text-lg">
+            <div className="w-1/12 p-2">Index</div>
+            <div className="w-3/12 p-2">Name</div>
+            <div className="w-3/12 p-2">Email</div>
+            <div className="w-1/12 p-2">Contact</div>
+            <div className="w-1/12 p-2">City</div>
+            <div className="w-1/12 p-2">View</div>
+            <div className="w-1/12 p-2">Approval</div>
+            <div className="w-1/12 p-2">Delete</div>
           </div>
-        </div>
-        <div className=" w-full bg-slate-300 pb-2">
-          {admins?.map((admin, index) => (
-            <React.Fragment key={index}>
-              <div className="flex w-full bg-slate-300 text-center ">
-                <div className="w-1/12 bg-slate-100 mt-2 ml-2 mr-1">
-                  {index + 1}
-                </div>
-                <div className="w-3/12 bg-slate-100 font-bold mt-2 mr-1">
-                  {admin.name}
-                </div>
-                <div className="w-3/12 bg-slate-100 font-bold mt-2 mr-1">
-                  {admin.email}
-                </div>
-                <div className="w-1/12 bg-slate-100 font-bold mt-2 mr-1">
-                  {admin.phone}
-                </div>
-                <div className="w-1/12 bg-slate-100 font-bold mt-2 mr-1">
-                  {admin.city}
-                </div>
+          <div className="bg-gray-50">
+            {admins?.map((admin, index) => (
+              <div key={index} className="flex text-center items-center hover:bg-gray-100">
+                <div className="w-1/12 p-2">{index + 1}</div>
+                <div className="w-3/12 p-2">{admin.name}</div>
+                <div className="w-3/12 p-2">{admin.email}</div>
+                <div className="w-1/12 p-2">{admin.phone}</div>
+                <div className="w-1/12 p-2">{admin.city}</div>
                 <div
-                  className="w-1/12 bg-slate-100 mt-2 mr-1 cursor-pointer flex justify-center items-center"
+                  className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
                   onClick={() => viewUser(admin?._id)}
                 >
                   <FaEye size={20} />
                 </div>
-
-                <div className="w-1/12 bg-slate-100 mt-2 mr-1 cursor-pointer flex justify-center items-center">
+                <div className="w-1/12 p-2 flex justify-center items-center">
                   {admin?.isVerified === "Approved" ? (
-                    <span className="bg-green-500 text-white rounded font-semibold">
+                    <span className="bg-green-500 text-white rounded-full px-2 py-1 font-semibold">
                       Approved
                     </span>
                   ) : admin?.isVerified === "Rejected" ? (
-                    <span className="bg-red-500 text-white rounded font-semibold">
+                    <span className="bg-red-500 text-white rounded-full px-2 py-1 font-semibold">
                       Rejected
                     </span>
                   ) : (
                     <>
                       <button
                         onClick={() => handleApproval(admin?._id)}
-                        className="bg-green-500 text-white mr-2"
+                        className="bg-green-500 text-white rounded-full p-1 mr-2"
                       >
                         <FaCheck />
                       </button>
                       <button
                         onClick={() => handleRejection(admin?._id)}
-                        className="bg-red-500 text-white"
+                        className="bg-red-500 text-white rounded-full p-1"
                       >
                         <FaTimes />
                       </button>
                     </>
                   )}
                 </div>
-
                 <div
-                  className="w-1/12 bg-slate-100 mt-2 mr-2 cursor-pointer flex justify-center items-center"
+                  className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
                   onClick={() => handleDelete(admin?._id)}
                 >
                   <FaTrash />
                 </div>
               </div>
-            </React.Fragment>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
