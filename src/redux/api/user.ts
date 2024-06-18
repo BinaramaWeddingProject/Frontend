@@ -45,10 +45,23 @@ export const userAPI =  createApi({
             }),
         }),
 
+        getAllUser: builder.query<UserResponse, void>({
+            query: () => ({
+                url: "ALL",
+                method:"GET",
+            }),
+        }),
+
+        deleteUser: builder.mutation<void, string>({
+            query: (userId : string) => ({
+                url: `${userId}`,
+                method:"DELETE",
+            }),
+        }),
     })
 })
 
-export const {useGetUserQuery,useUpdateUserMutation , useLoginUserMutation , useSignupMutation}= userAPI
+export const { useGetAllUserQuery, useDeleteUserMutation ,useGetUserQuery,useUpdateUserMutation , useLoginUserMutation , useSignupMutation}= userAPI
 
 
 

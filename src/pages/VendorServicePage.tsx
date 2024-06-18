@@ -23,8 +23,6 @@ function VendorServicePage() {
   const { _id } = useParams<Params>();
   const id = _id;
 
-  // const id = '6647077ca07a6f12501a2b6c';
-
   const {
     data: vendor,
     error,
@@ -33,8 +31,6 @@ function VendorServicePage() {
 
   const vendorData = vendor?.data.vendor;
   console.log("vendor:", vendor);
-
-  console.log("the use vendor:", vendor?.data.vendor);
 
   if (!id) {
     return <div>No ID provided.</div>;
@@ -51,15 +47,13 @@ function VendorServicePage() {
     }
   }
 
-  console.log("Vendor data outside:", vendorData);
-  //console.log("detail", VendorData?.packages?.price)
   return (
     <div>
-      <NavBar/>
+      <NavBar />
       <div>
-        <div className="container mx-auto shadow-xl bg-slate-100">
-          <div className="absolute">
-            <h1 className="text-3xl font-semibold ml-6 my-6">
+        <div className="container mx-auto shadow-xl bg-slate-100 p-4">
+          <div className="mb-6">
+            <h1 className="text-3xl font-semibold">
               Vendor Information
             </h1>
             <VendorInfo
@@ -69,19 +63,19 @@ function VendorServicePage() {
               typeOfBusiness={vendorData?.type_Of_Business}
             />
           </div>
-          <div className=" relative mr-6">
-            <AllVendors />
+          <div className="mb-6">
+            {/* <AllVendors /> */}
           </div>
         </div>
 
-        <div className="flex max-w-full">
-          <div className="w-3/4">
+        <div className="flex flex-col lg:flex-row max-w-full">
+          <div className="lg:w-3/4 mb-4 lg:mb-0">
             <Caro portfolio={vendorData?.portfolio} />
             <div className="max-w-full">
-              <TabView vendorData={vendorData}/>
+              <TabView vendorData={vendorData} />
             </div>
           </div>
-          <div className="mx-8 mt-2 w-1/4">
+          <div className="lg:ml-8 mt-2 lg:mt-0 lg:w-1/4">
             <PriceCard
               price={vendorData?.packages?.price}
               rating={dummyData.rating}
@@ -95,11 +89,11 @@ function VendorServicePage() {
             description={vendorData?.summary}
           />
         </div>
-        <div>
+        <div className="my-4">
           <TermsAndPolicyCard />
         </div>
         <div className="bg-[#110069] text-white">
-          <div className="text-2xl flex justify-center my-2 ">
+          <div className="text-2xl flex justify-center my-2">
             RELATED ARTICLES
           </div>
           <RelatedArticles />

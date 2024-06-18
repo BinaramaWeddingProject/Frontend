@@ -1,4 +1,5 @@
-import {User, Vendor, Venue} from "./types.ts"
+import {Admin, User, Vendor, Venue, Blog, Notification} from "./types.ts"
+
 
 export type AllVendorsResponse = {
     success: boolean;
@@ -58,4 +59,30 @@ export type UserResponse = {
   data: {
     user: User[];
   };
+}
+
+export type AdminResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    admin: Admin[];
+  };
+}
+  export type BlogResponse = {
+    success: boolean;
+    statusCode: number;
+    message:string;
+    data: {
+      blog: Blog[];
+    };
+}
+
+export type NotificationtResponse = {
+  users:string[];
+  status:string[];
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: Notification[]
 }

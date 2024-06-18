@@ -1,32 +1,22 @@
+import VendorProfileCard from "../vendor/components/VendorProfileCard";
+import ServiceDetailsForm from "../vendor/components/ServiceDetailsForm";
+import NavBar from "../../baar/navbar";
+import VendorProfileInfo from "../vendor/components/VendorProfileInfo";
+import { useGetVendorByIdQuery } from "../../../../../redux/api/vendor";
 
-import VendorProfileCard from '../components/VendorProfileCard';
-import ServiceDetailsForm from '../components/ServiceDetailsForm';
-import NavBar from '../components/navbar';
-import Footer from '../components/Footer';
-import VendorProfileInfo from '../components/VendorProfileInfo';
-import { useGetVendorByIdQuery } from '../redux/api/vendor';
+import { useParams } from "react-router-dom";
 
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+const VendorProfilePage = () => {
+  const { id } = useParams();
+  console.log("idddd", id);
+  if (!id) {
+    // Handle the case where id is undefined
+    return <div>Loading...</div>; // Or any other handling
+  }
+  const { data: vendor } = useGetVendorByIdQuery(id);
 
-
-
-
-
-// Corrected function declaration
-const VendorProfilePage: React.FC = () => {
-
-    
-
-  const vendorid =  useSelector((state: RootState) => state?.auth?.user?._id) ;
-  console.log("user" , vendorid)
-
-
-    const { data: vendor} = useGetVendorByIdQuery(vendorid || "");
-   
-    // console.log("updatevendor", updatevendor)
-    const vendorData = vendor?.data?.vendor;
-    console.log("vendor data", vendor);
+  const vendorData = vendor?.data?.vendor;
+  console.log("vendor data", vendor);
 
   return (
     <>
@@ -41,7 +31,7 @@ const VendorProfilePage: React.FC = () => {
             name={vendorData?.name}
             phone={vendorData?.phone}
             email={vendorData?.email}
-            id={vendorid}
+            city={vendorData?.city}
           />
         </div>
         <div className="w-full">
@@ -61,12 +51,11 @@ const VendorProfilePage: React.FC = () => {
               willingToTravel={vendorData?.willingToTravel}
               summary={vendorData?.summary}
               packages={vendorData?.packages}
-              id={vendorid}
+              id={id}
             />
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

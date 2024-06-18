@@ -50,6 +50,12 @@ export const VenueAPI = createApi({
             invalidatesTags: ["venues"],
           }),
 
+          deleteVenueById: builder.mutation<VenueResponse, string>({
+            query: (id: string | undefined) => ({
+              url:`${id}`,
+              method: 'DELETE'
+            })
+          })
         
     }),
 
@@ -57,4 +63,4 @@ export const VenueAPI = createApi({
 })
 
 // Export the hook from the vendorAPI object
-export const {useAllVenueQuery , useSignupVenueMutation, useLoginVenueMutation, useGetVenueByIdQuery, useUpdateVenueMutation} = VenueAPI;
+export const {useAllVenueQuery , useSignupVenueMutation, useLoginVenueMutation, useGetVenueByIdQuery, useUpdateVenueMutation, useDeleteVenueByIdMutation} = VenueAPI;
