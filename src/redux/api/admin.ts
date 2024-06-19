@@ -2,10 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Admin, BodyAdmin } from "../../types/types";
 import { AdminResponse } from "../../types/api-types";
 
+const server = import.meta.env.VITE_API_Server;
+
 export const adminAPI =  createApi({
     reducerPath: "adminAPI",
     baseQuery : fetchBaseQuery({
-        baseUrl: 'http://localhost:8000/api/v1/admin/',
+        
+        baseUrl: `${server}/api/v1/admin/`,
     }),
 
 

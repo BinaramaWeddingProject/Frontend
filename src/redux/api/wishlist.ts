@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { wishlistResponse } from "../../types/api-types";
 
+const server = import.meta.env.VITE_API_Server;
+
 export const wishlistAPI = createApi({
     reducerPath: "wishlistAPI",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8000/api/v1/wishlist/",
+        baseUrl: `${server}/api/v1/wishlist/`,
     }),
     endpoints: (builder) => ({
 
@@ -37,4 +39,3 @@ export const wishlistAPI = createApi({
 })
 
 export const { useAddWishlistMutation, useDeleteWishlistMutation, useGetWishlistQuery} = wishlistAPI
-

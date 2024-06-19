@@ -1,10 +1,11 @@
-import {Admin, User, Vendor, Venue, wishlist, Blog, Notification} from "./types.ts"
+import {Admin, User, Vendor, Venue, wishlist, Blog, Notification, RealWeddings} from "./types.ts"
 
 
 export type AllVendorsResponse = {
     success: boolean;
     statusCode: number;
     message:string;
+    auth:string;
     data: {
       vendors: Vendor[];
     };
@@ -75,6 +76,15 @@ export type AdminResponse = {
     data: {
       blog: Blog[];
     };
+}
+
+export type RealWeddingsResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    realWeddings:RealWeddings[];
+  };
 }
 
 export type NotificationtResponse = {
