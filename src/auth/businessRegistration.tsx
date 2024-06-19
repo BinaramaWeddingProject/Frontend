@@ -307,24 +307,33 @@ export const VendorRegistrationForm: React.FC = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="businessType" className="block mb-1 font-medium">
-              Type of Business
-            </label>
-            <input
-              id="type_Of_Business"
-              name="type_Of_Business"
-              type="text"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={values.type_Of_Business}
-            />
-            {touched.type_Of_Business && errors.type_Of_Business && (
-              <div className="text-red-500 mt-1 text-sm">
-                {errors.type_Of_Business}
-              </div>
-            )}
-          </div>
+  <label htmlFor="type_Of_Business" className="block mb-1 font-medium">
+    Type of Business
+  </label>
+  <select
+    id="type_Of_Business"
+    name="type_Of_Business"
+    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    value={values.type_Of_Business}
+  >
+    <option value="" label="Select type of business" />
+    <option value="Photographer" label="Photographer" />
+    <option value="MakeupArtist" label="MakeupArtist" />
+    <option value="MehendiArtist" label="MehendiArtist" />
+    <option value="Decorator" label="Decorator" />
+    <option value="Caterer" label="Caterer" />
+   
+    {/* Add more options as needed */}
+  </select>
+  {touched.type_Of_Business && errors.type_Of_Business && (
+    <div className="text-red-500 mt-1 text-sm">
+      {errors.type_Of_Business}
+    </div>
+  )}
+</div>
+
           
           <div className="mb-4">
             <label htmlFor="cityName" className="block mb-1 font-medium">

@@ -1,14 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// import Vendor from './pages/vendor'
-// import Login from './auth/Login'
-// import ForgetPasswordPage from './auth/Forget'
-// import Signup from './auth/SignUp'
-// import PassVerification from './auth/passverification'
-// import NewPassword from './auth/newPassword'
-// import Verification from './auth/Verification'
-// import Business from './auth/business'
-
 import { ChakraProvider } from "@chakra-ui/react";
 import VenueList from "./pages/VenueList";
 import Vendor from "./pages/vendor";
@@ -40,12 +31,16 @@ import NewBlog from "./pages/NewBlog";
 import Loader from "./components/Loader";
 import BlogPost from "./pages/BlogPost";
 import UserNotification from "./pages/notification/notification";
+// import PopUp from "./components/PopUp";
 
 const App: React.FC = () => {
   return (
     <ChakraProvider>
+      
       <Router>
+      {/* <PopUp/> */}
         <Suspense fallback={<Loader />}>
+       
           <Routes>
             <Route path="/" element={<Home />} />
 

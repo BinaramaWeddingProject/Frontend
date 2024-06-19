@@ -47,7 +47,7 @@ const VenueProfilePage: React.FC = () => {
                     <VenueProfileCard 
                         yourName={venueData?.yourName} 
                         phone={venueData?.phone} 
-                        email={venueData?.email} 
+                        profile = {venueData}
                         id={venueId}
                     /> 
                 </div>
@@ -66,6 +66,9 @@ const VenueProfilePage: React.FC = () => {
                         summary={venueData?.summary} 
                         venuePolicies={venueData?.venuePolicies} 
                         id={venueId}
+                        venueType= {venueData?.venueType}
+                        facilities= {venueData?.facilities}
+                        foodPackages={venueData?.foodPackages}
                         />
                     </div>
                 </div>

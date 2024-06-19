@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AllVenuesResponse , MessageResponse,VenueResponse} from "../../types/api-types";
-import { Venue } from "../../types/types";
+import { Venue  } from "../../types/types";
 
 const server = import.meta.env.VITE_API_Server;
 
@@ -13,7 +13,11 @@ export const VenueAPI = createApi({
 
     endpoints: (builder) =>({
         allVenue: builder.query<AllVenuesResponse , string>({
-            query: () => "all",
+            
+            query: (filters) => {
+              const queryString = new URLSearchParams(filters).toString();
+              return `all?${queryString}`;
+            },
             providesTags: ["venues"]
           }),
 
