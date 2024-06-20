@@ -11,7 +11,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import VenueList from "./pages/VenueList";
-import Vendor from "./pages/vendor";
+// import Vendor from "./pages/vendor";
 import Login from "./auth/Login";
 import Signup from "./auth/SignUp";
 import Business from "./auth/business";
@@ -41,6 +41,9 @@ import Loader from "./components/Loader";
 import BlogPost from "./pages/admin/components/profile/blog/BlogPost";
 import UserNotification from "./pages/notification/notification";
 import BlogView from "./pages/BlogView";
+import RealWeddingsList from "./pages/realWeddingsList";
+import RealWeddingsPost from "./pages/realWeddingsPost";
+import NewRealWedding from "./pages/newRealWeddings";
 
 const App: React.FC = () => {
   return (
@@ -86,7 +89,7 @@ const App: React.FC = () => {
               path="/vendors/category/:category"
               element={<VendorsListByCategory />}
             />
-            <Route path="/vendors" element={<Vendor />} />
+            {/* <Route path="/vendors" element={<Vendor />} /> */}
             <Route path="/vendor/:type/:_id" element={<VendorServicePage />} />
             <Route path="/venuelist/:id" element={<VenueServicePage />} />
             <Route path="/login" element={<Login />} />
@@ -96,6 +99,9 @@ const App: React.FC = () => {
 
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/blog/new" element={<NewBlog />} />
+            <Route path="/realWeddings/new" element={<NewRealWedding />} />
+            <Route path="/realWeddings" element={<RealWeddingsList />} />
+            <Route path="/realWeddings/:id" element={<RealWeddingsPost />} />
             <Route path="/notification" element={<UserNotification/>}/>
           </Routes>
         </Suspense>

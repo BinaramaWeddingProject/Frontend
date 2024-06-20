@@ -1,22 +1,25 @@
+// src/pages/RealWeddingsPost.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetBlogByIdQuery, useUpdateBlogMutation } from '../../../../../redux/api/blog';
-import NavBar from '../../baar/navbar'
+import { useGetRealWeddingsPostByIdQuery, useUpdateRealWeddingsPostMutation } from '../redux/api/realWeddings';
+import NavBar from '../components/navbar';
+import Footer from '../components/Footer';
 
-
-interface BlogPostInterface {
+interface RealWeddingPostInterface {
   id: string;
   title: string;
   images: string[];
   content: string;
 }
 
-const BlogPost: React.FC = () => {
+const RealWeddingsPost: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: blogData, error, isLoading, refetch } = useGetBlogByIdQuery(id || '');
+  console.log("this is the id", id)
+  const { data: realWeddingData, error, isLoading, refetch } = useGetRealWeddingsPostByIdQuery(id || '');
+  console.log("this isnthe data real",realWeddingData);
   const [isEditing, setIsEditing] = useState(false);
-  const [updateBlog] = useUpdateBlogMutation();
-  const [formData, setFormData] = useState<BlogPostInterface>({
+  const [updateRealWedding] = useUpdateRealWeddingsPostMutation();
+  const [formData, setFormData] = useState<RealWeddingPostInterface>({
     id: '',
     title: '',
     images: [],
@@ -25,15 +28,15 @@ const BlogPost: React.FC = () => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   useEffect(() => {
-    if (blogData?.data) {
+    if (realWeddingData?.data) {
       setFormData({
-        id: blogData.data.blog._id,
-        title: blogData.data.blog.title || '',
-        images: blogData.data.blog.images || [],
-        content: blogData.data.blog.content || ''
+        id: realWeddingData.data.realWeddings._id,
+        title: realWeddingData.data.realWeddings.title || '',
+        images: realWeddingData.data.realWeddings.images || [],
+        content: realWeddingData.data.realWeddings.content || ''
       });
     }
-  }, [blogData]);
+  }, [realWeddingData]);
 
   if (isLoading) {
     return (
@@ -43,23 +46,23 @@ const BlogPost: React.FC = () => {
     );
   }
 
-  if (error || !blogData?.data) {
+  if (error || !realWeddingData?.data) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="text-xl">Blog post not found</div>
+        <div className="text-xl">Real Wedding post not found</div>
       </div>
     );
   }
 
-  const blog = blogData?.data.blog;
+  const realWedding = realWeddingData?.data.realWeddings;
 
   const handleEditClick = () => {
     setIsEditing(true);
     setFormData({
-      id: blog._id,
-      title: blog.title || '',
-      images: blog.images || [],
-      content: blog.content || '',
+      id: realWedding._id,
+      title: realWedding.title || '',
+      images: realWedding.images || [],
+      content: realWedding.content || '',
     });
   };
 
@@ -81,19 +84,23 @@ const BlogPost: React.FC = () => {
     const formDataToSubmit = new FormData();
     formDataToSubmit.append('title', formData.title);
     formDataToSubmit.append('content', formData.content);
+    console.log("this is the form data",formDataToSubmit);
   
     selectedImages.forEach(image => {
-      formDataToSubmit.append('image', image);
+      formDataToSubmit.append('images', image);
     });
   
     try {
-      await updateBlog({ id: formData.id, blogFormData: formDataToSubmit });
+        console.log("error kya hai?", formData)
+      const res = await updateRealWedding({ id: formData.id, realWeddingsFormData: formDataToSubmit });
+      console.log("res DATA",res);
       setIsEditing(false);
       refetch();
     } catch (error) {
-      console.error('Failed to update blog:', error);
+      console.error('Failed to update real wedding:', error);
     }
   };
+
   return (
     <>
       <NavBar />
@@ -101,19 +108,19 @@ const BlogPost: React.FC = () => {
         {!isEditing ? (
           <>
             <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
-              {blog?.title}
+              {realWedding?.title}
             </h1>
-            {blog?.images && blog?.images[0] && (
+            {realWedding?.images && realWedding?.images[0] && (
               <div className="flex justify-center mb-8">
                 <img
-                  src={blog?.images[0]}
-                  alt={blog?.title}
+                  src={realWedding?.images[0]}
+                  alt={realWedding?.title}
                   className="w-full md:w-2/3 lg:w-1/2 h-80 object-cover rounded-lg shadow-md transition-transform duration-500 hover:scale-105"
                 />
               </div>
             )}
             <div className="prose max-w-none mx-auto text-gray-700 leading-loose">
-              {blog?.content}
+              {realWedding?.content}
             </div>
             <button
               className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
@@ -171,9 +178,9 @@ const BlogPost: React.FC = () => {
           </form>
         )}
       </div>
-      
+      <Footer />
     </>
   );
 };
 
-export default BlogPost;
+export default RealWeddingsPost;

@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BlogResponse } from "../../types/api-types";
 
+const server = import.meta.env.VITE_API_Server;
+
 export const blogAPI = createApi({
   reducerPath: "blogAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api/v1/blog/',
+    baseUrl: `${server}/api/v1/blog/`,
   }),
   endpoints: (builder) => ({
     getBlogById: builder.query<BlogResponse, string>({
