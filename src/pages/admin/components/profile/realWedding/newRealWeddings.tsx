@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import NavBar from '../components/navbar';
-import Footer from '../components/Footer';
-import { useAddRealWeddingPostMutation } from '../redux/api/realWeddings';
+import NavBar from '../../baar/navbar';
+// import Footer from '../../../../../components/Footer';
+import { useAddRealWeddingPostMutation } from '../../../../../redux/api/realWeddings';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -156,7 +156,7 @@ const NewRealWedding: React.FC = () => {
           </div>
         </form>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

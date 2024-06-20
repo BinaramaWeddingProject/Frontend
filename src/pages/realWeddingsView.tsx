@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetRealWeddingsPostByIdQuery, useUpdateRealWeddingsPostMutation } from '../redux/api/realWeddings';
 import NavBar from '../components/navbar';
-import Footer from '../components/Footer';
+// import Footer from '../../../../../components/Footer';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
@@ -13,7 +13,7 @@ interface RealWeddingPostInterface {
   content: string;
 }
 
-const RealWeddingsPost: React.FC = () => {
+const RealWeddingsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { data: realWeddingData, error, isLoading, refetch } = useGetRealWeddingsPostByIdQuery(id || '');
   const [isEditing, setIsEditing] = useState(false);
@@ -100,8 +100,8 @@ const RealWeddingsPost: React.FC = () => {
     <>
     <NavBar />
     <div className="min-h-screen flex flex-col">``
-      <main className="flex-grow container mx-auto py-8">
-        {!isEditing ? (
+      <div className="flex-grow container mx-auto py-8">
+       
           <div className="max-w-4xl mx-auto">
             <h1 className="text-4xl font-bold mb-8 text-center text-[#173445]">
               {realWedding?.title}
@@ -117,7 +117,7 @@ const RealWeddingsPost: React.FC = () => {
                   interval={5000}
                   transitionTime={500}
                 >
-                  {realWedding.images.map((image, index) => (
+                  {realWedding.images.map((image:any, index:any) => (
                     <div key={index}>
                       <img
                         src={image}
@@ -132,73 +132,17 @@ const RealWeddingsPost: React.FC = () => {
             <div className="prose max-w-none mx-auto text-gray-700 leading-relaxed mb-8">
               {realWedding?.content}
             </div>
-            <div className="text-center">
-              <button
-                className="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-300"
-                onClick={handleEditClick}
-              >
-                Edit
-              </button>
+           
             </div>
           </div>
-        ) : (
-          <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-8">
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="content">
-                  Content
-                </label>
-                <textarea
-                  id="content"
-                  name="content"
-                  value={formData.content}
-                  onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  rows={8}
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-bold mb-2" htmlFor="images">
-                  Images
-                </label>
-                <input
-                  type="file"
-                  id="images"
-                  name="images"
-                  multiple
-                  onChange={handleImageChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors duration-300"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
+        
           </div>
-        )}
-      </main>
-      <Footer />
-    </div>
+        
+      
+      {/* <Footer /> */}
+
     </>
   );
 };
 
-export default RealWeddingsPost;
+export default RealWeddingsView;

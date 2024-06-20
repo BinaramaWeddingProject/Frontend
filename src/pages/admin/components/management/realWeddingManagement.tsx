@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { FaEye, FaTrash, FaPlus } from "react-icons/fa"; // Import FaPlus for the add button
-import { useGetAllBlogsQuery } from "../../../../redux/api/blog";
+// import { useGetAllBlogsQuery } from "../../../../redux/api/blog";
+import { useGetAllRealWeddingsQuery } from "../../../../redux/api/realWeddings";
 // import { useDeleteUserMutation } from "../../../../redux/api/user";
 import { useDeleteBlogMutation } from "../../../../redux/api/blog";
+import { useDeleteRealWeddingMutation } from "../../../../redux/api/realWeddings";
 import { useNavigate } from "react-router-dom";
 
 const RealWeddingManagement: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data: user, refetch } = useGetAllBlogsQuery('');
+  const { data: user, refetch } = useGetAllRealWeddingsQuery();
 
-  const [deleteUser] = useDeleteBlogMutation();
+  const [deleteUser] = useDeleteRealWeddingMutation();
 
-  const admins = user?.data.blog;
+  const admins = user?.data.realWeddings;
+  console.log("admins",admins)
 
   const [reloadTrigger, setReloadTrigger] = useState(false); // State to trigger reload
 
@@ -29,17 +32,17 @@ const RealWeddingManagement: React.FC = () => {
     
     if (confirmDelete) {
       const res = await deleteUser(id);
-    //   console.log("res",res)
+      console.log("res",res)
       setReloadTrigger(true); // Trigger reload after deletion
     }
   };
 
   function viewUser(id: any): void {
-    navigate(`/blog/${id}`);
+    navigate(`/realWeddings/${id}`);
   }
 
   function addNewBlog(): void {
-    navigate("/blog/new"); // Navigate to the add new blog page
+    navigate("/realWeddings/new"); // Navigate to the add new blog page
   }
 
   return (

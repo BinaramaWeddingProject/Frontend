@@ -17,7 +17,7 @@ export const realWeddingsAPI = createApi({
           method: "GET",
         }),
       }),
-      getAllRealWeddings: builder.query<RealWeddingsResponse, string>({
+      getAllRealWeddings: builder.query<RealWeddingsResponse, void>({
         query: () => "all/realweddings"
       }),
       addRealWeddingPost: builder.mutation<RealWeddingsResponse, FormData>({
@@ -37,8 +37,15 @@ export const realWeddingsAPI = createApi({
           body: realWeddingsFormData,
         }),
       }),
+
+      deleteRealWedding:  builder.mutation<void, string>({
+        query: (id) => ({
+          url:`/${id}`,
+          method: 'DELETE',
+      }),
+      }),
     }),
   });
 
 
-  export const {useGetRealWeddingsPostByIdQuery,useGetAllRealWeddingsQuery,useAddRealWeddingPostMutation,useUpdateRealWeddingsPostMutation} = realWeddingsAPI;
+  export const {useGetRealWeddingsPostByIdQuery,useGetAllRealWeddingsQuery,useAddRealWeddingPostMutation,useUpdateRealWeddingsPostMutation, useDeleteRealWeddingMutation} = realWeddingsAPI;
