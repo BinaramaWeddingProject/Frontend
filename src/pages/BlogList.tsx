@@ -29,7 +29,7 @@ const BlogList: React.FC = () => {
                 <div className="p-4">
                   <h2 className="text-xl font-bold mb-2">{blog.title}</h2>
                   <p className="text-gray-700">{blog.content.substring(0, 100)}...</p>
-                  <Link to={`/blog/${blog._id}`} className="text-blue-500 hover:underline mt-2 block">
+                  <Link to={`/blogs/${blog._id}`} className="text-blue-500 hover:underline mt-2 block">
                     Read More
                   </Link>
                 </div>

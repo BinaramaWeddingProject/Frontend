@@ -59,6 +59,7 @@ function VenueList() {
           <div className="grid grid-cols-1 gap-4">
             {allVenues.length > 0 ? (
               allVenues.map((venue, index) => (
+                venue.isVerified === "Approved"?(
                 <VenueCard
                   key={index}
                   venue={{
@@ -72,7 +73,7 @@ function VenueList() {
                     images: venue.images,
                     id: venue._id,
                   }}
-                />
+                />) : null
               ))
             ) : (
               <div>No Venue found</div>

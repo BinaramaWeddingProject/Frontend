@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { useGetAdminQuery, useUpdateAdminMutation } from "../../../redux/api/admin";
+import { useGetAdminQuery, useUpdateAdminMutation } from "../../../../redux/api/admin";
 
 // Define interface for props
 interface ProfileProps {

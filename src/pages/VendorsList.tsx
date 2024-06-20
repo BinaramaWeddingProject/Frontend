@@ -10,6 +10,7 @@ import { useAllVendorQuery } from "../redux/api/vendor";
 import type { Vendor } from "../types/types";
 import VendorCard from "../components/card/Vendorcard";
 import { useParams } from "react-router-dom";
+import { title } from "process";
 
 import { LuArrowLeft } from "react-icons/lu";
 import { LuArrowRight } from "react-icons/lu";
@@ -36,12 +37,19 @@ const VendorsList: React.FC<VendorsListProps> = ({
   const { data, error, isLoading } = useAllVendorQuery("");
   const [allvendors, setAllVendors] = useState<Vendor[]>([]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const vendorsPerPage = 10; // Number of vendors to show per page
-
+  
   const type = useParams();
   console.log("param value", type.type);
   const Title = type.type;
+
+  // Filter the vendors
+  const filteredVendors = allvendors.filter(
+    (vendor) => vendor.isVerified === "Approved" && (vendor.type_Of_Business === Title || Title === "AllVendors")
+  );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const vendorsPerPage = 10; // Number of vendors to show per page
+
 
   useEffect(() => {
     if (data) {
@@ -61,10 +69,10 @@ const VendorsList: React.FC<VendorsListProps> = ({
   // Calculate the vendors to display on the current page
   const indexOfLastVendor = currentPage * vendorsPerPage;
   const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
-  const currentVendors = allvendors.slice(indexOfFirstVendor, indexOfLastVendor);
+  const currentVendors = filteredVendors.slice(indexOfFirstVendor, indexOfLastVendor);
 
   // Calculate the total number of pages
-  const totalPages = Math.ceil(allvendors.length / vendorsPerPage);
+  const totalPages = Math.ceil(filteredVendors.length / vendorsPerPage);
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
@@ -84,22 +92,23 @@ const VendorsList: React.FC<VendorsListProps> = ({
             <p className="text-xl font-bold mx-3 pt-1">
               {Title === "AllVendors"
                 ? "All Vendors"
-                : Title === "Photographers"
+                : Title === "Photographer"
                 ? "Photographers"
                 : Title === "MakeupArtist"
                 ? "Makeup Artists"
                 : Title === "MehendiArtist"
                 ? "Mehendi Artists"
-                : Title === "Decorators"
+                : Title === "Decorator"
                 ? "Decorators"
-                : Title === "Caterers"
+                : Title === "Caterer"
                 ? "Caterers"
                 : Title}
             </p>
-            <p className="text-l font-semibold mx-3 pb-2">
-              Showing result of {allvendors.length}{" "}
-              {Title === "AllVendors" ? "Vendors" : Title}
-            </p>
+            <p className="text-md font-semibold text-gray-600">
+  Showing results of{" "}
+  {filteredVendors.filter(vendor => vendor.isVerified === "Approved").length}{" "}
+  {Title === "AllVendors" ? "Vendors" : Title}
+</p>
           </div>
 
           <hr className="h-1 bg-white my-2"></hr>
@@ -108,6 +117,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
             {/* Render VendorCard components */}
             {currentVendors.length > 0 ? (
               currentVendors.map((vendor, index) => (
+                
+
                 <VendorCard
                   _id={vendor._id}
                   key={index}
@@ -117,8 +128,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
                   summary={vendor?.summary}
                   image={vendor?.portfolio[4]}
                 />
-              ))
-            ) : (
+              ))): (
               <h1>No vendors available</h1>
             )}
           </div>

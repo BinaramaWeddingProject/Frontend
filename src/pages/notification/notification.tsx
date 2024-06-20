@@ -20,36 +20,41 @@
 //     const { data: notif } = useGetAllNotificationByVIdQuery({vId});
 //     console.log("notif", notif)
 
-//     // useEffect(() => {
-//     //     const fetchNotificationStatus = async () => {
-//     //         if (data) {
-//     //             const ids = data.users.map((user: any) => user.notificationId);
-//     //             setNotificationIds(ids);
-//     //             const statuses = await Promise.all(ids.map(async (id: string) => {
-//     //                 if (id) {
-//     //                     const { data: status } = await useGetNotificationIdStatusQuery({ nId: id, vId });
-//     //                     return status;
-//     //                 }
-//     //                 return '';
-//     //             }));
-//     //             setNotificationStatus(statuses);
-//     //         }
-//     //     }
-//     //     fetchNotificationStatus();
-//     // }, [data]);
+//     const fetchNotificationStatus = async () => {
+//         console.log("data" , data)
+//             if (data) {
+//                 const ids = data.users.map((user: any) => user.notificationId);
+//                 console.log("ids" , ids)
+//                 setNotificationIds(ids);
+//                 const statuses = await Promise.all(ids.map(async (id: string) => {
+//                     if (id) {
+//                         const { data: status } =  useGetNotificationIdStatusQuery({ nId: id, vId });
+//                         return status;
+//                     }
+//                     return '';
+//                 }));
+//                 console.log("statsus" , statuses)
+//                 setNotificationStatus(statuses );
+//             }
+//         }
 
 //     useEffect(() => {
-//         if (notif && notif.status) {
-//             const ids = notif.status.map((item: any) => {
-// const vendorIds = item.vendors.map((vendor: any) => vendor.vendorId);                
-//                 const statuses = item.vendors.map((vendor: any) => vendor.status);
-//                 return { vendorIds, statuses };
-//             });
+        
+//         fetchNotificationStatus();
+//     }, [data]);
 
-//             setNotificationStatus(ids);
+// //     useEffect(() => {
+// //         if (notif && notif.status) {
+// //             const ids = notif.status.map((item: any) => {
+// // const vendorIds = item.vendors.map((vendor: any) => vendor.vendorId);                
+// //                 const statuses = item.vendors.map((vendor: any) => vendor.status);
+// //                 return { vendorIds, statuses };
+// //             });
+
+// //             setNotificationStatus(ids);
             
-//         }
-//     }, [notif]);
+// //         }
+// //     }, [notif]);
 
 //     // console.log("idsss", notificationStatus );
 //     // if (notificationStatus.length > 0 && notificationStatus[0].statuses.length > 0) {
@@ -94,6 +99,8 @@
 
 
 
+
+//main code
 
 import  { useState, useEffect } from 'react';
 import { useGetNotificationByIdQuery } from "../../redux/api/notification";
