@@ -58,7 +58,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ venues }) => {
     }, [venues, selectedFilters]);
 
     return (
-        <div className="bg-gray-800 p-2 sticky top-0 left-[75%]">
+        <div className="md:scale-100 lg:scale-100 bg-gray-800 p-2 sticky top-20 left-[75%] sm:scale-0">
             <div className="m-2">
                 <h3 className="text-lg font-bold m-2 text-white">
                     Applied Filters ({Object.values(selectedFilters).flatMap((filter) => filter).length})

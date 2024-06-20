@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import Caro from "../components/Carousel3";
 
 
-const imageUrl = "/60828931ff7a8ce3e24b6c19052a21ee.jpg";
+const imageUrl = "public/wv_homepage-min.gif";
 
 const Home = () => {
   return (
@@ -21,10 +21,7 @@ const Home = () => {
           }}
         >
           <div className="bg-black bg-opacity-50 h-full flex flex-col justify-center items-center">
-            <h1 className="text-white text-5xl font-extrabold text-center mb-6 tracking-wide">
-              WELCOME TO WEDDINGZ VENUE
-            </h1>
-            <LocationSelector />
+            {/* <LocationSelector /> */}
           </div>
         </div>
       </div>

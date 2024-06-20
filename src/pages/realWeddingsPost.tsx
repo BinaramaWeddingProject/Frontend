@@ -1,9 +1,10 @@
-// src/pages/RealWeddingsPost.tsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetRealWeddingsPostByIdQuery, useUpdateRealWeddingsPostMutation } from '../redux/api/realWeddings';
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 interface RealWeddingPostInterface {
   id: string;
@@ -14,9 +15,7 @@ interface RealWeddingPostInterface {
 
 const RealWeddingsPost: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  console.log("this is the id", id)
   const { data: realWeddingData, error, isLoading, refetch } = useGetRealWeddingsPostByIdQuery(id || '');
-  console.log("this isnthe data real",realWeddingData);
   const [isEditing, setIsEditing] = useState(false);
   const [updateRealWedding] = useUpdateRealWeddingsPostMutation();
   const [formData, setFormData] = useState<RealWeddingPostInterface>({
@@ -84,16 +83,12 @@ const RealWeddingsPost: React.FC = () => {
     const formDataToSubmit = new FormData();
     formDataToSubmit.append('title', formData.title);
     formDataToSubmit.append('content', formData.content);
-    console.log("this is the form data",formDataToSubmit);
-  
     selectedImages.forEach(image => {
       formDataToSubmit.append('images', image);
     });
-  
+
     try {
-        console.log("error kya hai?", formData)
       const res = await updateRealWedding({ id: formData.id, realWeddingsFormData: formDataToSubmit });
-      console.log("res DATA",res);
       setIsEditing(false);
       refetch();
     } catch (error) {
@@ -103,82 +98,105 @@ const RealWeddingsPost: React.FC = () => {
 
   return (
     <>
-      <NavBar />
-      <div className="container mx-auto p-8 font-roboto">
+    <NavBar />
+    <div className="min-h-screen flex flex-col">``
+      <main className="flex-grow container mx-auto py-8">
         {!isEditing ? (
-          <>
-            <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl font-bold mb-8 text-center text-[#173445]">
               {realWedding?.title}
             </h1>
-            {realWedding?.images && realWedding?.images[0] && (
-              <div className="flex justify-center mb-8">
-                <img
-                  src={realWedding?.images[0]}
-                  alt={realWedding?.title}
-                  className="w-full md:w-2/3 lg:w-1/2 h-80 object-cover rounded-lg shadow-md transition-transform duration-500 hover:scale-105"
-                />
+            {realWedding?.images && realWedding?.images.length > 0 && (
+              <div className="mb-8">
+                <Carousel
+                  showArrows={true}
+                  showStatus={false}
+                  showThumbs={false}
+                  infiniteLoop={true}
+                  autoPlay={true}
+                  interval={5000}
+                  transitionTime={500}
+                >
+                  {realWedding.images.map((image, index) => (
+                    <div key={index}>
+                      <img
+                        src={image}
+                        alt={`Real Wedding Image ${index + 1}`}
+                        className="w-full h-96 object-cover rounded-lg shadow-lg"
+                      />
+                    </div>
+                  ))}
+                </Carousel>
               </div>
             )}
-            <div className="prose max-w-none mx-auto text-gray-700 leading-loose">
+            <div className="prose max-w-none mx-auto text-gray-700 leading-relaxed mb-8">
               {realWedding?.content}
             </div>
-            <button
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-              onClick={handleEditClick}
-            >
-              Edit
-            </button>
-          </>
+            <div className="text-center">
+              <button
+                className="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-300"
+                onClick={handleEditClick}
+              >
+                Edit
+              </button>
+            </div>
+          </div>
         ) : (
-          <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-                Title
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="content">
-                Content
-              </label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="images">
-                Images
-              </label>
-              <input
-                type="file"
-                id="images"
-                name="images"
-                multiple
-                onChange={handleImageChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-green-500 text-white rounded"
-            >
-              Save
-            </button>
-          </form>
+          <div className="max-w-lg mx-auto bg-white rounded-lg shadow-lg p-8">
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="content">
+                  Content
+                </label>
+                <textarea
+                  id="content"
+                  name="content"
+                  value={formData.content}
+                  onChange={handleChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  rows={8}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2" htmlFor="images">
+                  Images
+                </label>
+                <input
+                  type="file"
+                  id="images"
+                  name="images"
+                  multiple
+                  onChange={handleImageChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition-colors duration-300"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
         )}
-      </div>
+      </main>
       <Footer />
+    </div>
     </>
   );
 };
