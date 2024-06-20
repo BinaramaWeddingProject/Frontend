@@ -29,7 +29,7 @@ const TopFilter: React.FC = () => {
         <input 
           type="text" 
           placeholder="Search for Venue, Locality" 
-          className="w-full p-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none "
+          className="w-full p-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none"
         />
       </div>
       <div>
