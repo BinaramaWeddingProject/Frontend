@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as solidStar, faHome, faPhoneAlt, faImages, faBoxOpen, faStar as regularStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as solidStar, faHome, faImages, faBoxOpen, faStar as regularStar } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useGetWishlistQuery } from '../redux/api/wishlist';
 import { useAllVenueQuery } from '../redux/api/venue';
@@ -53,7 +53,7 @@ const userId = "665d6d766063ea750000e096";
 
 const UserTabView = () => {
     const { data: user, refetch } = useGetUserQuery(userId)
-    const [updateUser, { isLoading }] = useUpdateUserMutation()
+    const [updateUser] = useUpdateUserMutation()
     console.log("checking for data", user?.data?.user)
 
     const userData = user?.data?.user
@@ -169,7 +169,7 @@ const UserTabView = () => {
     );
 };
 
-// ***********************
+
 const OverviewTab: React.FC<OverviewTabProps> = ({ profileData, isEditing, handleEditClick, handleSaveClick, handleChange }) => {
     const [editImage, setEditImage] = useState(false);
     const [imageUrl, setImageUrl] = useState(profileData.avatarUrl);
@@ -183,7 +183,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ profileData, isEditing, handl
         setEditImage(false);
     };
 
-    const { name, phoneNumber, address, email, avatarUrl } = profileData;
+    const { name, phoneNumber, address, email} = profileData;
 
     return (
         <div className="flex flex-col my-4 p-6 bg-white rounded-lg shadow-md text-black">
@@ -353,9 +353,6 @@ const Wishlist = () => {
         return <h1>Loading</h1>;
     }
 
-    const phoneNumber = "123-456-7890"; // Replace with actual phone number from your data
-    const address = "123 Street, City, Country"; // Replace with actual address from your data
-
     return (
         <div className="flex flex-col items-center">
            
@@ -374,7 +371,7 @@ const Wishlist = () => {
                             city={vendor.city}
                             packagePrice={vendor.packages?.price}
                             summary={vendor.summary}
-                            image={vendor.portfolio[4]}
+                            image={vendor.portfolio ? vendor.portfolio[4] : ""}
                         
                         />
                           </div>

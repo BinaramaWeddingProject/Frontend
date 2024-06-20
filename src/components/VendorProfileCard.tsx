@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import { useUpdateVendorMutation } from '../redux/api/vendor';
+import {  logout } from '../redux/reducer/auth';
+import { useDispatch } from 'react-redux';
+import {  AppDispatch } from '../redux/store';
 
 
 interface Props {
@@ -16,7 +19,8 @@ interface Props {
 
 
 const VendorProfileCard: React.FC<Props> = ({name, profile, phone, email, password, id}) => {
-  const [updateVendor, { isLoading }] = useUpdateVendorMutation();
+  const dispatch = useDispatch<AppDispatch>();
+  const [updateVendor, ] = useUpdateVendorMutation();
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
     name,
@@ -74,6 +78,9 @@ const VendorProfileCard: React.FC<Props> = ({name, profile, phone, email, passwo
         break;
       case 'Logout':
         // Perform logout logic here
+        dispatch(logout());
+        navigate('/');
+
         break;
       default:
         break;

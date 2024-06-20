@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+// TopFilter.tsx
+
+import React, { useState  } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -6,7 +8,13 @@ const localities = ['Mumbai', 'Pune', 'Delhi', 'Bangalore'];
 const guestOptions = ['50-60 guests', '100-200 guests', '200-300 guests'];
 const budgetOptions = ['₹5000-₹10000', '₹10000-₹20000', '₹20000-₹50000'];
 
-const TopFilter: React.FC = () => {
+interface Props {
+  onChange: (filters: { city: string; guests: string; budget: string }) => void; // Define the type explicitly
+}
+
+
+
+const TopFilter: React.FC<Props>  = ({ onChange}) => {
   const [selectedLocality, setSelectedLocality] = useState('');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedGuests, setSelectedGuests] = useState('');
@@ -14,13 +22,11 @@ const TopFilter: React.FC = () => {
 
   const handleSearch = () => {
     const filters = {
-      locality: selectedLocality,
-      date: selectedDate,
+      city: selectedLocality,
       guests: selectedGuests,
       budget: selectedBudget,
     };
-    console.log('Applied Filters:', filters);
-    // Implement the search functionality based on filters
+    onChange(filters);
   };
 
   return (

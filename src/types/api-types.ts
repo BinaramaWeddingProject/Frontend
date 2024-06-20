@@ -15,6 +15,7 @@ export type AllVendorsResponse = {
 export type MessageResponse = {
   success: boolean;
   message: string;
+  
 
 };
 

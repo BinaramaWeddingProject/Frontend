@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import type { Vendor } from "../types/types";
 import VendorCard from '../components/card/Vendorcard';
 import { useGetVendorByTypeQuery } from '../redux/api/vendor';
-import { Params, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 interface VendorsListProps {
@@ -32,20 +32,10 @@ const VendorsListByCategory: React.FC<VendorsListProps> = ({  NumberOfArticaleCa
   const category = useParams<{category: string | undefined}>();
   console.log("ye hai category hamnari",category.category);
   // const { data, error, isLoading } = useAllVendorQuery("");
-  const { data : vendor, error, isLoading } = useGetVendorByTypeQuery(category.category);
-  const vendorData=vendor?.data.vendors;
+  const { data : vendor, error, isLoading } = useGetVendorByTypeQuery(category.category || "");
+  const vendorData=vendor?.data?.vendors;
   console.log("hereeeeeeeeeeeeeeeeeeeeeee",vendorData )
   const [allvendors, setAllVendors] = useState<Vendor[]>([]);
-
-
-
-    // const [category, setCategory] = useState('Photographer'); // Initial category set karein
-  
-    // const { data: vendorData, error, isLoading } = useGetVendorByTypeQuery(category);
-  
-    // const handleCategoryChange = (newCategory: string) => {
-    //   setCategory(newCategory);
-    // };
 
 
   useEffect(() => {
@@ -90,7 +80,7 @@ const VendorsListByCategory: React.FC<VendorsListProps> = ({  NumberOfArticaleCa
               city={vendorData?.city}
               packagePrice={vendorData?.packages?.price}
               summary={vendorData?.summary}
-              image={vendorData?.portfolio[4]}
+              image={vendorData?.portfolio ?  vendorData?.portfolio[4] : ""}
             />
           )) : <h1>No vendors available</h1>}
         </div>

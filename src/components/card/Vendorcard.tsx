@@ -14,8 +14,7 @@ type VendorCardProps = {
   packagePrice?: string;
   summary?: string;
   city?: string;
-  h?: string;
-  w?: string;
+ 
 };
 
 const VendorCard: React.FC<VendorCardProps> = ({
@@ -26,8 +25,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
   rating = 3,
   packagePrice,
   summary,
-  h,
-  w,
+ 
 }) => {
   const { data: wishlistData, refetch } = useGetWishlistQuery(userId);
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -45,13 +43,13 @@ const VendorCard: React.FC<VendorCardProps> = ({
 
   return (
     <div className="flex justify-center">
-      <div className="transform scale-75 sm:scale-100 h-[400px] w-[500px] rounded overflow-hidden shadow-xl flex flex-col">
+      <div className="transform scale-72 sm:scale-100 h-[400px] w-[425px]  rounded  shadow-xl flex flex-col">
         <Link to={`/vendor/${type.type}/${_id}`}>
           <div className="relative h-[200px]">
-            <img src={image} alt={businessName} className="w-full h-[200px] object-cover" />
+            <img src={image} alt={businessName} className="w-full h-[200px] object-cover rounded-lg" />
             <div
-              className={`absolute top-2 right-2 ${
-                isInWishlist ? "text-red-500 transform scale-125" : "text-white"
+              className={`absolute top-4 right-4 ${
+                isInWishlist ? "text-red-600 transform scale-125" : "text-white"
               }`}
             >
               <FaHeart size={25} />
@@ -79,8 +77,8 @@ const VendorCard: React.FC<VendorCardProps> = ({
             <button 
               className={`${
                 isEnquirySelected
-                  ? "bg-purple-500 text-white"
-                  : "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+                  ? "bg-[#ea4f54] text-white"
+                  : "bg-[#A31F24] text-white"
               } py-2 px-4 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 mb-4 w-full`}
               onClick={() => setIsEnquirySelected(!isEnquirySelected)}
             >

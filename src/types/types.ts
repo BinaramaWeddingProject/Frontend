@@ -1,3 +1,5 @@
+
+
 export type Vendor = Partial<{
   _id: string;
   name: string;
@@ -15,7 +17,7 @@ export type Vendor = Partial<{
     price: string;
     minAdvance: string;
   };
-  portfolio: string[]; 
+  portfolio?: string[]; 
   experience: string;
   event_completed: number;
   willingToTravel: boolean;
@@ -43,7 +45,7 @@ export interface Venue {
   state?: string;
   comment?: string;
   guestCapacity?: string;
-  images?: string[];
+  images: string[];
   description?: string;
   about?: string;
   howToReach?: string;
@@ -54,7 +56,10 @@ export interface Venue {
   summary?: string;
   review?: string; // Assuming review and foodPackages are stored as string IDs
   foodPackages?: string;
+  venueType?: string[];
+  facilities?: string[];
   isPasswordCorrect?(password: string | Buffer): Promise<boolean>;
+
 }
 
 export interface wishlist{
@@ -64,7 +69,8 @@ export interface wishlist{
 }
 
 export interface User{
-  _id:string;
+  _id?:string;
+  role?:string;
   fullName?: string;
   email?: string;
   password?: string;
@@ -120,4 +126,13 @@ export interface Notification{
   contact?: string;
   address?: string;
   city?: string;
+ }
+
+ export interface Filter{
+  city?:string
+  foodPackage?:string
+  facilities?:string
+  venueType?:string
+  maxGuests?:string
+  minGuests?:string
  }

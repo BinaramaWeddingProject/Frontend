@@ -1,19 +1,32 @@
-import VendorProfileCard from "../components/VendorProfileCard";
-import ServiceDetailsForm from "../components/ServiceDetailsForm";
-import NavBar from "../components/navbar";
-import Footer from "../components/Footer";
-import VendorProfileInfo from "../components/VendorProfileInfo";
-import { useGetVendorByIdQuery } from "../redux/api/vendor";
 
-const vendorid = "6647077ca07a6f12501a2b6c";
+import VendorProfileCard from '../components/VendorProfileCard';
+import ServiceDetailsForm from '../components/ServiceDetailsForm';
+import NavBar from '../components/navbar';
+import Footer from '../components/Footer';
+import VendorProfileInfo from '../components/VendorProfileInfo';
+import { useGetVendorByIdQuery } from '../redux/api/vendor';
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
+
+
+
 
 // Corrected function declaration
-const VendorProfilePage = () => {
-  const { data: vendor} = useGetVendorByIdQuery(vendorid);
+const VendorProfilePage: React.FC = () => {
 
-  // console.log("updatevendor", updatevendor)
-  const vendorData = vendor?.data?.vendor;
-  console.log("vendor data", vendor);
+    
+
+  const vendorid =  useSelector((state: RootState) => state?.auth?.user?._id) ;
+  console.log("user" , vendorid)
+
+
+    const { data: vendor} = useGetVendorByIdQuery(vendorid || "");
+   
+    // console.log("updatevendor", updatevendor)
+    const vendorData = vendor?.data?.vendor;
+    console.log("vendor data", vendor);
 
   return (
     <>

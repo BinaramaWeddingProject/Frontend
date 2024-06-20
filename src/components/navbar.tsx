@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-[#173445] py-4 px-6 relative z-10">
+    <nav className="bg-[#A31F24] py-3 px-6 relative z-10">
       <div className="container mx-auto flex md:justify-between justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
@@ -43,11 +43,16 @@ const NavBar: React.FC = () => {
             <li className="relative">
               <Link to="/vendor/AllVendors" className="text-white hover:text-gray-200">Vendors</Link>
             </li>
-            <li className="relative">
-              <Link to="/blog" className="text-white hover:text-gray-200">Blogs</Link>
+            <li>
+              <Link to="/blogs  " className="text-white hover:text-gray-200">Blogs</Link>
             </li>
-            <li className="relative">
-              <Link to="/about" className="text-white hover:text-gray-200">Why Us</Link>
+            
+            <li>
+              <Link to="/realWeddings  " className="text-white hover:text-gray-200">Real Weddings</Link>
+            </li>
+
+            <li>
+              <Link to="/aboutus1" className="text-white hover:text-gray-200">Why Us</Link>
             </li>
           </ul>
         </div>

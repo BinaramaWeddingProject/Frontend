@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { PiHairDryerBold } from "react-icons/pi";

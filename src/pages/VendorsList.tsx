@@ -1,17 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FaSearch } from "react-icons/fa";
 import AllVendors from "../components/card/AllVendors";
 import ArticleCard from "../components/card/ArticleCard";
 import NavBar from "../components/navbar";
 import Footer from "../components/Footer";
+
+import { useState, useEffect } from "react";
 import { useAllVendorQuery } from "../redux/api/vendor";
 import type { Vendor } from "../types/types";
 import VendorCard from "../components/card/Vendorcard";
 import { useParams } from "react-router-dom";
 import { title } from "process";
 
+import { LuArrowLeft } from "react-icons/lu";
+import { LuArrowRight } from "react-icons/lu";
+
 interface VendorsListProps {
   NumberOfCards?: number;
+
   Description?: string;
   Search?: string;
   Img?: string;
@@ -25,14 +31,25 @@ const VendorsList: React.FC<VendorsListProps> = ({
   Img = "/public/mumbai.jpg",
   ImgTitle2 = "mumbai",
 }) => {
+  // Create an array of length equal to numberOfCards
+  //const cardsArray = Array.from({ length: NumberOfCards });
   const ArticleCardsArray = Array.from({ length: NumberOfArticaleCards });
   const { data, error, isLoading } = useAllVendorQuery("");
   const [allvendors, setAllVendors] = useState<Vendor[]>([]);
-  const [filteredVendors, setFilteredVendors] = useState<Vendor[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
 
+  
   const type = useParams();
+  console.log("param value", type.type);
   const Title = type.type;
+
+  // Filter the vendors
+  const filteredVendors = allvendors.filter(
+    (vendor) => vendor.isVerified === "Approved" && (vendor.type_Of_Business === Title || Title === "AllVendors")
+  );
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const vendorsPerPage = 10; // Number of vendors to show per page
+
 
   useEffect(() => {
     if (data) {
@@ -40,37 +57,39 @@ const VendorsList: React.FC<VendorsListProps> = ({
     }
   }, [data]);
 
-  useEffect(() => {
-    if (searchQuery.trim() === "") {
-      setFilteredVendors(allvendors);
-    } else {
-      const filtered = allvendors.filter((vendor) =>
-        vendor?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredVendors(filtered);
-    }
-  }, [searchQuery, allvendors]);
-
-  const handleSearch = () => {
-    // Perform search based on searchQuery
-  };
-
   if (error) {
-    return <h1 className="text-red-500">Error while loading data</h1>;
+    return <h1>Error while loading data</h1>;
   }
 
   if (isLoading) {
-    return <h1 className="text-blue-500">Loading...</h1>;
+    return <h1>Loading</h1>;
   }
+
+
+  // Calculate the vendors to display on the current page
+  const indexOfLastVendor = currentPage * vendorsPerPage;
+  const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
+  const currentVendors = filteredVendors.slice(indexOfFirstVendor, indexOfLastVendor);
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(filteredVendors.length / vendorsPerPage);
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   return (
     <>
       <NavBar />
-      <div className="flex flex-col md:flex-row  min-h-screen p-4">
-        {/* First section */}
-        <div className="w-full md:w-3/4 p-4">
-          <div className="bg-white p-4 rounded shadow-md">
-            <p className="text-3xl font-bold text-gray-800">
+      <div className="flex bg-blue-100">
+        {/* First section (4/5 of the screen) */}
+        <div className="justify-start p-4 w-3/4">
+          <div className="bg-slate-100 rounded-md ">
+            <p className="text-xl font-bold mx-3 pt-1">
               {Title === "AllVendors"
                 ? "All Vendors"
                 : Title === "Photographer"
@@ -87,17 +106,18 @@ const VendorsList: React.FC<VendorsListProps> = ({
             </p>
             <p className="text-md font-semibold text-gray-600">
   Showing results of{" "}
-  {allvendors.filter(vendor => vendor.isVerified === "Approved").length}{" "}
+  {filteredVendors.filter(vendor => vendor.isVerified === "Approved").length}{" "}
   {Title === "AllVendors" ? "Vendors" : Title}
 </p>
           </div>
 
-          <div className="bg-white p-6 rounded  mt-4 flex flex-wrap gap-2 justify-center sm:shadow-md">
+          <hr className="h-1 bg-white my-2"></hr>
+
+          <div className=" bg-slate-100 flex flex-wrap py-5 gap-24 justify-center rounded-md">
             {/* Render VendorCard components */}
-            {filteredVendors.length > 0 ? (
-              filteredVendors.map((vendor, index) => (
-                vendor.isVerified==="Approved"? (
-                  vendor.type_Of_Business === Title ? (
+            {currentVendors.length > 0 ? (
+              currentVendors.map((vendor, index) => (
+                
 
                 <VendorCard
                   _id={vendor._id}
@@ -107,56 +127,72 @@ const VendorsList: React.FC<VendorsListProps> = ({
                   packagePrice={vendor?.packages?.price}
                   summary={vendor?.summary}
                   image={vendor?.portfolio[4]}
-                />): Title === "AllVendors" ?(
-                  <VendorCard
-                  _id={vendor._id}
-                  key={index}
-                  businessName={vendor?.name}
-                  city={vendor?.city}
-                  packagePrice={vendor?.packages?.price}
-                  summary={vendor?.summary}
-                  image={vendor?.portfolio[4]}
                 />
-                ):null ):null
-              ))
-            ) : (
-              <h1 className="text-gray-500">No vendors available</h1>
+              ))): (
+              <h1>No vendors available</h1>
             )}
           </div>
+
+         {/* Pagination Controls */}
+         <div className="flex justify-center mt-4">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="flex items-center px-4 py-2 mx-2 bg-[#A31F24] text-white rounded"
+            >
+              <LuArrowLeft  />
+            </button>
+            <span className="px-4 py-2 mx-2 bg-gray-200 text-black rounded">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="flex items-center px-4 py-2 mx-2 bg-[#A31F24] text-white rounded"
+            >
+             <LuArrowRight />
+            </button>
+          </div>
+
+          
+
         </div>
 
-        {/* Second section */}
-        <div className="w-full md:w-1/4 bg-white p-4 md:p-6 rounded shadow-md mt-4 md:mt-0">
-          <div>
-            <p className="text-2xl font-bold text-gray-800">{Search}</p>
-            <div className="flex mt-4">
+
+
+        {/* Second section (1/5 of the screen) */}
+        <div className="w-1/4 bg-[#fffdd0]">
+        {/* #F3CC3A   #E4C041 */}
+          <div className="justify-end p-4">
+            <p className="text-xl font-bold">{Search}</p>
+            <hr className="h-1 bg-gray-200 my-2"></hr>
+            {/* Search bar */}
+            <div className="flex">
               <input
                 type="text"
                 placeholder="Enter artist name..."
-                className="w-full px-3 py-2 border rounded-l-md outline-none focus:ring-2 focus:ring-blue-400"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-3 py-2 border rounded-l-md outline-none"
               />
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600"
-                onClick={handleSearch}
-              >
+              <button className="bg-blue-400 text-white px-4 py-2 rounded-r-md">
                 <FaSearch />
               </button>
             </div>
-            <div className="shadow-xl mt-8">
+            <hr className="h-1 bg-gray-200 my-2"></hr>
+            <div className="shadow-xl bg-white">
               <AllVendors />
             </div>
+
             <img
               src={Img}
               alt={ImgTitle2}
-              className="w-full h-[250px] p-3 shadow-xl rounded-md mt-6"
+              className="w-full h-[250px] p-3 shadow-xl"
             />
             <p className="text-xl font-semibold pt-3 pb-2 shadow">
-              Related Articles
+              Related Article
             </p>
-            <div className="flex flex-wrap justify-center shadow">
-              {/* Render ArticleCard components */}
+
+            <div className="  flex flex-wrap justify-center shadow">
+              {/* Render VendorCard components */}
               {ArticleCardsArray.map((_, index) => (
                 <div key={index} className="mx-2 mb-4 shadow-xl">
                   <ArticleCard />
@@ -164,6 +200,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
               ))}
             </div>
           </div>
+          {/* Content for the second section */}
+          {/* You can add content for the second section here */}
         </div>
       </div>
       <Footer />
