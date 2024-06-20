@@ -107,6 +107,16 @@ export interface Blog{
   category?: string;
 }
 
+export interface RealWeddings{
+  _id:string
+  title?: string;
+  images?: string[];
+  content?: string;
+  author?: string;
+  category?: string;
+  organizerName?: string;
+}
+
 export interface Notification{
   _id:string;
   name?: string;

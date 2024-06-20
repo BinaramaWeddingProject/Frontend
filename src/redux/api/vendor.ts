@@ -74,4 +74,3 @@ export const vendorAPI = createApi({
 
 // Export the hook from the vendorAPI object
 export const {useAllVendorQuery , useSignupMutation ,  useLoginVendorMutation,  useGetVendorByIdQuery, useUpdateVendorMutation, useGetVendorByTypeQuery, useDeleteVendorByIdMutation} = vendorAPI;
-

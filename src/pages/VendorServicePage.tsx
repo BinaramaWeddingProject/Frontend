@@ -64,7 +64,7 @@ function VendorServicePage() {
             />
           </div>
           <div className="mb-6">
-            {/* <AllVendors /> */}
+            <AllVendors />
           </div>
         </div>
 

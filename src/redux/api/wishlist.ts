@@ -39,4 +39,3 @@ export const wishlistAPI = createApi({
 })
 
 export const { useAddWishlistMutation, useDeleteWishlistMutation, useGetWishlistQuery} = wishlistAPI
-
