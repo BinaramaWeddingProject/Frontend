@@ -1,9 +1,9 @@
-
+import React from 'react';
 import { FaPhoneAlt } from 'react-icons/fa'; // Import phone icon from react-icons
 
 const InformationBanner = () => {
   return (
-    <div className="bg-gradient-to-r from-purple-600 to-blue-800 text-white py-8 px-10 mt-8 rounded-lg shadow-lg">
+    <div className="bg-gradient-to-r from-[#A31F24] to-[#fffdd0] text-white py-8 px-10 mt-8 shadow-lg">
       <div className="flex items-center text-3xl font-semibold mb-6">
         <FaPhoneAlt className="w-8 h-8 mr-2" />
         CALL US: +912249449790

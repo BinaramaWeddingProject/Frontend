@@ -10,7 +10,8 @@ import { useGetAllRealWeddingsQuery } from '../redux/api/realWeddings';
 import SkeletonWeddingCard from '../components/skeleton/RealWedding';
 
 const RealWeddingsList: React.FC = () => {
-  const { data: realWeddingsData, error, isLoading } = useGetAllRealWeddingsQuery('');
+  const { data: realWeddingsData, refetch } = useGetAllRealWeddingsQuery();
+  console.log("real data",realWeddingsData);
   const realWeddings: RealWeddings[] = realWeddingsData?.data.realWeddings || [];
 
   if (error) {
@@ -36,7 +37,7 @@ const RealWeddingsList: React.FC = () => {
                 <div className="p-4">
                   <h2 className="text-xl font-bold mb-2">{wedding.title ?? 'Untitled'}</h2>
                   <p className="text-gray-700">{wedding.content ? wedding.content.substring(0, 100) + '...' : 'No content available'}</p>
-                  <Link to={`/realWeddings/${wedding._id}`} className="text-blue-500 hover:underline mt-2 block">
+                  <Link to={`/realWedding/${wedding._id}`} className="text-blue-500 hover:underline mt-2 block">
                     Read More
                   </Link>
                 </div>

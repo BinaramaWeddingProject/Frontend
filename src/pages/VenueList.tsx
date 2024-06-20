@@ -42,9 +42,9 @@ function VenueList() {
       <TopFilter onChange={handleFilterChange} />
       <div className="flex flex-grow container mx-auto">
         <div className="w-1/4 ">
-          <FilterBar venues={mockVenues} onChange={handleFilterChange} />
+          <FilterBar  onChange={handleFilterChange} />
         </div>
-        <div className="w-3/4">
+        <div className="w-full md:w-3/4">
           <div className="grid grid-cols-1 gap-4">
             {isLoading ? (
               Array.from({ length: 4 }).map((_, index) => (

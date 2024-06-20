@@ -135,7 +135,11 @@ const VendorsList: React.FC<VendorsListProps> = ({
           </div>
         </div>
 
+
+
+        {/* Second section (1/5 of the screen) */}
         <div className="w-1/4 bg-[#fffdd0]">
+        {/* #F3CC3A   #E4C041 */}
           <div className="justify-end p-4">
             <p className="text-xl font-bold">{Search}</p>
             <hr className="h-1 bg-gray-200 my-2"></hr>

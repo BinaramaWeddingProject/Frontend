@@ -12,7 +12,7 @@ import AboutUs from "./pages/AboutUs";
 import VenueProfilePage from "./pages/VenueProfilePage";
 import UserProfilePage from "./pages/UserProfilePage";
 import VendorsListByCategory from "./pages/VendorListByCategory";
-import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
+// import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
 import VendorProfile from "./pages/admin/components/profile/vendor/VendorProfilePage";
 import UserProfile from "./pages/admin/components/profile/user/UserProfile";
 
@@ -33,8 +33,9 @@ import BlogPost from "./pages/admin/components/profile/blog/BlogPost";
 import UserNotification from "./pages/notification/notification";
 import BlogView from "./pages/BlogView";
 import RealWeddingsList from "./pages/realWeddingsList";
-import RealWeddingsPost from "./pages/realWeddingsPost";
-import NewRealWedding from "./pages/newRealWeddings";
+import RealWeddingsView from "./pages/realWeddingsView";
+import RealWeddingsPost from "./pages/admin/components/profile/realWedding/realWeddingsPost";
+import NewRealWedding from "./pages/admin/components/profile/realWedding/newRealWeddings";
 
 import {AdminProtectedRoutes , VendorProtectedRoutes , VenueProtectedRoutes , UserProtectedRoutes} from "./utils/ProtectedRoutes";
 
@@ -91,8 +92,9 @@ const App: React.FC = () => {
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/blog/new" element={<NewBlog />} />
             <Route path="/realWeddings/new" element={<NewRealWedding />} />
-            <Route path="/realWeddings" element={<RealWeddingsList />} />
             <Route path="/realWeddings/:id" element={<RealWeddingsPost />} />
+         
+            
             <Route path="/notification" element={<UserNotification/>}/>
 
 
@@ -129,6 +131,9 @@ const App: React.FC = () => {
 
             </Route>
 
+            <Route path="/realWedding" element={<RealWeddingsList />} />
+            <Route path="/realWedding/:id" element={<RealWeddingsView />} />
+            
           </Routes>
         </Suspense>
       </Router>

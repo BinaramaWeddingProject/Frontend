@@ -21,7 +21,7 @@ const PriceCard: React.FC<Props> = ({ price, rating, vendorId, itemType = "vendo
   // console.log("kisi msg ");
   const { data: wishlistData, refetch} = useGetWishlistQuery(userId)
   const itemId = vendorId;
-  console.log("kisi msg ke sath rkh diya",wishlistData?.wishlist?.items);
+  // console.log("kisi msg ke sath rkh diya",wishlistData?.wishlist?.items);
 
   useEffect(() => {
     if (wishlistData) {

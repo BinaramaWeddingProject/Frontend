@@ -59,12 +59,22 @@ export const VenueAPI = createApi({
               url:`${id}`,
               method: 'DELETE'
             })
-          })
+          }),
         
+
+          rankedVenues: builder.query<AllVenuesResponse, void>({
+            query: () => ({
+              url: `/ranked/venues`,
+              method: 'GET',
+            }),
+            providesTags: ["venues"], // Assuming it provides tags like other endpoints
+          }),
+
+
     }),
 
     
 })
 
 // Export the hook from the vendorAPI object
-export const {useAllVenueQuery , useSignupVenueMutation, useLoginVenueMutation, useGetVenueByIdQuery, useUpdateVenueMutation, useDeleteVenueByIdMutation} = VenueAPI;
+export const {useAllVenueQuery , useSignupVenueMutation, useLoginVenueMutation, useGetVenueByIdQuery, useUpdateVenueMutation, useDeleteVenueByIdMutation,useRankedVenuesQuery} = VenueAPI;
