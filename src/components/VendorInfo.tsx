@@ -14,7 +14,8 @@ const VendorInfo: React.FC<VendorInfoProps> = ({
   typeOfBusiness = "jnsc",
 }) => {
   return (
-    <div className=" rounded-lg shadow-xl pl-6 mb-4">
+    <div className=" rounded-lg shadow-xl pl-6 mb-4 w-full">
+                  <h1 className="text-3xl font-semibold">Vendor Information</h1> 
       <h2 className="text-2xl font-bold text-gray-800 mb-2">{name}</h2>
       <p className="text-gray-600 font-semibold">{location}</p>
       <p className="text-gray-600 font-semibold mt-2">{businessName}</p>

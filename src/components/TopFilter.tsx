@@ -30,15 +30,15 @@ const TopFilter: React.FC<Props>  = ({ onChange}) => {
   };
 
   return (
-    <div className="flex flex-wrap space-x-4 bg-gray-800 sticky top-0 z-10 p-4 shadow-md">
-      <div className="flex-grow">
+    <div className="flex flex-wrap space-x-4 bg-gray-800 sticky top-0 z-10 p-4 shadow-md ">
+      <div className="flex-grow m-2">
         <input 
           type="text" 
           placeholder="Search for Venue, Locality" 
           className="w-full p-2 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none"
         />
       </div>
-      <div>
+      <div className='m-2'>
         <select
           value={selectedLocality}
           onChange={(e) => setSelectedLocality(e.target.value)}
@@ -50,7 +50,7 @@ const TopFilter: React.FC<Props>  = ({ onChange}) => {
           ))}
         </select>
       </div>
-      <div>
+      <div className='m-2'>
         <DatePicker
           selected={selectedDate}
           onChange={(date) => setSelectedDate(date)}
@@ -58,7 +58,7 @@ const TopFilter: React.FC<Props>  = ({ onChange}) => {
           className="p-2 rounded-md bg-gray-700 text-white focus:outline-none"
         />
       </div>
-      <div>
+      <div className='m-2'>
         <select
           value={selectedGuests}
           onChange={(e) => setSelectedGuests(e.target.value)}
@@ -70,7 +70,7 @@ const TopFilter: React.FC<Props>  = ({ onChange}) => {
           ))}
         </select>
       </div>
-      <div>
+      <div className='m-2'>
         <select
           value={selectedBudget}
           onChange={(e) => setSelectedBudget(e.target.value)}
@@ -88,7 +88,7 @@ const TopFilter: React.FC<Props>  = ({ onChange}) => {
       >
         Search
       </button>
-    </div>
+    </div>  
   );
 };
 
