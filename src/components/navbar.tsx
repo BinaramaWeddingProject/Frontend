@@ -26,7 +26,7 @@ const NavBar: React.FC = () => {
       <div className="container mx-auto flex md:justify-between justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <img src={"/public/logo_weddings-venue.png"} alt="Logo" className="w-14 h-14 rounded-full" />
+          <img src={""} alt="Logo" className="w-10 h-10 rounded-full" />
           {/* Adjust the class above (w-10 h-10 rounded-full) according to your logo size and shape */}
           <span className="text-white text-2xl font-bold"></span>
         </Link>

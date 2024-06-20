@@ -24,7 +24,7 @@ const TopFilter: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-wrap space-x-4 bg-gray-800 p-4 shadow-md">
+    <div className="flex flex-wrap space-x-4 bg-gray-800 sticky top-0 z-10 p-4 shadow-md">
       <div className="flex-grow">
         <input 
           type="text" 

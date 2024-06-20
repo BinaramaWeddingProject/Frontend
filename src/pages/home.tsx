@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import Caro from "../components/Carousel3";
 
 
-const imageUrl = "public/wv_homepage.gif";
+const imageUrl = "public/wv_homepage-min.gif";
 
 const Home = () => {
   return (

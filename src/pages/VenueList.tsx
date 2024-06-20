@@ -33,8 +33,8 @@ function VenueList() {
     <div className="flex flex-col min-h-screen">
       <NavBar />
       <TopFilter />
-      <div className="flex flex-grow container mx-auto">
-        <div className="w-1/4 ">
+      <div className="flex justify-start">
+        <div className="w-1/4">
           <FilterBar venues={mockVenues} />
         </div>
         <div className="w-3/4">
