@@ -1,10 +1,12 @@
+
 import NavBar from "../components/navbar";
 import LocationSelector from "../components/Locationselector";
 import LocationCardHolder from "../components/LocationCardHolder";
 import { dummyLocations } from "./dummyLocations";
+
 import InformationBanner from "../components/InformationBanner";
 import Footer from "../components/Footer";
-import Caro from "../components/Carousel3";
+
 
 
 const imageUrl = "public/wv_homepage-min.gif";

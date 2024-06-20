@@ -7,7 +7,6 @@ import VendorInfo from "../components/VendorInfo";
 import DescriptionCard from "../components/DescriptionCard";
 import TermsAndPolicyCard from "../components/Terms";
 import RelatedArticles from "../components/RelatedArticles";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetVendorByIdQuery } from "../redux/api/vendor";
 import AllVendors from "../components/card/AllVendors";

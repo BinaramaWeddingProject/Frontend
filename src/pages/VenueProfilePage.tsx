@@ -1,20 +1,33 @@
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
-import { useGetVendorByIdQuery } from '../redux/api/vendor';
+
 // import { useUpdateVendorMutation } from '../redux/api/vendor';
 import VenueProfileInfo from '../components/VenueProfileInfo';
 import VenueProfileCard from '../components/VenueProfileCard';
 import ServiceDetailsFormVenue from '../components/ServiceDetailsFormVenue';
 import { useGetVenueByIdQuery } from '../redux/api/venue';
-import { useAllVenueQuery } from '../redux/api/venue';
 
-const vendorid = '6654342528aa54d4db41612a';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
+
+
 
 // Corrected function declaration
-const VenueProfilePage = () => {
-    console.log('hello')
-    const { data: venue, error, isLoading: isFetching } = useGetVenueByIdQuery(vendorid);
-    // const { data: venues, error, isLoading } = useAllVenueQuery('');
+const VenueProfilePage: React.FC = () => {
+
+    // const dispatch: AppDispatch = useDispatch();
+    // // const id = localStorage.getItem('userId') || "" ;
+     
+    // //  dispatch(setUserId(id));
+    // //  console.log(id)
+
+    const venueId = useSelector((state: RootState) => state?.auth?.user?._id);
+    console.log("user" , venueId)
+
+   
+    const { data: venue } = useGetVenueByIdQuery(venueId  || "");
+   
    
     // console.log("updatevendor", updatevendor)
     const venueData = venue?.data?.venue;
@@ -34,8 +47,8 @@ const VenueProfilePage = () => {
                     <VenueProfileCard 
                         yourName={venueData?.yourName} 
                         phone={venueData?.phone} 
-                        email={venueData?.email} 
-                        id={vendorid}
+                        profile = {venueData}
+                        id={venueId}
                     /> 
                 </div>
                 <div className='w-full'>
@@ -52,7 +65,10 @@ const VenueProfilePage = () => {
                         howToReach={venueData?.howToReach} 
                         summary={venueData?.summary} 
                         venuePolicies={venueData?.venuePolicies} 
-                        id={vendorid}
+                        id={venueId}
+                        venueType= {venueData?.venueType}
+                        facilities= {venueData?.facilities}
+                        foodPackages={venueData?.foodPackages}
                         />
                     </div>
                 </div>

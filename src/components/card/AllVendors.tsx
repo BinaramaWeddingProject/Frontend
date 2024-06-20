@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { PiHairDryerBold } from "react-icons/pi";
@@ -9,11 +9,11 @@ import { FiChevronRight } from "react-icons/fi";
 
 const type = {
   0: "AllVendors",
-  1: "Photographers",
+  1: "Photographer",
   2: "MakeupArtist",
   3: "MehendiArtist",
-  4: "Decorators",
-  5: "Caterers",
+  4: "Decorator",
+  5: "Caterer",
 };
 const AllVendors = () => {
   return (

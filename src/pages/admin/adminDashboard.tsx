@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
-import Profile from "./components/profile"; // Assuming 'profile' is the name of the file containing the Profile component
+import Profile from "./components/profile/profile"; // Assuming 'profile' is the name of the file containing the Profile component
 import AdminManagement from "./components/management/adminManagement";
 import VendorManagement from "./components/management/vendorManagement";
 import VenueManagement from "./components/management/venueManagement";
 import UserManagement from "./components/management/userManagement";
 import { useNavigate, useParams } from "react-router-dom";
+import BlogManagement from "./components/management/blogManagement";
+import RealWeddingManagement from "./components/management/realWeddingManagement";
 // import BookingManagement from './components/bookingManagement';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const section = useParams();
 
-  console.log("hello buddy", section);
+  // console.log("hello buddy", section);
   const [selectedSection, setSelectedSection] = useState<string | undefined>(
     ""
   ); // Provide a default value of an empty string
@@ -33,7 +35,7 @@ const AdminDashboard = () => {
   };
 
   const renderSection = () => {
-    console.log("welcome", selectedSection);
+    // console.log("welcome", selectedSection);
     switch (selectedSection) {
       case "Admin Management":
         return <AdminManagement />;
@@ -43,6 +45,10 @@ const AdminDashboard = () => {
         return <VenueManagement />;
       case "User Management":
         return <UserManagement />;
+        case "Blog Management":
+        return <BlogManagement />;
+        case "Real Wedding Management":
+        return <RealWeddingManagement />;
       // case "Booking Management":
       //     return <BookingManagement/>
       default:
@@ -98,6 +104,24 @@ const AdminDashboard = () => {
           >
             User Management
           </li>
+
+          <li
+            className={`py-2 px-4 rounded-lg mb-2 hover:bg-gray-700 cursor-pointer ${
+              selectedSection === "Blog Management" ? "bg-gray-700" : ""
+            }`}
+            onClick={() => handleButtonClick("Blog Management")}
+          >
+            Blog Management
+          </li>
+
+          <li
+            className={`py-2 px-4 rounded-lg mb-2 hover:bg-gray-700 cursor-pointer ${
+              selectedSection === "Real Wedding Management" ? "bg-gray-700" : ""
+            }`}
+            onClick={() => handleButtonClick("Real Wedding Management")}
+          >
+            Real Wedding Management
+          </li>
           {/* <li className={`py-2 px-4 bg-gray-700 hover:bg-gray-600 cursor-pointer ${selectedSection === "Booking Management" ? 'bg-gray-600' : ''}`} onClick={() => handleButtonClick("Booking Management")}>Booking Management</li> */}
         </ul>
         <button className="mt-auto bg-red-600 hover:bg-red-500 py-2 px-4 rounded">
@@ -105,7 +129,7 @@ const AdminDashboard = () => {
         </button>
       </div>
       <div className="flex-1 p-8 bg-gray-100">
-        <h2 className="text-3xl font-semibold mb-4">{selectedSection || "Profile"}</h2>
+        {/* <h2 className="text-3xl font-semibold mb-4">{selectedSection || "Profile"}</h2> */}
         {renderSection()}
       </div>
     </div>

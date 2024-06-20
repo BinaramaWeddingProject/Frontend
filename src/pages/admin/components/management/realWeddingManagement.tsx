@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaTrash } from "react-icons/fa";
-import { useGetAllUserQuery } from "../../../../redux/api/user";
-import { useDeleteUserMutation } from "../../../../redux/api/user";
+import { FaEye, FaTrash, FaPlus } from "react-icons/fa"; // Import FaPlus for the add button
+import { useGetAllBlogsQuery } from "../../../../redux/api/blog";
+// import { useDeleteUserMutation } from "../../../../redux/api/user";
+import { useDeleteBlogMutation } from "../../../../redux/api/blog";
 import { useNavigate } from "react-router-dom";
 
-const UserManagement: React.FC = () => {
+const RealWeddingManagement: React.FC = () => {
   const navigate = useNavigate();
 
-  const { data: user, refetch } = useGetAllUserQuery();
+  const { data: user, refetch } = useGetAllBlogsQuery('');
 
-  const [deleteUser] = useDeleteUserMutation();
+  const [deleteUser] = useDeleteBlogMutation();
 
-  const admins = user?.data.users;
-  // console.log("user data", admins);
+  const admins = user?.data.blog;
 
   const [reloadTrigger, setReloadTrigger] = useState(false); // State to trigger reload
 
@@ -25,32 +25,42 @@ const UserManagement: React.FC = () => {
   }, [reloadTrigger, refetch]);
 
   const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this User?");
+    const confirmDelete = window.confirm("Are you sure you want to delete this Blog?");
     
-    // If user confirms deletion, proceed with deletion
     if (confirmDelete) {
-    const res = await deleteUser(id);
-    setReloadTrigger(true); // Trigger reload after deletion
-    // console.log("admin deleted", res);
+      const res = await deleteUser(id);
+    //   console.log("res",res)
+      setReloadTrigger(true); // Trigger reload after deletion
     }
   };
 
   function viewUser(id: any): void {
-    navigate(`/UserProfile/${id}`);
+    navigate(`/blog/${id}`);
+  }
+
+  function addNewBlog(): void {
+    navigate("/blog/new"); // Navigate to the add new blog page
   }
 
   return (
     <>
-      <h2 className="text-center font-bold text-3xl mb-6">User Management</h2>
+      <h2 className="text-center font-bold text-3xl mb-6">Real Wedding Management</h2>
+      <div className="flex justify-end mb-4">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+          onClick={addNewBlog}
+        >
+          <FaPlus className="mr-2" />
+          Add New Blog
+        </button>
+      </div>
       <hr className="border-2 mb-6" />
       <div className="bg-white shadow-md rounded-md px-6 pb-6 pt-2 h-screen">
         <div className="w-full mb-4 shadow-lg rounded-md overflow-hidden border">
           <div className="flex bg-gray-200 text-gray-700 font-bold text-lg">
             <div className="w-1/12 p-2">Index</div>
-            <div className="w-3/12 p-2">Name</div>
-            <div className="w-4/12 p-2">Email</div>
-            <div className="w-1/12 p-2">Contact</div>
-            <div className="w-1/12 p-2">City</div>
+            <div className="w-5/12 p-2">Title</div>
+            <div className="w-4/12 p-2">Created At</div>
             <div className="w-1/12 p-2">View</div>
             <div className="w-1/12 p-2">Delete</div>
           </div>
@@ -58,10 +68,8 @@ const UserManagement: React.FC = () => {
             {admins?.map((admin, index) => (
               <div key={index} className="flex text-center items-center hover:bg-gray-100">
                 <div className="w-1/12 p-2">{index + 1}</div>
-                <div className="w-3/12 p-2">{admin?.fullName}</div>
-                <div className="w-4/12 p-2">{admin?.email}</div>
-                <div className="w-1/12 p-2">{admin?.phone}</div>
-                <div className="w-1/12 p-2">{admin?.city}</div>
+                <div className="w-5/12 p-2">{admin?.title}</div>
+                <div className="w-4/12 p-2">{admin?.createdAt}</div>
                 <div
                   className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
                   onClick={() => viewUser(admin?._id)}
@@ -83,4 +91,4 @@ const UserManagement: React.FC = () => {
   );
 };
 
-export default UserManagement;
+export default RealWeddingManagement;

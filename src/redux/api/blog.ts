@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Blog } from "../../types/types";
 import { BlogResponse } from "../../types/api-types";
 
 const server = import.meta.env.VITE_API_Server;
@@ -36,7 +35,14 @@ export const blogAPI = createApi({
         body: blogFormData,
       }),
     }),
+
+    deleteBlog: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: 'DELETE',
+      }),
+    })
   }),
 });
 
-export const { useGetBlogByIdQuery, useGetAllBlogsQuery, useAddBlogMutation, useUpdateBlogMutation } = blogAPI;
+export const { useGetBlogByIdQuery, useGetAllBlogsQuery, useAddBlogMutation, useUpdateBlogMutation, useDeleteBlogMutation } = blogAPI;

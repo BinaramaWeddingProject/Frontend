@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import NavBar from '../components/navbar';
-import Footer from '../components/Footer';
-import { useAddBlogMutation } from '../redux/api/blog';
+import NavBar from '../../baar/navbar';
+import { useAddBlogMutation } from '../../../../../redux/api/blog';
 
 const NewBlog: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
@@ -124,7 +123,6 @@ const NewBlog: React.FC = () => {
           </div>
         </form>
       </div>
-      <Footer />
     </>
   );
 };
