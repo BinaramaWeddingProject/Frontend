@@ -36,6 +36,11 @@ import RealWeddingsList from "./pages/realWeddingsList";
 import RealWeddingsPost from "./pages/realWeddingsPost";
 import NewRealWedding from "./pages/newRealWeddings";
 
+import {AdminProtectedRoutes , VendorProtectedRoutes , VenueProtectedRoutes , UserProtectedRoutes} from "./utils/ProtectedRoutes";
+
+
+
+
 const App: React.FC = () => {
   return (
     <ChakraProvider>
@@ -46,11 +51,9 @@ const App: React.FC = () => {
        
           <Routes>
             <Route path="/" element={<Home />} />
-
+            <Route path="/login" element={<Login />} />
+            <Route path="/Signup" element={<Signup />} />
             <Route path="/userregister" element={<UserRegister />} />
-            <Route path="/vendorProfilePage" element={<VendorProfilePage />} />
-            <Route path="/venueProfilePage" element={<VenueProfilePage />} />
-            <Route path="/userProfilePage" element={<UserProfilePage />} />
 
             <Route path="aboutus1" element={<AboutUs />} />
             {/* <Route path='aboutus2' element={<AboutUs2 />}/> */}
@@ -69,12 +72,8 @@ const App: React.FC = () => {
 
             <Route path="/vendor/:type" element={<VendorsList />} />
 
-            <Route path="/adminDashboard" element={<AdminDashboard />} />
-            <Route path="/adminDashboard/:page" element={<AdminDashboard />} />
-
-            <Route path="/VenueProfile/:id" element={<VenueProfile />} />
-            <Route path="/VendorProfile/:id" element={<VendorProfile />} />
-            <Route path="/UserProfile/:id" element={<UserProfile />} />
+          
+            
             <Route path="/vendorCategory" element={<VendorCategory />} />
 
             <Route path="/business" element={<Business />} />
@@ -86,17 +85,50 @@ const App: React.FC = () => {
             {/* <Route path="/vendors" element={<Vendor />} /> */}
             <Route path="/vendor/:type/:_id" element={<VendorServicePage />} />
             <Route path="/venuelist/:id" element={<VenueServicePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/Signup" element={<Signup />} />
-            <Route path="/blogs" element={<BlogList />} />
-            <Route path="/blogs/:id" element={<BlogView/>}/>
 
+            
+            <Route path="/blogs" element={<BlogList />} />
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/blog/new" element={<NewBlog />} />
             <Route path="/realWeddings/new" element={<NewRealWedding />} />
             <Route path="/realWeddings" element={<RealWeddingsList />} />
             <Route path="/realWeddings/:id" element={<RealWeddingsPost />} />
             <Route path="/notification" element={<UserNotification/>}/>
+
+
+
+            <Route element = {<AdminProtectedRoutes/>}>
+                 <Route path="/adminDashboard" element={<AdminDashboard />} />
+                 <Route path="/adminDashboard/:page" element={<AdminDashboard />} />
+
+               
+                 <Route path="/blogs/:id" element={<BlogView/>}/>
+
+                 <Route path="/UserProfile/:id" element={<UserProfile />} />
+                 <Route path="/VendorProfile/:id" element={<VendorProfile />} />
+                 <Route path="/VendorProfile/:id" element={<VendorProfile />} />
+
+
+            </Route>
+
+
+            <Route element = {<VendorProtectedRoutes/>}>
+                <Route path="/vendorProfilePage" element={<VendorProfilePage />} />
+               
+
+            </Route>
+
+            <Route element = {<VenueProtectedRoutes/>}>
+                <Route path="/venueProfilePage" element={<VenueProfilePage />} />
+                
+            </Route>
+
+            <Route element = {<UserProtectedRoutes/>}>
+                <Route path="/userProfilePage" element={<UserProfilePage />} />
+                
+
+            </Route>
+
           </Routes>
         </Suspense>
       </Router>

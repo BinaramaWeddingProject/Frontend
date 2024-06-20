@@ -9,9 +9,17 @@ import BlogManagement from "./components/management/blogManagement";
 import RealWeddingManagement from "./components/management/realWeddingManagement";
 // import BookingManagement from './components/bookingManagement';
 
+
+import { useDispatch } from 'react-redux';
+import {  AppDispatch } from "../../redux/store"
+import { logout } from "../../redux/reducer/auth";
+
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const section = useParams();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   // console.log("hello buddy", section);
   const [selectedSection, setSelectedSection] = useState<string | undefined>(
@@ -33,6 +41,12 @@ const AdminDashboard = () => {
       navigate("/adminDashboard");
     }
   };
+
+  //logout
+  const handelLogout = () =>{
+    dispatch(logout());
+    navigate('/');
+  }
 
   const renderSection = () => {
     // console.log("welcome", selectedSection);
@@ -124,7 +138,7 @@ const AdminDashboard = () => {
           </li>
           {/* <li className={`py-2 px-4 bg-gray-700 hover:bg-gray-600 cursor-pointer ${selectedSection === "Booking Management" ? 'bg-gray-600' : ''}`} onClick={() => handleButtonClick("Booking Management")}>Booking Management</li> */}
         </ul>
-        <button className="mt-auto bg-red-600 hover:bg-red-500 py-2 px-4 rounded">
+        <button onClick={handelLogout} className="mt-auto bg-red-600 hover:bg-red-500 py-2 px-4 rounded">
           Logout
         </button>
       </div>

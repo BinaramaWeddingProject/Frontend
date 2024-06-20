@@ -50,8 +50,17 @@ export const adminAPI =  createApi({
                 method: "POST",
                 body: admin,
             }),
-        })
+        }),
+
+        loginAdmin: builder.mutation<AdminResponse, { email: string; password: string }>({
+            query: ({ email, password }) => ({
+              url: "login",
+              method: "POST",
+              body: { email, password },
+            }),
+            
+          }),
     })
 })
 
-export const {useGetAdminQuery, useUpdateAdminMutation, useGetAllAdminQuery, useDeleteAdminByIdMutation, useAddAdminMutation}= adminAPI
+export const {useGetAdminQuery, useUpdateAdminMutation, useGetAllAdminQuery, useDeleteAdminByIdMutation, useAddAdminMutation , useLoginAdminMutation}= adminAPI

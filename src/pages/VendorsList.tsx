@@ -10,46 +10,37 @@ import { useAllVendorQuery } from "../redux/api/vendor";
 import type { Vendor } from "../types/types";
 import VendorCard from "../components/card/Vendorcard";
 import { useParams } from "react-router-dom";
-import { title } from "process";
 
-import { LuArrowLeft } from "react-icons/lu";
-import { LuArrowRight } from "react-icons/lu";
+import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
+import SkeletonCard from "../components/skeleton/Vendor";
 
 interface VendorsListProps {
   NumberOfCards?: number;
-
   Description?: string;
   Search?: string;
   Img?: string;
   ImgTitle2?: string;
-  NumberOfArticaleCards?: number;
+  NumberOfArticleCards?: number;
 }
 
 const VendorsList: React.FC<VendorsListProps> = ({
-  NumberOfArticaleCards = 10,
+  NumberOfArticleCards = 10,
   Search = "Search Bridal Mehndi Artists By Name",
   Img = "/public/mumbai.jpg",
   ImgTitle2 = "mumbai",
 }) => {
-  // Create an array of length equal to numberOfCards
-  //const cardsArray = Array.from({ length: NumberOfCards });
-  const ArticleCardsArray = Array.from({ length: NumberOfArticaleCards });
+  const ArticleCardsArray = Array.from({ length: NumberOfArticleCards });
   const { data, error, isLoading } = useAllVendorQuery("");
   const [allvendors, setAllVendors] = useState<Vendor[]>([]);
-
-  
   const type = useParams();
-  console.log("param value", type.type);
   const Title = type.type;
 
-  // Filter the vendors
   const filteredVendors = allvendors.filter(
     (vendor) => vendor.isVerified === "Approved" && (vendor.type_Of_Business === Title || Title === "AllVendors")
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  const vendorsPerPage = 10; // Number of vendors to show per page
-
+  const vendorsPerPage = 10;
 
   useEffect(() => {
     if (data) {
@@ -61,17 +52,9 @@ const VendorsList: React.FC<VendorsListProps> = ({
     return <h1>Error while loading data</h1>;
   }
 
-  if (isLoading) {
-    return <h1>Loading</h1>;
-  }
-
-
-  // Calculate the vendors to display on the current page
   const indexOfLastVendor = currentPage * vendorsPerPage;
   const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
   const currentVendors = filteredVendors.slice(indexOfFirstVendor, indexOfLastVendor);
-
-  // Calculate the total number of pages
   const totalPages = Math.ceil(filteredVendors.length / vendorsPerPage);
 
   const handleNextPage = () => {
@@ -86,9 +69,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
     <>
       <NavBar />
       <div className="flex bg-blue-100">
-        {/* First section (4/5 of the screen) */}
         <div className="justify-start p-4 w-3/4">
-          <div className="bg-slate-100 rounded-md ">
+          <div className="bg-slate-100 rounded-md">
             <p className="text-xl font-bold mx-3 pt-1">
               {Title === "AllVendors"
                 ? "All Vendors"
@@ -105,20 +87,18 @@ const VendorsList: React.FC<VendorsListProps> = ({
                 : Title}
             </p>
             <p className="text-md font-semibold text-gray-600">
-  Showing results of{" "}
-  {filteredVendors.filter(vendor => vendor.isVerified === "Approved").length}{" "}
-  {Title === "AllVendors" ? "Vendors" : Title}
-</p>
+              Showing results of {filteredVendors.filter((vendor) => vendor.isVerified === "Approved").length}{" "}
+              {Title === "AllVendors" ? "Vendors" : Title}
+            </p>
           </div>
 
           <hr className="h-1 bg-white my-2"></hr>
 
-          <div className=" bg-slate-100 flex flex-wrap py-5 gap-24 justify-center rounded-md">
-            {/* Render VendorCard components */}
-            {currentVendors.length > 0 ? (
+          <div className="bg-slate-100 flex flex-wrap py-5 gap-24 justify-center rounded-md">
+            {isLoading ? (
+              Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
+            ) : currentVendors.length > 0 ? (
               currentVendors.map((vendor, index) => (
-                
-
                 <VendorCard
                   _id={vendor._id}
                   key={index}
@@ -128,19 +108,19 @@ const VendorsList: React.FC<VendorsListProps> = ({
                   summary={vendor?.summary}
                   image={vendor?.portfolio[4]}
                 />
-              ))): (
+              ))
+            ) : (
               <h1>No vendors available</h1>
             )}
           </div>
 
-         {/* Pagination Controls */}
-         <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-4">
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
               className="flex items-center px-4 py-2 mx-2 bg-[#A31F24] text-white rounded"
             >
-              <LuArrowLeft  />
+              <LuArrowLeft />
             </button>
             <span className="px-4 py-2 mx-2 bg-gray-200 text-black rounded">
               Page {currentPage} of {totalPages}
@@ -150,22 +130,15 @@ const VendorsList: React.FC<VendorsListProps> = ({
               disabled={currentPage === totalPages}
               className="flex items-center px-4 py-2 mx-2 bg-[#A31F24] text-white rounded"
             >
-             <LuArrowRight />
+              <LuArrowRight />
             </button>
           </div>
-
-          
-
         </div>
 
-
-
-        {/* Second section (1/5 of the screen) */}
-        <div className="w-1/4 bg-[#fffdd0]">#F3CC3A   #E4C041
+        <div className="w-1/4 bg-[#fffdd0]">
           <div className="justify-end p-4">
             <p className="text-xl font-bold">{Search}</p>
             <hr className="h-1 bg-gray-200 my-2"></hr>
-            {/* Search bar */}
             <div className="flex">
               <input
                 type="text"
@@ -181,17 +154,10 @@ const VendorsList: React.FC<VendorsListProps> = ({
               <AllVendors />
             </div>
 
-            <img
-              src={Img}
-              alt={ImgTitle2}
-              className="w-full h-[250px] p-3 shadow-xl"
-            />
-            <p className="text-xl font-semibold pt-3 pb-2 shadow">
-              Related Article
-            </p>
+            <img src={Img} alt={ImgTitle2} className="w-full h-[250px] p-3 shadow-xl" />
+            <p className="text-xl font-semibold pt-3 pb-2 shadow">Related Article</p>
 
-            <div className="  flex flex-wrap justify-center shadow">
-              {/* Render VendorCard components */}
+            <div className="flex flex-wrap justify-center shadow">
               {ArticleCardsArray.map((_, index) => (
                 <div key={index} className="mx-2 mb-4 shadow-xl">
                   <ArticleCard />
@@ -199,8 +165,6 @@ const VendorsList: React.FC<VendorsListProps> = ({
               ))}
             </div>
           </div>
-          {/* Content for the second section */}
-          {/* You can add content for the second section here */}
         </div>
       </div>
       <Footer />
