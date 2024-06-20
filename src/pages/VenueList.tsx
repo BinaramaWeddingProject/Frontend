@@ -33,11 +33,11 @@ function VenueList() {
     <div className="flex flex-col min-h-screen">
       <NavBar />
       <TopFilter />
-      <div className="flex justify-start">
-        <div className="w-1/4">
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-1/4">
           <FilterBar venues={mockVenues} />
         </div>
-        <div className="w-3/4">
+        <div className="w-full md:w-3/4">
           <div className="grid grid-cols-1 gap-4">
             {allvenue.length > 0 ? (
               allvenue.map((venue, index) => (

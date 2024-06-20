@@ -51,22 +51,21 @@ function VendorServicePage() {
   return (
     <div>
       <NavBar />
-      <div>
-        <div className="container mx-auto shadow-xl bg-slate-100 p-4">
-          <div className="mb-6">
-            <h1 className="text-3xl font-semibold">
-              Vendor Information
-            </h1>
+      <div className="container mx-auto shadow-md bg-slate-100 p-4">
+        <div className="flex flex-col lg:flex-row justify-between mb-6">
+          <div className="lg:w-full mb-4 lg:mb-0 flex ">
+
             <VendorInfo
               name={vendorData?.name}
               location={vendorData?.city}
               businessName={vendorData?.businessName}
               typeOfBusiness={vendorData?.type_Of_Business}
             />
-          </div>
-          <div className="mb-6">
+                      <div className="w-1/4 scale-90 -mt-8">
             <AllVendors />
           </div>
+          </div>
+
         </div>
 
         <div className="flex flex-col lg:flex-row max-w-full">
