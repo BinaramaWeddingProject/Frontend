@@ -33,8 +33,9 @@ import BlogPost from "./pages/admin/components/profile/blog/BlogPost";
 import UserNotification from "./pages/notification/notification";
 import BlogView from "./pages/BlogView";
 import RealWeddingsList from "./pages/realWeddingsList";
-import RealWeddingsPost from "./pages/realWeddingsPost";
-import NewRealWedding from "./pages/newRealWeddings";
+import RealWeddingsView from "./pages/realWeddingsView";
+import RealWeddingsPost from "./pages/admin/components/profile/realWedding/realWeddingsPost";
+import NewRealWedding from "./pages/admin/components/profile/realWedding/newRealWeddings";
 
 const App: React.FC = () => {
   return (
@@ -94,9 +95,14 @@ const App: React.FC = () => {
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/blog/new" element={<NewBlog />} />
             <Route path="/realWeddings/new" element={<NewRealWedding />} />
-            <Route path="/realWeddings" element={<RealWeddingsList />} />
             <Route path="/realWeddings/:id" element={<RealWeddingsPost />} />
+         
+            
             <Route path="/notification" element={<UserNotification/>}/>
+
+            <Route path="/realWedding" element={<RealWeddingsList />} />
+            <Route path="/realWedding/:id" element={<RealWeddingsView />} />
+            
           </Routes>
         </Suspense>
       </Router>
