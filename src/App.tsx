@@ -36,10 +36,11 @@ import VendorProfilePage from "./pages/VendorProfilePage";
 import VendorServicePage from "./pages/VendorServicePage";
 
 import BlogList from "./pages/BlogList";
-import NewBlog from "./pages/NewBlog";
+import NewBlog from "./pages/admin/components/profile/blog/NewBlog";
 import Loader from "./components/Loader";
-import BlogPost from "./pages/BlogPost";
+import BlogPost from "./pages/admin/components/profile/blog/BlogPost";
 import UserNotification from "./pages/notification/notification";
+import BlogView from "./pages/BlogView";
 
 const App: React.FC = () => {
   return (
@@ -91,6 +92,8 @@ const App: React.FC = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/blogs" element={<BlogList />} />
+            <Route path="/blogs/:id" element={<BlogView/>}/>
+
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/blog/new" element={<NewBlog />} />
             <Route path="/notification" element={<UserNotification/>}/>

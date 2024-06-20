@@ -1,4 +1,4 @@
-import {Admin, User, Vendor, Venue, wishlist, Blog, Notification} from "./types.ts"
+import {Admin, User, Vendor, Venue, Blog, Notification} from "./types.ts"
 
 
 export type AllVendorsResponse = {
@@ -62,6 +62,7 @@ export type UserResponse = {
 
 export type AdminResponse = {
   success: boolean;
+  profile:string;
   statusCode: number;
   message:string;
   data: {

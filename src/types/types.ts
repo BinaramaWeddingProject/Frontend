@@ -36,6 +36,7 @@ export interface Venue {
   businessName?: string;
   email?: string;
   password?: string;
+  rank?: number;
   phone?: string;
   address?: string;
   city?: string;
@@ -95,6 +96,7 @@ export interface BodyAdmin{
 export interface Blog{
   _id:string
   title?: string;
+  createdAt?: string;
   images?: string[];
   content?: string;
   author?: string;

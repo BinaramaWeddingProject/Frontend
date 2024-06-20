@@ -8,6 +8,7 @@ import { useAllVendorQuery } from "../redux/api/vendor";
 import type { Vendor } from "../types/types";
 import VendorCard from "../components/card/Vendorcard";
 import { useParams } from "react-router-dom";
+import { title } from "process";
 
 interface VendorsListProps {
   NumberOfCards?: number;
@@ -72,28 +73,32 @@ const VendorsList: React.FC<VendorsListProps> = ({
             <p className="text-3xl font-bold text-gray-800">
               {Title === "AllVendors"
                 ? "All Vendors"
-                : Title === "Photographers"
+                : Title === "Photographer"
                 ? "Photographers"
                 : Title === "MakeupArtist"
                 ? "Makeup Artists"
                 : Title === "MehendiArtist"
                 ? "Mehendi Artists"
-                : Title === "Decorators"
+                : Title === "Decorator"
                 ? "Decorators"
-                : Title === "Caterers"
+                : Title === "Caterer"
                 ? "Caterers"
                 : Title}
             </p>
             <p className="text-md font-semibold text-gray-600">
-              Showing result of {allvendors.length}{" "}
-              {Title === "AllVendors" ? "Vendors" : Title}
-            </p>
+  Showing results of{" "}
+  {allvendors.filter(vendor => vendor.isVerified === "Approved").length}{" "}
+  {Title === "AllVendors" ? "Vendors" : Title}
+</p>
           </div>
 
           <div className="bg-white p-6 rounded  mt-4 flex flex-wrap gap-2 justify-center sm:shadow-md">
             {/* Render VendorCard components */}
             {filteredVendors.length > 0 ? (
               filteredVendors.map((vendor, index) => (
+                vendor.isVerified==="Approved"? (
+                  vendor.type_Of_Business === Title ? (
+
                 <VendorCard
                   _id={vendor._id}
                   key={index}
@@ -102,7 +107,17 @@ const VendorsList: React.FC<VendorsListProps> = ({
                   packagePrice={vendor?.packages?.price}
                   summary={vendor?.summary}
                   image={vendor?.portfolio[4]}
+                />): Title === "AllVendors" ?(
+                  <VendorCard
+                  _id={vendor._id}
+                  key={index}
+                  businessName={vendor?.name}
+                  city={vendor?.city}
+                  packagePrice={vendor?.packages?.price}
+                  summary={vendor?.summary}
+                  image={vendor?.portfolio[4]}
                 />
+                ):null ):null
               ))
             ) : (
               <h1 className="text-gray-500">No vendors available</h1>
