@@ -6,17 +6,19 @@ import { useParams } from "react-router-dom";
 
 const UserProfile = () => {
   const { id } = useParams();
-  console.log("idddd", id);
+ // console.log("idddd", id);
+ 
+  const { data: user } = useGetUserQuery(id || "");
+ // console.log("checking the data", user);
+
   if (!id) {
     // Handle the case where id is undefined
     return <div>Loading...</div>; // Or any other handling
   }
 
-  const { data: user } = useGetUserQuery(id);
-  console.log("checking the data", user);
 
   const userData = user?.data?.user;
-  console.log(userData);
+ // console.log(userData);
 
   return (
     <>

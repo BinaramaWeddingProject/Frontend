@@ -5,16 +5,15 @@ import VenueCard from '../components/VenueCard';
 import NavBar from '../components/navbar';
 import RelatedArticles from '../components/RelatedArticles';
 import Footer from '../components/Footer';
-import { Filter, Venue } from '../types/types';
+import { Venue } from '../types/types';
 import { useAllVenueQuery } from '../redux/api/venue';
 import Universal from '../components/skeleton/Universal';
-import TopFilter from '../components/TopFilter';
-import FilterBar from '../components/FilterBar';
-import { mockVenues } from '../data';
+// import TopFilter from '../components/TopFilter';
+// import FilterBar from '../components/FilterBar';
 
 
 function VenueList() {
-  const [filters, setFilters] = useState({});
+  const [filters] = useState({});
   const filtersString = JSON.stringify(filters);
   const { data, error, isLoading } = useAllVenueQuery(filtersString);
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -25,12 +24,12 @@ function VenueList() {
     }
   }, [data]);
 
-  const handleFilterChange = (newFilters: Filter) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      ...newFilters,
-    }));
-  };
+  // const handleFilterChange = (newFilters: Filter) => {
+  //   setFilters((prevFilters) => ({
+  //     ...prevFilters,
+  //     ...newFilters,
+  //   }));
+  // };
 
   if (error) {
     return <h1>Error while loading data</h1>;
@@ -39,10 +38,10 @@ function VenueList() {
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
-      <TopFilter onChange={handleFilterChange} />
+      {/* <TopFilter onChange={handleFilterChange} /> */}
       <div className="flex flex-grow container mx-auto">
         <div className="w-1/4 ">
-          <FilterBar  onChange={handleFilterChange} />
+          {/* <FilterBar  onChange={handleFilterChange} /> */}
         </div>
         <div className="w-full md:w-3/4">
           <div className="grid grid-cols-1 gap-4">

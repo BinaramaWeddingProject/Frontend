@@ -6,7 +6,7 @@ import { useAddBlogMutation } from '../../../../../redux/api/blog';
 
 const NewBlog: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(null);
-  const [addBlog, { isLoading, isSuccess, isError, error }] = useAddBlogMutation();
+  const [addBlog, { isLoading, isSuccess, isError,  }] = useAddBlogMutation();
 
   const formik = useFormik({
     initialValues: {

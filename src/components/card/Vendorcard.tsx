@@ -27,14 +27,15 @@ const VendorCard: React.FC<VendorCardProps> = ({
   summary,
  
 }) => {
-  const { data: wishlistData, refetch } = useGetWishlistQuery(userId);
+  const { data: wishlistData, } = useGetWishlistQuery(userId);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isEnquirySelected, setIsEnquirySelected] = useState(false);
   const itemId = _id;
 
   useEffect(() => {
+    
     if (wishlistData) {
-      const isWishlisted = wishlistData?.wishlist?.items.some(item => item.itemId === itemId);
+      const isWishlisted = wishlistData?.wishlist?.items?.some((item:any) => item.itemId === itemId) ?? false ;
       setIsInWishlist(isWishlisted);
     }
   }, [wishlistData, itemId]);

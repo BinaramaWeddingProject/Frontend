@@ -47,7 +47,7 @@ const Profile: FC<ProfileProps> = ({
   // Fetch admin details
   if (admin) {
     avatar = "default-avatar.jpg";
-    name = admin?.profile.name;
+    name = admin?.profile?.name;
     email = admin?.profile.email;
     contact = admin?.profile.contact;
     address = admin?.profile.address;
@@ -61,7 +61,7 @@ const Profile: FC<ProfileProps> = ({
   const handleSaveClick = async () => {
     // Perform save action, for now just log the edited values
     const updatedData = {
-      id: id,
+      id: id ?? "",
       admin: {
         name: editedName,
         contact: editedContact,

@@ -15,14 +15,14 @@ import { RootState } from '../redux/store';
 const VenueProfilePage = () => {
 
     const userId = useSelector((state: RootState) => state?.auth?.user?._id);
-    console.log("user" , userId)
+   // console.log("user" , userId)
 
 
   const { data: user} = useGetUserQuery(userId || "");
-  console.log("checking the data",user)
+  //console.log("checking the data",user)
     
     const userData = user?.data?.user;
-    console.log(userData);
+  //  console.log(userData);
 
 
 

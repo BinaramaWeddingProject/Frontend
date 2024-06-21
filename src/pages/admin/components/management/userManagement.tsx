@@ -29,7 +29,7 @@ const UserManagement: React.FC = () => {
     
     // If user confirms deletion, proceed with deletion
     if (confirmDelete) {
-    const res = await deleteUser(id);
+     await deleteUser(id);
     setReloadTrigger(true); // Trigger reload after deletion
     // console.log("admin deleted", res);
     }
@@ -70,7 +70,7 @@ const UserManagement: React.FC = () => {
                 </div>
                 <div
                   className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
-                  onClick={() => handleDelete(admin?._id)}
+                  onClick={() => admin?._id &&  handleDelete(admin?._id)}
                 >
                   <FaTrash />
                 </div>

@@ -1,4 +1,4 @@
-import {Admin, User, Vendor, Venue, Blog, Notification, RealWeddings} from "./types.ts"
+import {Admin, User, Vendor, Venue, Blog, Notification, RealWeddings, wishlist , BodyAdmin} from "./types.ts"
 
 
 export type AllVendorsResponse = {
@@ -15,6 +15,9 @@ export type AllVendorsResponse = {
 export type MessageResponse = {
   success: boolean;
   message: string;
+  data:{
+    vendor: Vendor;
+  }
   
 
 };
@@ -28,6 +31,27 @@ export type VendorResponse = {
       vendor: Vendor;
     };
 }
+
+export type LoggdInVendorResponse = {
+
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    loggedInVendor: Vendor;
+  };
+}
+
+
+export type LoggdInVenueResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    loggedInVenue: Venue;
+  };
+}
+
 
 export type VenueResponse = {
   success: boolean;
@@ -51,6 +75,7 @@ export type wishlistResponse = {
   success: boolean;
   statusCode: number;
   message:string;
+  wishlist:wishlist;
 }
 
 export type UserResponse = {
@@ -58,29 +83,92 @@ export type UserResponse = {
   statusCode: number;
   message:string;
   data: {
-    user: User[];
+    user: User;
   };
 }
 
+
+
+export type LoggdInUserResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    loggedInUser: User;
+  };
+}
+
+
+export type AllUserResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    users: User[];
+  };
+}
+
+
+
 export type AdminResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  profile: BodyAdmin
+  data: {
+    profile: Admin[];
+  };
+}
+
+export type SingleAdminResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    admin: Admin;
+  };
+}
+
+export type LoggdInAdminResponse = {
   success: boolean;
   profile:string;
   statusCode: number;
   message:string;
   data: {
-    admin: Admin[];
+    loggedInAdmin: Admin;
   };
 }
+
+
   export type BlogResponse = {
     success: boolean;
     statusCode: number;
     message:string;
     data: {
-      blog: Blog[];
+      blog: Blog;
     };
 }
 
+export type AllBlogResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    blog: Blog[];
+  };
+}
+
+
 export type RealWeddingsResponse = {
+  success: boolean;
+  statusCode: number;
+  message:string;
+  data: {
+    realWeddings:RealWeddings;
+  };
+}
+
+export type AllRealWeddingsResponse = {
   success: boolean;
   statusCode: number;
   message:string;

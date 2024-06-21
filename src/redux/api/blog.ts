@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BlogResponse } from "../../types/api-types";
+import { BlogResponse , AllBlogResponse } from "../../types/api-types";
 
 const server = import.meta.env.VITE_API_Server;
 
@@ -15,9 +15,11 @@ export const blogAPI = createApi({
         method: "GET",
       }),
     }),
-    getAllBlogs: builder.query<BlogResponse, string>({
+
+    getAllBlogs: builder.query<AllBlogResponse, string>({
       query: () => "all/blog"
     }),
+    
     addBlog: builder.mutation<BlogResponse, FormData>({
       query: (blogFormData) => ({
         url: '/add',

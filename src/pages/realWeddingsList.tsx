@@ -10,7 +10,7 @@ import { useGetAllRealWeddingsQuery } from '../redux/api/realWeddings';
 import SkeletonWeddingCard from '../components/skeleton/RealWedding';
 
 const RealWeddingsList: React.FC = () => {
-  const { data: realWeddingsData, refetch } = useGetAllRealWeddingsQuery();
+  const { data: realWeddingsData, isLoading , error } = useGetAllRealWeddingsQuery();
   console.log("real data",realWeddingsData);
   const realWeddings: RealWeddings[] = realWeddingsData?.data.realWeddings || [];
 

@@ -5,6 +5,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface Props {
   portfolio?: string[] | undefined;
+  images? : string[] | undefined;
 }
 
 const Caro: React.FC<Props> = ({ portfolio }) => {

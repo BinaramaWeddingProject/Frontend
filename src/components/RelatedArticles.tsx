@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+
 import ArticleCard from './ArticleCard'; // Assume ArticleCard component is implemented separately
 
 const dummyArticles = [

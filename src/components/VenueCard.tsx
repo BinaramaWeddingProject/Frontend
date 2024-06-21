@@ -21,6 +21,7 @@ interface VenueProps {
 
 const VenueCard: React.FC<VenueProps> = ({ venue }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const { data: wishlistData } = useGetWishlistQuery(userId);
@@ -30,26 +31,34 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
 
   useEffect(() => {
     if (wishlistData) {
-      const isWishlisted = wishlistData?.wishlist?.items.some(item => item.itemId === itemId);
+      const isWishlisted = wishlistData?.wishlist?.items?.some(item => item.itemId === itemId) ?? false;
       setIsInWishlist(isWishlisted);
     }
   }, [wishlistData, itemId]);
 
+
   const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
+    setShowFullDescription(prevState => !prevState);
   };
+
+  const truncatedDescription = venue.description ? `${venue.description.slice(0, 100)}...` : '';
+
 
   const handlePrevImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === 0 ? venue?.images?.length - 1 : currentImageIndex - 1
+      currentImageIndex === 0 ? (venue?.images?.length  ?? 0 ) - 1 : currentImageIndex - 1
     );
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === venue?.images?.length - 1 ? 0 : currentImageIndex + 1
+      currentImageIndex === (venue?.images?.length ?? 0) - 1 ? 0 : currentImageIndex + 1
     );
   };
+
+  if (!venue?.images || venue.images.length === 0) {
+    return <div>No images available</div>;
+  }
 
   return (
     <div className="flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 border-2 border-gray-300">
@@ -91,19 +100,21 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
           </p>
         </div>
         <div className="mb-4 text-sm md:text-lg text-gray-700">
-          {showFullDescription
-            ? venue.description
-            : `${venue?.description?.slice(0, 100)}...`}
-          {venue?.description?.length > 100 && (
+      {venue.description && (
+        <>
+          {showFullDescription ? venue.description : truncatedDescription}
+          {venue.description.length > 100 && (
             <button
               onClick={toggleDescription}
-              className="text-blue-500 hover:text-blue-700 focus:outline-none"
+              className="text-blue-500 hover:text-blue-700 focus:outline-none ml-2"
             >
               {showFullDescription ? ' Read Less' : ' Read More'}
               {showFullDescription ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
             </button>
           )}
-        </div>
+        </>
+      )}
+    </div>
         <div className="mb-4 flex justify-center">
           <div className="mr-8 text-sm md:text-lg text-gray-600 flex items-center">
             <FaCarrot size={20} className="mr-2" />

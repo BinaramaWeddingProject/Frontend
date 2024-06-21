@@ -17,9 +17,9 @@ interface BlogPost {
 
 const BlogList: React.FC = () => {
   const { data: blogData, error, isLoading } = useGetAllBlogsQuery('');
-  const blogs: BlogPost[] = blogData?.data.blog || [];
+  const blogs:any = blogData?.data.blog || [];
 
-  if (error) {
+  if (error) {      
     return <h1>Error while loading data</h1>;
   }
 

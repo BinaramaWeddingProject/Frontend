@@ -71,14 +71,14 @@ const UserTabView = () => {
     useEffect(() => {
         if (userData) {
             setProfileData({
-                name: userData.fullName,
-                phoneNumber: userData.phone,
-                address: userData.city,
-                email: userData.email,
+                name: userData.fullName ?? "",
+                phoneNumber: userData.phone ?? "",
+                address: userData.city ?? "",
+                email: userData.email ?? "",
                 avatarUrl: 'https://via.placeholder.com/150',
             });
         }
-    }, [userData]);
+    }, [userData]); 
 
     const handleTabClick = (tab: string) => {
         setActiveTab(tab);
@@ -107,11 +107,11 @@ const UserTabView = () => {
             }).unwrap();
             
             setProfileData({
-                name: updatedUser.fullName,
-                phoneNumber: updatedUser.phone,
-                address: updatedUser.city,
-                email: updatedUser.email,
-                avatarUrl: updatedUser.avatarUrl,
+                name: updatedUser.fullName ?? "",
+                phoneNumber: updatedUser.phone ?? "",
+                address: updatedUser.city ?? "",
+                email: updatedUser.email ?? "",
+                avatarUrl: updatedUser.avatarUrl ?? "",
             });
             refetch(); // Optionally refetch user data to ensure it's up to date
         } catch (error) {
@@ -321,7 +321,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ profileData, isEditing, handl
 
 
 const Wishlist = () => {
-    const { data: wishlistData, refetch: refetchWishlist } = useGetWishlistQuery(userId);
+    const { data: wishlistData } = useGetWishlistQuery(userId);
     const { data: allVenuesData, error: venueError, isLoading: venueLoading } = useAllVenueQuery("");
     const { data: allVendorsData, error: vendorError, isLoading: vendorLoading } = useAllVendorQuery("");
 

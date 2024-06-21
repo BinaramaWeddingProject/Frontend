@@ -1,19 +1,22 @@
+
 import VendorProfileCard from "../vendor/components/VendorProfileCard";
 import ServiceDetailsForm from "../vendor/components/ServiceDetailsForm";
 import NavBar from "../../baar/navbar";
 import VendorProfileInfo from "../vendor/components/VendorProfileInfo";
 import { useGetVendorByIdQuery } from "../../../../../redux/api/vendor";
-
 import { useParams } from "react-router-dom";
 
 const VendorProfilePage = () => {
   const { id } = useParams();
   console.log("idddd", id);
-  if (!id) {
-    // Handle the case where id is undefined
+
+  // Call useGetVendorByIdQuery unconditionally
+  const { data: vendor } = useGetVendorByIdQuery(id || "");
+
+  if (!id || !vendor) {
+    // Handle the case where id is undefined or vendor data is not yet available
     return <div>Loading...</div>; // Or any other handling
   }
-  const { data: vendor } = useGetVendorByIdQuery(id);
 
   const vendorData = vendor?.data?.vendor;
   console.log("vendor data", vendor);

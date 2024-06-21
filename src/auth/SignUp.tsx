@@ -22,7 +22,7 @@ const Signup: FC = () => {
   const [show, setShow] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // const [phoneNumber, setPhoneNumber] = useState("");
 
   const [register] = useSignupMutation();
 
@@ -31,7 +31,7 @@ const Signup: FC = () => {
     if (phoneNumber.length > 10) {
       alert("Mobile number cannot be greater than 10 digits");
     } else {
-      setPhoneNumber(phoneNumber);
+      // setPhoneNumber(phoneNumber);
     }
   };
 

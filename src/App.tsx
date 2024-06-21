@@ -11,7 +11,7 @@ import VendorCategory from "./pages/VendorCategory";
 import AboutUs from "./pages/AboutUs";
 import VenueProfilePage from "./pages/VenueProfilePage";
 import UserProfilePage from "./pages/UserProfilePage";
-import VendorsListByCategory from "./pages/VendorListByCategory";
+// import VendorsListByCategory from "./pages/VendorListByCategory";
 // import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
 import VendorProfile from "./pages/admin/components/profile/vendor/VendorProfilePage";
 import UserProfile from "./pages/admin/components/profile/user/UserProfile";
@@ -79,10 +79,10 @@ const App: React.FC = () => {
 
             <Route path="/business" element={<Business />} />
             <Route path="/venuelist" element={<VenueList />} />
-            <Route
+            {/* <Route
               path="/vendors/category/:category"
               element={<VendorsListByCategory />}
-            />
+            /> */}
             {/* <Route path="/vendors" element={<Vendor />} /> */}
             <Route path="/vendor/:type/:_id" element={<VendorServicePage />} />
             <Route path="/venuelist/:id" element={<VenueServicePage />} />
@@ -97,18 +97,22 @@ const App: React.FC = () => {
             
             <Route path="/notification" element={<UserNotification/>}/>
 
-
+            <Route path="/realWedding/:id" element={<RealWeddingsView />} />
+            <Route path="/realWedding" element={<RealWeddingsList />} />
+            <Route path="/blogs/:id" element={<BlogView/>}/>
 
             <Route element = {<AdminProtectedRoutes/>}>
                  <Route path="/adminDashboard" element={<AdminDashboard />} />
                  <Route path="/adminDashboard/:page" element={<AdminDashboard />} />
 
                
-                 <Route path="/blogs/:id" element={<BlogView/>}/>
+                
 
                  <Route path="/UserProfile/:id" element={<UserProfile />} />
                  <Route path="/VendorProfile/:id" element={<VendorProfile />} />
                  <Route path="/VendorProfile/:id" element={<VendorProfile />} />
+
+                 
 
 
             </Route>
@@ -131,8 +135,8 @@ const App: React.FC = () => {
 
             </Route>
 
-            <Route path="/realWedding" element={<RealWeddingsList />} />
-            <Route path="/realWedding/:id" element={<RealWeddingsView />} />
+            
+            
             
           </Routes>
         </Suspense>

@@ -47,7 +47,7 @@ const VenueProfilePage: React.FC = () => {
                     <VenueProfileCard 
                         yourName={venueData?.yourName} 
                         phone={venueData?.phone} 
-                        profile = {venueData}
+                        profile = {venueData?.images ? venueData.images[0] : undefined} // Accessing the first image URL
                         id={venueId}
                     /> 
                 </div>

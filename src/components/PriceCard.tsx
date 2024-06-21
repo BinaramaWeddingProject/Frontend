@@ -25,7 +25,7 @@ const PriceCard: React.FC<Props> = ({ price, rating, vendorId, itemType = "vendo
 
   useEffect(() => {
     if (wishlistData) {
-      const isWishlisted = wishlistData?.wishlist?.items.some(item => item.itemId === itemId);
+      const isWishlisted = wishlistData?.wishlist?.items?.some(item => item.itemId === itemId) ?? false;
       setIsWishlistSelected(isWishlisted);
     }
   }, [wishlistData, itemId]);

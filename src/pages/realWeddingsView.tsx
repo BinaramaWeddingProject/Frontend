@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
-import { useGetRealWeddingsPostByIdQuery, useUpdateRealWeddingsPostMutation } from '../redux/api/realWeddings';
+import { useGetRealWeddingsPostByIdQuery } from '../redux/api/realWeddings';
 import NavBar from '../components/navbar';
 // import Footer from '../../../../../components/Footer';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-interface RealWeddingPostInterface {
-  id: string;
-  title: string;
-  images: string[];
-  content: string;
-}
+// interface RealWeddingPostInterface {
+//   id: string;
+//   title: string;
+//   images: string[];
+//   content: string;
+// }
 
 const RealWeddingsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: realWeddingData, error, isLoading, refetch } = useGetRealWeddingsPostByIdQuery(id || '');
+  const { data: realWeddingData, error, isLoading } = useGetRealWeddingsPostByIdQuery(id || '');
 
 
 

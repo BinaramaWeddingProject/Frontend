@@ -1,4 +1,4 @@
-import React from "react";
+
 import NavBar from "../components/navbar";
 import InformationBanner from "../components/InformationBanner";
 import Footer from "../components/Footer";
@@ -50,7 +50,7 @@ const Home = () => {
               {venues.map((venue: any, index: number) => (
                 // Ensure only top 5 ranked venues are rendered
                   <VenueCard
-                    key={venue._id}
+                    key={index}
                     venue={{
                       name: venue.businessName,
                       location: venue.city,

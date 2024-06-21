@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { FaPhoneAlt } from 'react-icons/fa'; // Import phone icon from react-icons
 
 const InformationBanner = () => {

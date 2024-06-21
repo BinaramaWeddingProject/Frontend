@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+
 import { FaHeart } from "react-icons/fa"; // Import the heart icon from react-icons
 import RatingStars from "../../../../../../components/card/RatingStars";
 import { useGetWishlistQuery } from "../../../../../../redux/api/wishlist";
@@ -26,8 +26,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
   rating = 3,
   packagePrice,
   summary,
-  h,
-  w,
+  
 }) => {
   // console.log("Received props:", {
   //   image,
@@ -38,9 +37,9 @@ const VendorCard: React.FC<VendorCardProps> = ({
   //   summary,
   //   _id,
   // });
-  const { data: wishlistData, refetch} = useGetWishlistQuery(userId);
+  const { data: wishlistData, } = useGetWishlistQuery(userId);
   const [isInWishlist, setIsInWishlist] = useState(false);
-  const [isEnquirySelected, setIsEnquirySelected] = useState(false);
+  // const [isEnquirySelected, setIsEnquirySelected] = useState(false);
   const itemId=_id;
 
    // Function to toggle the vendor's presence in the wishlist
@@ -49,16 +48,16 @@ const VendorCard: React.FC<VendorCardProps> = ({
   // };
   useEffect(() => {
     if (wishlistData) {
-      const isWishlisted = wishlistData?.wishlist?.items.some(item => item.itemId === itemId);
+      const isWishlisted = wishlistData?.wishlist?.items?.some(item => item.itemId === itemId) ?? false;
       setIsInWishlist(isWishlisted);
     }
   }, [wishlistData, itemId]);
 
-  const type= useParams()
+  // const type= useParams()
 
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center"> ``
       <div className="h-[400px] w-[500px] rounded overflow-hidden shadow-xl flex flex-col">
         {/* <Link to={`/vendor/${type.type}/${_id}`}> */}
           <div className="relative h-[200px]">

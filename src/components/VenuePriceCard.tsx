@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaCarrot, FaDrumstickBite } from 'react-icons/fa';
-import { useAddWishlistMutation, useDeleteWishlistMutation, useGetWishlistQuery } from '../redux/api/wishlist';
+import {  useDeleteWishlistMutation, useGetWishlistQuery } from '../redux/api/wishlist';
 import { useParams } from 'react-router-dom';
 
 const userId = "665d6d766063ea750000e096"
@@ -13,14 +13,14 @@ interface VenuePriceCardProps {
   onContactClick: () => void;
 }
 
-const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, nonVegPrice, contact, onContactClick }) => {
+const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, nonVegPrice, onContactClick }) => {
 
   const venueId =useParams();
   console.log("thorha sa texttt", venueId.id);
 
   const [isWishlistSelected, setIsWishlistSelected] = useState(false);
 
-  const [addWishlist] = useAddWishlistMutation();
+  // const [addWishlist] = useAddWishlistMutation();
   const [deleteWishlist] = useDeleteWishlistMutation();
 
   const { data: wishlistData, refetch} = useGetWishlistQuery(userId)
@@ -41,7 +41,7 @@ const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, nonVegP
 
   useEffect(() => {
     if (wishlistData) {
-      const isWishlisted = wishlistData?.wishlist?.items.some(item => item.itemId === itemId);
+      const isWishlisted = wishlistData?.wishlist?.items?.some(item => item.itemId === itemId) ?? false;
       setIsWishlistSelected(isWishlisted);
     }
   }, [wishlistData, itemId]);
@@ -50,11 +50,19 @@ const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, nonVegP
     console.log("function started");
     try {
       if (isWishlistSelected) {
-        await deleteWishlist({ userId, itemId, itemType }).unwrap();
+        if (userId && itemId && itemType) {
+          await deleteWishlist({ userId, itemId, itemType }).unwrap();
+        } else {
+          console.error('userId, itemId, or itemType is undefined!');
+        }
         console.log("Item removed from wishlist");
       } else {
         console.log("add to wishlist");
-        await addWishlist({ userId, itemId, itemType }).unwrap();
+        if (userId && itemId && itemType) {
+          await deleteWishlist({ userId, itemId, itemType }).unwrap();
+        } else {
+          console.error('userId, itemId, or itemType is undefined!');
+        }
         console.log("Item added to wishlist");
       }
       refetch(); // Refetch the wishlist status to update the state

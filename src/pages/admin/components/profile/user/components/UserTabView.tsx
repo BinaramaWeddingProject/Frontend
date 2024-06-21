@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar as solidStar,
   faHome,
-  faPhoneAlt,
+  
   faImages,
   faBoxOpen,
   faStar as regularStar,
 } from "@fortawesome/free-solid-svg-icons";
-import { faEdit, faHeart } from "@fortawesome/free-solid-svg-icons";
+import {  faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useGetWishlistQuery } from "../../../../../../redux/api/wishlist";
 import { useAllVenueQuery } from "../../../../../../redux/api/venue";
 import VenueCard from "../../../../../../components/VenueCard";
@@ -16,7 +16,7 @@ import { Venue, Vendor } from "../../../../../../types/types";
 import { useAllVendorQuery } from "../../../../../../redux/api/vendor";
 import VendorCard from "../../../../../../components/card/Vendorcard";
 import { useGetUserQuery } from "../../../../../../redux/api/user";
-import { useUpdateUserMutation } from "../../../../../../redux/api/user";
+// import { useUpdateUserMutation } from "../../../../../../redux/api/user";
 import { useParams } from "react-router-dom";
 
 const dummyPackages = [
@@ -50,16 +50,16 @@ interface ProfileData {
 
 interface OverviewTabProps {
   profileData: ProfileData;
-  isEditing: boolean;
-  handleEditClick: () => void;
-  handleSaveClick: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  isEditing?: boolean;
+  handleEditClick?: () => void;
+  handleSaveClick?: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const UserTabView = () => {
   const userId = useParams();
   console.log("user id", userId.id);
-  const { data: user } = useGetUserQuery(userId.id);
+  const { data: user } = useGetUserQuery(userId.id ?? "");
 
   console.log("checking for data", user?.data?.user);
 
@@ -78,10 +78,10 @@ const UserTabView = () => {
   useEffect(() => {
     if (userData) {
       setProfileData({
-        name: userData.fullName,
-        phoneNumber: userData.phone,
-        address: userData.city,
-        email: userData.email,
+        name: userData.fullName as string,
+        phoneNumber: userData.phone as string,
+        address: userData.city as string,
+        email: userData.email as string,
         avatarUrl: "https://via.placeholder.com/150",
       });
     }
@@ -200,7 +200,7 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ profileData }) => {
 
 const Wishlist = () => {
     const userId = useParams();
-  const { data: wishlistData } = useGetWishlistQuery(userId.id);
+  const { data: wishlistData } = useGetWishlistQuery(userId.id??'');
   const {
     data: allVenuesData,
     error: venueError,
@@ -268,7 +268,7 @@ const Wishlist = () => {
                   city={vendor.city}
                   packagePrice={vendor.packages?.price}
                   summary={vendor.summary}
-                  image={vendor.portfolio[4]}
+                  image={vendor.portfolio ? vendor.portfolio[4] : ""}
                 />
               </div>
             ))

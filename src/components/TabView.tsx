@@ -199,7 +199,7 @@ const PackageTab = ({
   packages,
 }: {
   packages?:
-    | { name: string; price: string; days: string; minAdvance: string }
+    | { name?: string; price?: string; days?: string; minAdvance?: string }
     | undefined;
 }) => {
   if (!packages) {

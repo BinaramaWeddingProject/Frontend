@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Admin, BodyAdmin } from "../../types/types";
-import { AdminResponse } from "../../types/api-types";
+import { AdminResponse ,LoggdInAdminResponse } from "../../types/api-types";
 
 const server = import.meta.env.VITE_API_Server;
 
@@ -52,7 +52,7 @@ export const adminAPI =  createApi({
             }),
         }),
 
-        loginAdmin: builder.mutation<AdminResponse, { email: string; password: string }>({
+        loginAdmin: builder.mutation<LoggdInAdminResponse, { email: string; password: string }>({
             query: ({ email, password }) => ({
               url: "login",
               method: "POST",

@@ -27,7 +27,7 @@ const BlogPost: React.FC = () => {
   useEffect(() => {
     if (blogData?.data) {
       setFormData({
-        id: blogData.data.blog._id,
+        id: blogData.data.blog._id || "",
         title: blogData.data.blog.title || '',
         images: blogData.data.blog.images || [],
         content: blogData.data.blog.content || ''
@@ -56,7 +56,7 @@ const BlogPost: React.FC = () => {
   const handleEditClick = () => {
     setIsEditing(true);
     setFormData({
-      id: blog._id,
+      id: blog._id || "",
       title: blog.title || '',
       images: blog.images || [],
       content: blog.content || '',

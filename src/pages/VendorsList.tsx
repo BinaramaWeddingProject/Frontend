@@ -106,7 +106,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
                   city={vendor?.city}
                   packagePrice={vendor?.packages?.price}
                   summary={vendor?.summary}
-                  image={vendor?.portfolio[4]}
+                  image={vendor?.portfolio ? vendor?.portfolio[4] : "" }
                 />
               ))
             ) : (
