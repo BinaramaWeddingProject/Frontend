@@ -7,7 +7,6 @@ import VenueBooking from '../components/VenueBookings';
 import RatingsAndReviews from '../components/RatingsAndReviews';
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
-import MenuCard from '../components/MenuCard';
 import VenueLocation from '../components/VenueLocation';
 import ScheduleVisit from '../components/ScheduleVisit';
 import VenueImageCarousel from '../components/VenueImageCarousel';
@@ -22,7 +21,7 @@ import { useParams } from 'react-router-dom';
 
 const VenueServicePage = () => {
   const { id } = useParams();
-  const { data: venue, error, isLoading } = useGetVenueByIdQuery(id ? id : "");
+  const { data: venue } = useGetVenueByIdQuery(id ? id : "");
   const venueData = venue?.data.venue;
 
   const handleContactFormSubmit = (phoneNumber) => {
@@ -118,7 +117,7 @@ const VenueServicePage = () => {
             </div>
           </div>
         </div>
-        <div className="w-full lg:w-1/4 h-80 flex justify-center items-center bg-white p-4 rounded-lg shadow-lg lg:sticky lg:top-0">
+        <div className="w-full lg:w-1/4 h-fit flex justify-center items-center bg-white p-4 rounded-lg shadow-lg lg:sticky lg:top-0">
           <VenuePriceCard
             name="Grand Venue"
             vegPrice={500}

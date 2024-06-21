@@ -51,6 +51,7 @@ export const notificationApi = createApi({
       method:'GET',
   }),
   }),
+
 })
 });
 

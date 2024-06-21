@@ -3,8 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import { FaHeart } from "react-icons/fa"; // Import the heart icon from react-icons
 import RatingStars from "./RatingStars";
 import { useGetWishlistQuery } from "../../redux/api/wishlist";
+import { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery} from "../../redux/api/booking"
+import EnquiryFormModal from "../EnquiryFormModal";
 
 const userId = "665d6d766063ea750000e096";
+
 
 type VendorCardProps = {
   _id: string | undefined;
@@ -30,7 +33,21 @@ const VendorCard: React.FC<VendorCardProps> = ({
   const { data: wishlistData, refetch } = useGetWishlistQuery(userId);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isEnquirySelected, setIsEnquirySelected] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 
   const itemId = _id;
+
+  const [sendEnquiry] = useAddBookingEnquiryMutation();
+
+  const { data: bookingData, isLoading } = useGetBookingByUserAndVenueQuery({ uId: userId, vId: itemId as string});
+
+  const [hasSentEnquiry, setHasSentEnquiry] = useState(false);
+
+  useEffect(() => {
+    if (bookingData && bookingData.message==="True") {
+      setHasSentEnquiry(true);
+    }
+  }, [bookingData]);
+
 
   useEffect(() => {
     if (wishlistData) {
@@ -38,6 +55,26 @@ const VendorCard: React.FC<VendorCardProps> = ({
       setIsInWishlist(isWishlisted);
     }
   }, [wishlistData, itemId]);
+
+  const handleEnquirySubmit = async (formData: any) => {
+    try {
+      const res = await sendEnquiry({ ...formData, vId: itemId, uId: userId }).unwrap();
+      console.log("status of the request", res);
+
+      // Assuming res is an object with a property like 'message' indicating success
+      if (res.message === "True") {
+        setHasSentEnquiry(true); // Update the state to reflect the enquiry has been sent
+      }
+    } catch (error) {
+      console.error("Failed to send enquiry:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (bookingData && bookingData.message==="True") {
+      setHasSentEnquiry(true); // Update the state to reflect the enquiry has been sent
+    }
+  }, [bookingData]);
 
   const type = useParams();
 
@@ -74,16 +111,18 @@ const VendorCard: React.FC<VendorCardProps> = ({
             </p>
           </div>
           <div className="text-center mt-4">
-            <button 
-              className={`${
-                isEnquirySelected
-                  ? "bg-[#ea4f54] text-white"
-                  : "bg-[#A31F24] text-white"
-              } py-2 px-4 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 mb-4 w-full`}
-              onClick={() => setIsEnquirySelected(!isEnquirySelected)}
-            >
-              {isEnquirySelected ? "Enquiry Sent" : "Send Enquiry"}
-            </button>
+          <button
+        onClick={() => setIsModalOpen(true)} // Open the modal on button click
+        className="bg-red-600 text-white hover:text-indigo-800 font-extrabold py-2 px-4 rounded transition duration-300 ease-in-out focus:outline-none w-full"
+      >
+        {hasSentEnquiry ? "Enquiry Sent" : "Send Enquiry"}
+      </button>
+      {hasSentEnquiry? null:
+      <EnquiryFormModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        onSubmit={handleEnquirySubmit}
+      />}
           </div>
         </div>
       </div>

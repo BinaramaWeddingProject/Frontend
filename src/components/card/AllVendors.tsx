@@ -7,6 +7,7 @@ import { GiVineFlower } from "react-icons/gi";
 import { GiHotMeal } from "react-icons/gi";
 import { FiChevronRight } from "react-icons/fi";
 
+
 const type = {
   0: "AllVendors",
   1: "Photographer",
