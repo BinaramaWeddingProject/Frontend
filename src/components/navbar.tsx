@@ -18,15 +18,15 @@ const NavBar: React.FC = () => {
   if (role === "user") url = '/userProfilePage';
 
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen); 
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
   return (
-    <nav className="bg-[#A31F24] py-3 px-6 relative z-10">
-      <div className="container mx-auto flex md:justify-between justify-between items-center">
+    <nav className="bg-[#A31F24] py-0 pl-2 pr-4  relative z-10">
+      <div className="container mx-0 flex md:justify-between justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center ">
-          <img src={Logo} alt="Logo" className="w-10 h-10 " />
+          <img src={Logo} alt="Logo" className="w-18 h-16 items-stretch " />
           {/* Adjust the class above (w-10 h-10 rounded-full) according to your logo size and shape */}
           
         </Link>

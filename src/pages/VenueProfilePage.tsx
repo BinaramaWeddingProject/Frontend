@@ -38,7 +38,7 @@ const VenueProfilePage: React.FC = () => {
     return (
         <>
             <NavBar />
-            <div className="flex justify-center text-white bg-blue-900 p-4">
+            <div className="flex justify-center text-white bg-[#fffdd0] p-4">
                 <div className="text-4xl font-semibold">PROFILE PAGE</div>
             </div>
 

@@ -48,7 +48,7 @@ function VenueList() {
 
   console.log("venue" , allVenues  , allowedVenues)
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen  bg-[#fffdd0]">
       <NavBar />
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8">
