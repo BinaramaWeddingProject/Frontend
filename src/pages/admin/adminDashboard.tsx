@@ -9,47 +9,33 @@ import BlogManagement from "./components/management/blogManagement";
 import RealWeddingManagement from "./components/management/realWeddingManagement";
 // import BookingManagement from './components/bookingManagement';
 
-
 import { useDispatch } from 'react-redux';
-import {  AppDispatch } from "../../redux/store"
+import { AppDispatch } from "../../redux/store";
 import { logout } from "../../redux/reducer/auth";
-
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const section = useParams();
-
+  const { page } = useParams();
   const dispatch = useDispatch<AppDispatch>();
-
-  // console.log("hello buddy", section);
-  const [selectedSection, setSelectedSection] = useState<string | undefined>(
-    ""
-  ); // Provide a default value of an empty string
-
-  // Ensure section exists before setting it
+  const [selectedSection, setSelectedSection] = useState<string | undefined>("");
 
   useEffect(() => {
-    if (section) {
-      setSelectedSection(section.page);
-      renderSection();
+    if (page) {
+      setSelectedSection(page);
     }
-  }, [section]);
-  // Function to handle button click and update selected section
+  }, [page]);
+
   const handleButtonClick = (sectionName: string) => {
     setSelectedSection(sectionName);
-    if (sectionName === "Profile") {
-      navigate("/adminDashboard");
-    }
+    navigate(`/adminDashboard/${sectionName}`);
   };
 
-  //logout
-  const handelLogout = () =>{
+  const handleLogout = () => {
     dispatch(logout());
     navigate('/');
-  }
+  };
 
   const renderSection = () => {
-    // console.log("welcome", selectedSection);
     switch (selectedSection) {
       case "Admin Management":
         return <AdminManagement />;
@@ -59,12 +45,12 @@ const AdminDashboard = () => {
         return <VenueManagement />;
       case "User Management":
         return <UserManagement />;
-        case "Blog Management":
+      case "Blog Management":
         return <BlogManagement />;
-        case "Real Wedding Management":
+      case "Real Wedding Management":
         return <RealWeddingManagement />;
       // case "Booking Management":
-      //     return <BookingManagement/>
+      //   return <BookingManagement />;
       default:
         return <Profile />; // Render Profile by default
     }
@@ -118,7 +104,6 @@ const AdminDashboard = () => {
           >
             User Management
           </li>
-
           <li
             className={`py-2 px-4 rounded-lg mb-2 hover:bg-gray-700 cursor-pointer ${
               selectedSection === "Blog Management" ? "bg-gray-700" : ""
@@ -127,7 +112,6 @@ const AdminDashboard = () => {
           >
             Blog Management
           </li>
-
           <li
             className={`py-2 px-4 rounded-lg mb-2 hover:bg-gray-700 cursor-pointer ${
               selectedSection === "Real Wedding Management" ? "bg-gray-700" : ""
@@ -138,12 +122,11 @@ const AdminDashboard = () => {
           </li>
           {/* <li className={`py-2 px-4 bg-gray-700 hover:bg-gray-600 cursor-pointer ${selectedSection === "Booking Management" ? 'bg-gray-600' : ''}`} onClick={() => handleButtonClick("Booking Management")}>Booking Management</li> */}
         </ul>
-        <button onClick={handelLogout} className="mt-auto bg-red-600 hover:bg-red-500 py-2 px-4 rounded">
+        <button onClick={handleLogout} className="mt-auto bg-red-600 hover:bg-red-500 py-2 px-4 rounded">
           Logout
         </button>
       </div>
       <div className="flex-1 p-8 bg-gray-100">
-        {/* <h2 className="text-3xl font-semibold mb-4">{selectedSection || "Profile"}</h2> */}
         {renderSection()}
       </div>
     </div>

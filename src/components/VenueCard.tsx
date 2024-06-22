@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaDrumstickBite, FaHeart } from 'react-icons/fa';
+import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaHeart } from 'react-icons/fa';
 import { Link, To } from 'react-router-dom';
 import { useGetWishlistQuery } from '../redux/api/wishlist';
 
@@ -12,8 +12,8 @@ interface VenueProps {
     maxGuests: string | undefined;
     contact: string | undefined;
     description: string | undefined;
-    vegPrice: number | undefined;
-    nonVegPrice: number | undefined;
+    vegPrice?: number | undefined;
+    nonVegPrice?: number | undefined;
     images: string[] | undefined;
     id: string | undefined;
   };
@@ -118,12 +118,9 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
         <div className="mb-4 flex justify-center">
           <div className="mr-8 text-sm md:text-lg text-gray-600 flex items-center">
             <FaCarrot size={20} className="mr-2" />
-            <span className="font-bold">Veg Price:</span> {venue.vegPrice}
+            <span className="font-bold">Price Per Plate: </span> {venue.vegPrice}
           </div>
-          <div className="text-sm md:text-lg text-gray-600 flex items-center">
-            <FaDrumstickBite size={20} className="mr-2" />
-            <span className="font-bold">Non-Veg Price:</span> {venue.nonVegPrice}
-          </div>
+         
         </div>
         <Link
           to={{

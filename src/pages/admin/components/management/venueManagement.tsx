@@ -6,7 +6,17 @@ import { useDeleteVenueByIdMutation } from "../../../../redux/api/venue";
 import { useNavigate } from "react-router-dom";
 import { Venue } from "../../../../types/types"; // Import Venue type or adjust import path accordingly
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
+
+
+
 const VenueManagement: React.FC = () => {
+
+  const adminId = useSelector((state: RootState) => state?.auth?.user?._id);
+  console.log("admin" , adminId)
+
+
   const navigate = useNavigate();
   const { data: venue, refetch } = useAllVenueQuery("");
   const [verify] = useUpdateVenueMutation();

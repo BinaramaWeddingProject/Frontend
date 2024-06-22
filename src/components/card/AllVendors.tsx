@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import { PiHairDryerBold } from "react-icons/pi";
@@ -6,6 +5,7 @@ import { LiaHandsSolid } from "react-icons/lia";
 import { GiVineFlower } from "react-icons/gi";
 import { GiHotMeal } from "react-icons/gi";
 import { FiChevronRight } from "react-icons/fi";
+
 
 const type = {
   0: "AllVendors",

@@ -117,7 +117,7 @@ const VenueServicePage = () => {
             </div>
           </div>
         </div>
-        <div className="w-full lg:w-1/4 h-80 flex justify-center items-center bg-white p-4 rounded-lg shadow-lg lg:sticky lg:top-0">
+        <div className="w-full lg:w-1/4 h-fit flex justify-center items-center bg-white p-4 rounded-lg shadow-lg lg:sticky lg:top-0">
           <VenuePriceCard
             name="Grand Venue"
             vegPrice={500}

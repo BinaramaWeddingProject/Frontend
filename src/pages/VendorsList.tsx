@@ -68,8 +68,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
   return (
     <>
       <NavBar />
-      <div className="flex bg-blue-100">
-        <div className="justify-start p-4 w-3/4">
+      <div className="flex flex-col lg:flex-row bg-blue-100">
+        <div className="lg:w-3/4 p-4 w-full">
           <div className="bg-slate-100 rounded-md">
             <p className="text-xl font-bold mx-3 pt-1">
               {Title === "AllVendors"
@@ -94,7 +94,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
 
           <hr className="h-1 bg-white my-2"></hr>
 
-          <div className="bg-slate-100 flex flex-wrap py-5 gap-24 justify-center rounded-md">
+          <div className="bg-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-6 py-5 justify-center rounded-md">
             {isLoading ? (
               Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
             ) : currentVendors.length > 0 ? (
@@ -118,29 +118,26 @@ const VendorsList: React.FC<VendorsListProps> = ({
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className="flex items-center px-4 py-2 mx-2 bg-[#A31F24] text-white rounded"
+              className="flex items-center px-2 py-1 mx-1 bg-[#A31F24] text-white rounded sm:px-4 sm:py-2 sm:mx-2"
             >
               <LuArrowLeft />
             </button>
-            <span className="px-4 py-2 mx-2 bg-gray-200 text-black rounded">
+            <span className="px-2 py-1 mx-1 bg-gray-200 text-black rounded sm:px-4 sm:py-2 sm:mx-2">
               Page {currentPage} of {totalPages}
             </span>
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className="flex items-center px-4 py-2 mx-2 bg-[#A31F24] text-white rounded"
+              className="flex items-center px-2 py-1 mx-1 bg-[#A31F24] text-white rounded sm:px-4 sm:py-2 sm:mx-2"
             >
               <LuArrowRight />
             </button>
           </div>
         </div>
 
-
-
-        {/* Second section (1/5 of the screen) */}
-        <div className="w-1/4 bg-[#fffdd0]">
-        {/* #F3CC3A   #E4C041 */}
-          <div className="justify-end p-4">
+        {/* Second section (responsive) */}
+        <div className="hidden lg:block lg:w-1/4 w-full bg-[#fffdd0] p-4">
+          <div className="justify-end">
             <p className="text-xl font-bold">{Search}</p>
             <hr className="h-1 bg-gray-200 my-2"></hr>
             <div className="flex">
@@ -158,7 +155,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
               <AllVendors />
             </div>
 
-            <img src={Img} alt={ImgTitle2} className="w-full h-[250px] p-3 shadow-xl" />
+            <img src={Img} alt={ImgTitle2} className="w-full h-[250px] p-3 shadow-xl object-cover" />
             <p className="text-xl font-semibold pt-3 pb-2 shadow">Related Article</p>
 
             <div className="flex flex-wrap justify-center shadow">

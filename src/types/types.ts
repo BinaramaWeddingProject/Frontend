@@ -143,3 +143,32 @@ export interface Notification{
   maxGuests?:string
   minGuests?:string
  }
+
+ export interface Bookings{
+  uId?: string;
+  vId?: string;
+  name?: string;
+  contact?: number;
+  location?: string;
+  guests?: string;
+  date?: Date;
+  address?: string;
+  message?: string;
+  bookingId?: string;   
+  isVerified?: 'Approved' | 'Rejected' | 'Pending';
+ }
+
+ export interface Booking{
+  uId?: string;
+  vId?: string;
+  name?: string;
+  contact?: number;
+  location?: string;
+  guests?: string;
+  date?: Date;
+  address?: string;
+  message?: string;
+  bookingId?: string;   
+  isVerified?: 'Approved' | 'Rejected' | 'Pending';
+ }
+ 

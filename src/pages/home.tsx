@@ -6,7 +6,7 @@ import { useRankedVenuesQuery } from "../redux/api/venue";
 import VenueCard from "../components/VenueCard"; // Adjust the import path as needed
 import { AllVenuesResponse } from "../types/api-types";
 
-const imageUrl = "public/wv_homepage-min.gif";
+const imageUrl = "/wv_homepage-min.gif";
 
 const Home = () => {
   // Fetch ranked venues using useRankedVenuesQuery hook
@@ -57,8 +57,9 @@ const Home = () => {
                       maxGuests: venue.guestCapacity,
                       contact: venue.phone,
                       description: venue.summary,
-                      vegPrice: 20, // Example, adjust as per your data structure
-                      nonVegPrice: 30, // Example, adjust as per your data structure
+                      vegPrice: venue.foodPackages,
+                      // nonVegPrice: 30, // Example, adjust as per your data structure
+                      
                       images: venue.images,
                       id: venue._id,
                     }}

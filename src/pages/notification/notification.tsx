@@ -1,107 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { useGetNotificationByIdQuery } from "../../redux/api/notification";
-// import { useUpdateNotificationMutation } from '../../redux/api/notification';
-// import { useGetNotificationIdStatusQuery } from '../../redux/api/notification';
-// import { useGetAllNotificationByVIdQuery } from '../../redux/api/notification';
-
-// const vId = "6647077ca07a6f12501a2b84";
-
-// interface NotificationStatus {
-//     vendorIds: string[];
-//     statuses: string[];
-//   }
-
-// const UserNotification = () => {
-//     const { data } = useGetNotificationByIdQuery({ vId });
-//     const [notificationIds, setNotificationIds] = useState<string[]>([]);
-//     const [notificationStatus, setNotificationStatus] = useState<NotificationStatus[]>([]);
-//     const [readUsers, setReadUsers] = useState<string[]>([]);
-//     const [updateNotification] = useUpdateNotificationMutation();
-//     const { data: notif } = useGetAllNotificationByVIdQuery({vId});
-//     console.log("notif", notif)
-
-//     const fetchNotificationStatus = async () => {
-//         console.log("data" , data)
-//             if (data) {
-//                 const ids = data.users.map((user: any) => user.notificationId);
-//                 console.log("ids" , ids)
-//                 setNotificationIds(ids);
-//                 const statuses = await Promise.all(ids.map(async (id: string) => {
-//                     if (id) {
-//                         const { data: status } =  useGetNotificationIdStatusQuery({ nId: id, vId });
-//                         return status;
-//                     }
-//                     return '';
-//                 }));
-//                 console.log("statsus" , statuses)
-//                 setNotificationStatus(statuses );
-//             }
-//         }
-
-//     useEffect(() => {
-        
-//         fetchNotificationStatus();
-//     }, [data]);
-
-// //     useEffect(() => {
-// //         if (notif && notif.status) {
-// //             const ids = notif.status.map((item: any) => {
-// // const vendorIds = item.vendors.map((vendor: any) => vendor.vendorId);                
-// //                 const statuses = item.vendors.map((vendor: any) => vendor.status);
-// //                 return { vendorIds, statuses };
-// //             });
-
-// //             setNotificationStatus(ids);
-            
-// //         }
-// //     }, [notif]);
-
-//     // console.log("idsss", notificationStatus );
-//     // if (notificationStatus.length > 0 && notificationStatus[0].statuses.length > 0) {
-//     //     console.log("status", notificationStatus[0].statuses[0]);
-//     // }
-//     console.log("status", notificationStatus[0]?.statuses[1])
-    
-//     const handleMarkAsRead = async (notificationId: string) => {
-//         try {
-//             const res = await updateNotification({ nId: notificationId, vId });
-//             setReadUsers(prevState => [...prevState, notificationId]);
-//         } catch (error) {
-//             console.error("Error marking notification as read:", error);
-//         }
-//     }
-
-//     return (
-//         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-//             {data?.users.map((user: any, index: number) => (
-//                 <div key={index} className={`p-4 m-4 border border-gray-200 rounded shadow-md ${readUsers.includes(notificationIds[index]) ? 'bg-gray-100' : ''}`}>
-//                     <div className="mb-4">
-//                         <p className="text-lg font-bold">{user.user.fullName}</p>
-//                         <p className="text-gray-500">{user.user.email}</p>
-//                     </div>
-//                     <div className="mb-2">
-//                         <p className="text-gray-600">City: {user.user.city}</p>
-//                         <p className="text-gray-600">Phone: {user.user.phone}</p>
-//                     </div>
-//                     <button
-//                         onClick={() => handleMarkAsRead(notificationIds[index])}
-//                         className={`font-bold py-2 px-4 rounded ${readUsers.includes(notificationIds[index]) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
-//                     >
-//                         {notificationStatus[0].statuses[index]  === 'read' ? 'Marked as Read' : 'Mark as Read'}
-//                     </button>
-//                 </div>
-//             ))}
-//         </div>
-//     );
-// }
-
-// export default UserNotification;
-
-
-
-
-//main code
-
 import  { useState, useEffect } from 'react';
 import { useGetNotificationByIdQuery } from "../../redux/api/notification";
 import { useUpdateNotificationMutation } from '../../redux/api/notification';
@@ -109,6 +5,7 @@ import { useGetAllNotificationByVIdQuery } from '../../redux/api/notification';
 
 // const vId = "6647077ca07a6f12501a2b84";
 const vId="6654342528aa54d4db416139"
+
 
 const UserNotification = () => {
 
