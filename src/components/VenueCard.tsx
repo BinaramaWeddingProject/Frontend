@@ -38,6 +38,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const itemId = venue.id;
 
+  console.log("widsdhlist",wishlistData)
   useEffect(() => {
     if (wishlistData) {
       const isWishlisted = wishlistData?.wishlist?.items?.some(item => item.itemId === itemId) ?? false;
@@ -92,12 +93,15 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
           </button>
         </div>
       </div>
+
       <div className="md:w-1/2 p-4 text-center">
+
         <div
           className={`flex justify-center text-end items-end ${isInWishlist ? "text-red-500 transform scale-125" : "text-white transform scale-125 "}`}
         >
           <FaHeart size={25} />
         </div>
+
         <h2 className="text-xl md:text-3xl font-bold mb-2">{venue.name}</h2>
         <p className="text-lg md:text-xl text-gray-600 mb-2">{venue.location}</p>
         <div className="mb-4 flex justify-center">

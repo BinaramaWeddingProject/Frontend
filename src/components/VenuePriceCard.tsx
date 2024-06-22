@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 // import {  useDeleteWishlistMutation, useGetWishlistQuery } from '../redux/api/wishlist';
 import { useParams } from 'react-router-dom';
-import {useDeleteWishlistMutation, useGetWishlistQuery } from '../redux/api/wishlist';
+import {useDeleteWishlistMutation, useGetWishlistQuery , useAddWishlistMutation } from '../redux/api/wishlist';
 import EnquiryFormModal from './EnquiryFormModal'; // Import the modal component
-import { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery } from '../redux/api/booking';
+import { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery  } from '../redux/api/booking';
 import { MdDinnerDining } from "react-icons/md";
 
 
@@ -30,8 +30,9 @@ const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, }) => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to handle modal visibility
   const [hasSentEnquiry, setHasSentEnquiry] = useState(false); // State to track if enquiry is sent
 
-  // const [addWishlist] = useAddWishlistMutation();
+   const [addWishlist] = useAddWishlistMutation();
   const [deleteWishlist] = useDeleteWishlistMutation();
+  
   const [sendEnquiry] = useAddBookingEnquiryMutation();
   
   const { data: wishlistData, refetch } = useGetWishlistQuery(userId ?? "");
@@ -56,25 +57,56 @@ const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, }) => {
     }
   }, [bookingData]);
 
+  // const handleWishlistClick = async () => {
+  //   try {
+  //     if (isWishlistSelected) {
+  //       if (userId && itemId && itemType) {
+  //         await deleteWishlist({ userId, itemId, itemType }).unwrap();
+  //       } else {
+  //         console.error('userId, itemId, or itemType is undefined!');
+  //       }
+  //       console.log("Item removed from wishlist");
+  //     } else {
+  //       console.log("add to wishlist");
+  //       if (userId && itemId && itemType) {
+  //         await deleteWishlist({ userId, itemId, itemType }).unwrap();
+  //       } else {
+  //         console.error('userId, itemId, or itemType is undefined!');
+  //       }
+  //       console.log("Item added to wishlist");
+  //     }
+  //     refetch(); // Refetch the wishlist status to update the state
+  //     setIsWishlistSelected(!isWishlistSelected);
+  //   } catch (error) {
+  //     console.error("Failed to update wishlist:", error);
+  //   }
+  // };
+
   const handleWishlistClick = async () => {
     try {
       if (isWishlistSelected) {
         if (userId && itemId && itemType) {
-          await deleteWishlist({ userId, itemId, itemType }).unwrap();
-        } else {
-          console.error('userId, itemId, or itemType is undefined!');
+                 await deleteWishlist({ userId, itemId, itemType }).unwrap();
+        } else
+        {
+                  console.error('userId, itemId, or itemType is undefined!');
         }
-        console.log("Item removed from wishlist");
-      } else {
-        console.log("add to wishlist");
+                console.log("Item removed from wishlist");
+      }
+      
+      else {
+
         if (userId && itemId && itemType) {
-          await deleteWishlist({ userId, itemId, itemType }).unwrap();
-        } else {
-          console.error('userId, itemId, or itemType is undefined!');
+         await addWishlist({ userId, itemId, itemType }).unwrap();
+         } // Replace with addWishlist function
+         else
+        {
+                  console.error('userId, itemId, or itemType is undefined!');
         }
+
         console.log("Item added to wishlist");
       }
-      refetch(); // Refetch the wishlist status to update the state
+      refetch();
       setIsWishlistSelected(!isWishlistSelected);
     } catch (error) {
       console.error("Failed to update wishlist:", error);
