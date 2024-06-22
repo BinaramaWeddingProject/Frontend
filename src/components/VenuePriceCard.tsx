@@ -9,9 +9,9 @@ import { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery } from '
 const userId = "665d6d766063ea750000e096";
 
 interface VenuePriceCardProps {
-  name: string;
-  vegPrice: number;
-  nonVegPrice: number;
+  name?: string;
+  vegPrice?: string  | undefined;
+  nonVegPrice?: number;
   contact?: string;
 }
 

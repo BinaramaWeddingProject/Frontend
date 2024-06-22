@@ -12,7 +12,7 @@ interface VenueProps {
     maxGuests: string | undefined;
     contact: string | undefined;
     description: string | undefined;
-    vegPrice?: number | undefined;
+    vegPrice?: string | undefined;
     nonVegPrice?: number | undefined;
     images: string[] | undefined;
     id: string | undefined;
