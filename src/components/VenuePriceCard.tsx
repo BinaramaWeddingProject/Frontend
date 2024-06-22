@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { FaCarrot, FaDrumstickBite } from 'react-icons/fa';
+
 // import {  useDeleteWishlistMutation, useGetWishlistQuery } from '../redux/api/wishlist';
 import { useParams } from 'react-router-dom';
 import {useDeleteWishlistMutation, useGetWishlistQuery } from '../redux/api/wishlist';
 import EnquiryFormModal from './EnquiryFormModal'; // Import the modal component
 import { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery } from '../redux/api/booking';
+import { MdDinnerDining } from "react-icons/md";
 
-const userId = "665d6d766063ea750000e096";
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
+
+
+// const userId = "665d6d766063ea750000e096";
 
 interface VenuePriceCardProps {
   name?: string;
@@ -15,7 +22,9 @@ interface VenuePriceCardProps {
   contact?: string;
 }
 
-const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, nonVegPrice }) => {
+const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, }) => {
+
+  const userId = useSelector((state: RootState) => state?.auth?.user?._id);
   const { id: venueId } = useParams<{ id: string }>();
   const [isWishlistSelected, setIsWishlistSelected] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to handle modal visibility
@@ -25,8 +34,8 @@ const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, nonVegP
   const [deleteWishlist] = useDeleteWishlistMutation();
   const [sendEnquiry] = useAddBookingEnquiryMutation();
   
-  const { data: wishlistData, refetch } = useGetWishlistQuery(userId);
-  const { data: bookingData } = useGetBookingByUserAndVenueQuery({ uId: userId, vId: venueId as string}); // Query to check booking
+  const { data: wishlistData, refetch } = useGetWishlistQuery(userId ?? "");
+  const { data: bookingData } = useGetBookingByUserAndVenueQuery({ uId: userId ?? "", vId: venueId as string}); // Query to check booking
   // const status = !!bookingData;
   console.log("gett data",bookingData?.message);
 
@@ -98,15 +107,15 @@ const VenuePriceCard: React.FC<VenuePriceCardProps> = ({ name, vegPrice, nonVegP
         <h2 className="text-3xl font-bold mb-4">{name}</h2>
         <div className="mb-4 flex flex-col justify-between">
           <div className="flex items-center mb-2">
-            <FaCarrot className="mr-2 text-xl" />
-            <span className="mr-2 text-xl">Veg:</span>
+            <MdDinnerDining className="mr-2 text-xl" />
+            <span className="mr-2 text-xl">Pacakge / Plate:</span>
             <span className="font-extrabold text-2xl">₹{vegPrice}</span>
           </div>
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <FaDrumstickBite className="mr-2 text-xl" />
             <span className="mr-2 text-xl">Non-Veg:</span>
             <span className="font-extrabold text-2xl">₹{nonVegPrice}</span>
-          </div>
+          </div> */}
         </div>
       </div>
       <button

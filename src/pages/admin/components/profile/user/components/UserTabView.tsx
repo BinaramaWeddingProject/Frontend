@@ -292,8 +292,8 @@ const Wishlist = () => {
                     maxGuests: venue.guestCapacity,
                     contact: venue.phone,
                     description: venue.summary,
-                    vegPrice: 20,
-                    nonVegPrice: 30,
+                    vegPrice: venue.foodPackages,
+                   
                     images: venue.images,
                     id: venue._id,
                   }}

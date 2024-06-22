@@ -12,6 +12,9 @@ import { useGetUserQuery } from '../redux/api/user';
 // const userId = "665d6d766063ea750000e096"
 import { useUpdateUserMutation } from '../redux/api/user';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
 const dummyPackages = [
     {
         name: "Basic History",
@@ -49,10 +52,18 @@ interface OverviewTabProps {
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const userId = "665d6d766063ea750000e096";
+// const userId = "665d6d766063ea750000e096";
+
+
+
+
+
 
 const UserTabView = () => {
-    const { data: user, refetch } = useGetUserQuery(userId)
+
+    const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+
+    const { data: user, refetch } = useGetUserQuery(userId ?? "")
     const [updateUser] = useUpdateUserMutation()
     console.log("checking for data", user?.data?.user)
 
@@ -96,7 +107,7 @@ const UserTabView = () => {
         try {
             console.log("ispe kuchlikhdo comment", profileData);
             const updatedUser = await updateUser({
-                id: userId,
+                id: userId ?? "",
                 user: {
                     fullName: profileData.name,
                     phone: profileData.phoneNumber,
@@ -321,7 +332,9 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ profileData, isEditing, handl
 
 
 const Wishlist = () => {
-    const { data: wishlistData } = useGetWishlistQuery(userId);
+    const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+    
+    const { data: wishlistData } = useGetWishlistQuery(userId ?? "");
     const { data: allVenuesData, error: venueError, isLoading: venueLoading } = useAllVenueQuery("");
     const { data: allVendorsData, error: vendorError, isLoading: vendorLoading } = useAllVendorQuery("");
 
@@ -390,8 +403,8 @@ const Wishlist = () => {
                                 maxGuests: venue.guestCapacity,
                                 contact: venue.phone,
                                 description: venue.summary,
-                                vegPrice: 20,
-                                nonVegPrice: 30,
+                                vegPrice: venue.foodPackages,
+                
                                 images: venue.images,
                                 id: venue._id
                             }}

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaHeart } from 'react-icons/fa';
+import {  FaChevronLeft, FaChevronRight, FaHeart } from 'react-icons/fa';
 import { Link, To } from 'react-router-dom';
 import { useGetWishlistQuery } from '../redux/api/wishlist';
 
-const userId = "665d6d766063ea750000e096";
+// FaChevronUp ,FaChevronDown
+
+// const userId = "665d6d766063ea750000e096";
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { MdDinnerDining } from "react-icons/md";
+
 
 interface VenueProps {
   venue: {
@@ -20,11 +26,14 @@ interface VenueProps {
 }
 
 const VenueCard: React.FC<VenueProps> = ({ venue }) => {
-  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+
+  // const [showFullDescription, setShowFullDescription] = useState(false);
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const { data: wishlistData } = useGetWishlistQuery(userId);
+  const { data: wishlistData } = useGetWishlistQuery(userId ?? "");
 
   const [isInWishlist, setIsInWishlist] = useState(false);
   const itemId = venue.id;
@@ -37,11 +46,11 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
   }, [wishlistData, itemId]);
 
 
-  const toggleDescription = () => {
-    setShowFullDescription(prevState => !prevState);
-  };
+  // const toggleDescription = () => {
+  //   setShowFullDescription(prevState => !prevState);
+  // };
 
-  const truncatedDescription = venue.description ? `${venue.description.slice(0, 100)}...` : '';
+  // const truncatedDescription = venue.description ? `${venue.description.slice(0, 100)}...` : '';
 
 
   const handlePrevImage = () => {
@@ -100,7 +109,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
           </p>
         </div>
         <div className="mb-4 text-sm md:text-lg text-gray-700">
-      {venue.description && (
+      {/* {venue.description && (
         <>
           {showFullDescription ? venue.description : truncatedDescription}
           {venue.description.length > 100 && (
@@ -113,11 +122,11 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
             </button>
           )}
         </>
-      )}
+      )} */}
     </div>
         <div className="mb-4 flex justify-center">
           <div className="mr-8 text-sm md:text-lg text-gray-600 flex items-center">
-            <FaCarrot size={20} className="mr-2" />
+            <MdDinnerDining size={20} className="mr-2" />
             <span className="font-bold">Price Per Plate: </span> {venue.vegPrice}
           </div>
          
