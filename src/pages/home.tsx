@@ -1,15 +1,12 @@
+import React from 'react';
+import NavBar from '../components/navbar';
+import LocationSelector from '../components/LocationSelector';
+import LocationCardHolder from '../components/LocationCardHolder';
+import { dummyLocations } from './dummyLocations';
+import InformationBanner from '../components/InformationBanner';
+import Footer from '../components/Footer';
 
-import NavBar from "../components/navbar";
-import LocationSelector from "../components/Locationselector";
-import LocationCardHolder from "../components/LocationCardHolder";
-import { dummyLocations } from "./dummyLocations";
-
-import InformationBanner from "../components/InformationBanner";
-import Footer from "../components/Footer";
-
-
-
-const imageUrl = "public/wv_homepage-min.gif";
+const imageUrl = "/public/ap2.jpg"; // Check if the URL is correct
 
 const Home = () => {
   return (
@@ -17,12 +14,12 @@ const Home = () => {
       <NavBar />
       <div className="relative">
         <div
-          className="bg-cover bg-center h-screen"
+          className="bg-cover bg-center h-[95vh] w-full"
           style={{
             backgroundImage: `url(${imageUrl})`,
           }}
         >
-          <div className="bg-black bg-opacity-50 h-full flex flex-col justify-center items-center">
+          <div className="bg-black bg-opacity-10 h-full flex flex-col justify-center items-center">
             {/* <LocationSelector /> */}
           </div>
         </div>
@@ -42,13 +39,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
-
-
-
-
-
-

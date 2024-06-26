@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ArticleCard from './ArticleCard'; // Assume ArticleCard component is implemented separately
-
+import { useGetAllBlogsQuery } from '../redux/api/blog';
 const dummyArticles = [
     {
         title: "Article 1",
@@ -56,11 +56,14 @@ const dummyArticles = [
 //     );
 // };
 
+
 const RelatedArticles = () => {
+    const { data:blog } = useGetAllBlogsQuery('');
+    const blogs=blog?.data.blog
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center m-4">
-            {dummyArticles.map((article, index) => (
-                <ArticleCard key={index} article={article} />
+            {blogs?.map((items, index) => (
+                <ArticleCard title={items?.title} description={items?.content} image={items?.images[0]} url={items?._id}/>
             ))}
         </div>
     );

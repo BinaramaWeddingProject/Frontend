@@ -10,10 +10,11 @@ import { useAllVendorQuery } from "../redux/api/vendor";
 import type { Vendor } from "../types/types";
 import VendorCard from "../components/card/Vendorcard";
 import { useParams } from "react-router-dom";
-import { title } from "process";
+// import { title } from "process";
 
 import { LuArrowLeft } from "react-icons/lu";
 import { LuArrowRight } from "react-icons/lu";
+import { useGetAllBlogsQuery } from "../redux/api/blog";
 
 interface VendorsListProps {
   NumberOfCards?: number;
@@ -36,7 +37,9 @@ const VendorsList: React.FC<VendorsListProps> = ({
   const ArticleCardsArray = Array.from({ length: NumberOfArticaleCards });
   const { data, error, isLoading } = useAllVendorQuery("");
   const [allvendors, setAllVendors] = useState<Vendor[]>([]);
-
+const {data:blog}= useGetAllBlogsQuery('');
+console.log("blog",blog?.data.blog)
+const blogs=blog?.data.blog
   
   const type = useParams();
   console.log("param value", type.type);
@@ -102,6 +105,42 @@ const VendorsList: React.FC<VendorsListProps> = ({
                 ? "Decorators"
                 : Title === "Caterer"
                 ? "Caterers"
+                : Title === "Band baja"
+                ? "Band Baja"
+                : Title === "dhol"
+                ? "Dhol"
+                : Title === "Tatto Artist"
+                ? "Tatto Artists"
+                : Title === "Messkot"
+                ? "Messkot"
+                : Title === "Magicians"
+                ? "Magicians"
+                : Title === "Fog Event"
+                ? "Fog Events"
+                : Title === "Game Coordinator"
+                ? "Game Coordinators"
+                : Title === "Anchor"
+                ? "Anchor"
+                : Title === "Live singer"
+                ? "Live Singers"
+                : Title === "Welcome Girls"
+                ? "Welcome Girls"
+                : Title === "Waiter service boy"
+                ? "Waiter service boys"
+                : Title === "Vallet parking vendor"
+                ? "Vallet parking vendors"
+                : Title === "Dj"
+                ? "Dj"
+                : Title === "Birthday boy car Entry"
+                ? "Birthday boy car Entries"
+                : Title === "Jagran setup"
+                ? "Jagran setups"
+                : Title === "Mata ki Chowki setup"
+                ? "Mata ki Chowki setups"
+                : Title === "Bar tender boy"
+                ? "Bar tender boys"
+                : Title === "Rooms booking"
+                ? "Rooms bookings"
                 : Title}
             </p>
             <p className="text-md font-semibold text-gray-600">
@@ -191,14 +230,22 @@ const VendorsList: React.FC<VendorsListProps> = ({
               Related Article
             </p>
 
-            <div className="  flex flex-wrap justify-center shadow">
-              {/* Render VendorCard components */}
-              {ArticleCardsArray.map((_, index) => (
-                <div key={index} className="mx-2 mb-4 shadow-xl">
-                  <ArticleCard />
-                </div>
-              ))}
-            </div>
+            <div className="flex flex-wrap justify-center shadow">
+  {/* Render ArticleCard components */}
+  {blogs?.map((items, index) => (
+    index < 10 ? (
+      <div key={index} className="mx-2 mb-4 shadow-xl">
+        <ArticleCard
+        id={items?._id}
+          image={items?.images[0]}
+          title={items?.title}
+          description={items?.content}
+          date={items?.createdAt}
+        />
+      </div>
+    ) : null
+  ))}
+</div>
           </div>
           {/* Content for the second section */}
           {/* You can add content for the second section here */}
