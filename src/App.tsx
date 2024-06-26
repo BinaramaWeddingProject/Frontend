@@ -38,6 +38,7 @@ import RealWeddingsPost from "./pages/admin/components/profile/realWedding/realW
 import NewRealWedding from "./pages/admin/components/profile/realWedding/newRealWeddings";
 
 import {AdminProtectedRoutes , VendorProtectedRoutes , VenueProtectedRoutes , UserProtectedRoutes} from "./utils/ProtectedRoutes";
+import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
 
 
 
@@ -111,6 +112,7 @@ const App: React.FC = () => {
                  <Route path="/UserProfile/:id" element={<UserProfile />} />
                  <Route path="/VendorProfile/:id" element={<VendorProfile />} />
                  <Route path="/VendorProfile/:id" element={<VendorProfile />} />
+                 <Route path="/VenueProfile/:id" element={<VenueProfile />} />
 
                  
 

@@ -71,7 +71,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 border-2 border-gray-300">
+    <div className="flex bg-gray-100 flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 ">
       <div className="relative md:w-1/2 h-56 md:h-80">
         <img
           src={venue?.images[currentImageIndex]}

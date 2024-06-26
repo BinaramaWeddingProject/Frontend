@@ -24,7 +24,7 @@ const VenueManagement: React.FC = () => {
   const [reloadTrigger, setReloadTrigger] = useState(false); // State to trigger reload
   const [editModeMap, setEditModeMap] = useState<{ [key: string]: boolean }>({});
   const [editableRank, setEditableRank] = useState<number>(0);
-
+  console.log("here is dthe data",venue?.data)
   useEffect(() => {
     // Effect to reload data when reloadTrigger state changes
     if (reloadTrigger) {
@@ -33,9 +33,11 @@ const VenueManagement: React.FC = () => {
     }
   }, [reloadTrigger, refetch]);
 
-  const handleApproval = async (id: string) => {
+  const handleApproval:(any) = async (id: string) => {
     const verificationStatus = "Approved";
-    await verify({ id, venue: { isVerified: verificationStatus } });
+    console.log("datda")
+    const res= await verify({ id, venue: { isVerified: verificationStatus } });
+    console.log("datda",res)
   };
 
   const handleRejection = async (id: string) => {
@@ -91,7 +93,7 @@ const VenueManagement: React.FC = () => {
             <div className="w-1/12 p-2">Delete</div>
           </div>
           <div className="bg-gray-50">
-            {venue?.data.venues?.map((admin: Venue, index: number) => (
+            {venue?.data?.map((admin: Venue, index: number) => (
               <div key={index} className="flex text-center items-center hover:bg-gray-100">
                 <div className="w-1/12 p-2">{index + 1}</div>
                 <div className="w-2/12 p-2">{admin.yourName}</div>

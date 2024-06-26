@@ -4,13 +4,11 @@ import AllVendors from "../components/card/AllVendors";
 import ArticleCard from "../components/card/ArticleCard";
 import NavBar from "../components/navbar";
 import Footer from "../components/Footer";
-
 import { useState, useEffect } from "react";
 import { useAllVendorQuery } from "../redux/api/vendor";
 import type { Vendor } from "../types/types";
 import VendorCard from "../components/card/Vendorcard";
 import { useParams } from "react-router-dom";
-
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import SkeletonCard from "../components/skeleton/Vendor";
 
@@ -31,13 +29,11 @@ const VendorsList: React.FC<VendorsListProps> = ({
 }) => {
   const ArticleCardsArray = Array.from({ length: NumberOfArticleCards });
   const { data, error, isLoading } = useAllVendorQuery("");
-  const [allvendors, setAllVendors] = useState<Vendor[]>([]);
-  const type = useParams();
-  const Title = type.type;
-
-  const filteredVendors = allvendors.filter(
-    (vendor) => vendor.isVerified === "Approved" && (vendor.type_Of_Business === Title || Title === "AllVendors")
-  );
+  const [allVendors, setAllVendors] = useState<Vendor[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredVendors, setFilteredVendors] = useState<Vendor[]>([]);
+  const { type } = useParams<{ type: string }>();
+  const Title = type;
 
   const [currentPage, setCurrentPage] = useState(1);
   const vendorsPerPage = 10;
@@ -48,9 +44,17 @@ const VendorsList: React.FC<VendorsListProps> = ({
     }
   }, [data]);
 
-  if (error) {
-    return <h1>Error while loading data</h1>;
-  }
+  useEffect(() => {
+    const approvedVendors = allVendors.filter(vendor => vendor.isVerified === "Approved");
+    if (searchQuery.trim() === "") {
+      setFilteredVendors(approvedVendors);
+    } else {
+      const filtered = approvedVendors.filter((vendor) =>
+        vendor.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredVendors(filtered);
+    }
+  }, [searchQuery, allVendors]);
 
   const indexOfLastVendor = currentPage * vendorsPerPage;
   const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
@@ -64,6 +68,10 @@ const VendorsList: React.FC<VendorsListProps> = ({
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
+
+  if (error) {
+    return <h1>Error while loading data</h1>;
+  }
 
   return (
     <>
@@ -87,7 +95,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
                 : Title}
             </p>
             <p className="text-md font-semibold text-gray-600">
-              Showing results of {filteredVendors.filter((vendor) => vendor.isVerified === "Approved").length}{" "}
+              Showing results of {filteredVendors.length}{" "}
               {Title === "AllVendors" ? "Vendors" : Title}
             </p>
           </div>
@@ -102,11 +110,11 @@ const VendorsList: React.FC<VendorsListProps> = ({
                 <VendorCard
                   _id={vendor._id}
                   key={index}
-                  businessName={vendor?.name}
-                  city={vendor?.city}
-                  packagePrice={vendor?.packages?.price}
-                  summary={vendor?.summary}
-                  image={vendor?.portfolio ? vendor?.portfolio[4] : "" }
+                  businessName={vendor.name ?? "No name provided"}
+                  city={vendor.city}
+                  packagePrice={vendor.packages?.price}
+                  summary={vendor.summary}
+                  image={vendor.portfolio ? vendor.portfolio[4] : ""}
                 />
               ))
             ) : (
@@ -145,6 +153,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
                 type="text"
                 placeholder="Enter artist name..."
                 className="w-full px-3 py-2 border rounded-l-md outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button className="bg-blue-400 text-white px-4 py-2 rounded-r-md">
                 <FaSearch />

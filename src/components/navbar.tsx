@@ -33,7 +33,7 @@ const NavBar: React.FC = () => {
 
         {/* Navigation Links */}
         <div className="options">
-          <ul className="hidden md:flex justify-center items-center space-x-8 flex-grow">
+          <ul className="hidden md:flex justify-center items-center space-x-8 flex-grow static top-0">
             <li className="relative">
               <Link to="/" className="text-white hover:text-gray-200">Home</Link>
             </li>
@@ -95,7 +95,7 @@ const NavBar: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-[#173445] text-white flex flex-col items-center justify-center space-y-4 z-10 transition-transform duration-300">
+        <div className="fixed inset-0 bg-[#ff3b3b] text-white flex flex-col items-center justify-center space-y-4 z-10 transition-transform duration-300">
           <button onClick={toggleMobileMenu} className="absolute top-4 right-4 text-white">
             <FaTimes size={24} />
           </button>

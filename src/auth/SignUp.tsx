@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { styles } from "../styles/style";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSignupMutation } from "../redux/api/user";
 
 const schema = Yup.object().shape({
@@ -23,6 +23,7 @@ const Signup: FC = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState("");
   // const [phoneNumber, setPhoneNumber] = useState("");
+  const navigate = useNavigate()
 
   const [register] = useSignupMutation();
 
@@ -69,6 +70,7 @@ const Signup: FC = () => {
       const res = await register(data);
       console.log(res);
       if (res.data?.statusCode === 200) {
+        navigate('/login')
         alert("User registered successfully");
       }
     },

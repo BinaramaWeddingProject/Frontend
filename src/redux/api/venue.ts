@@ -16,7 +16,7 @@ export const VenueAPI = createApi({
     allVenue: builder.query<AllVenuesResponse, string>({
       query: (filters) => {
         const queryString = new URLSearchParams(filters).toString();
-        return `all?${queryString}`;
+        return `all?${queryString}`
       },
       providesTags: ["venues"], // Tags for caching
     }),
