@@ -4,8 +4,19 @@ import { useAllVenueQuery } from "../../../../redux/api/venue";
 import { useUpdateVenueMutation } from "../../../../redux/api/venue";
 import { useDeleteVenueByIdMutation } from "../../../../redux/api/venue";
 import { useNavigate } from "react-router-dom";
+import { Venue } from "../../../../types/types"; // Import Venue type or adjust import path accordingly
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
+
+
 
 const VenueManagement: React.FC = () => {
+
+  const adminId = useSelector((state: RootState) => state?.auth?.user?._id);
+  console.log("admin" , adminId)
+
+
   const navigate = useNavigate();
   const { data: venue, refetch } = useAllVenueQuery("");
   const [verify] = useUpdateVenueMutation();
@@ -13,6 +24,7 @@ const VenueManagement: React.FC = () => {
   const [reloadTrigger, setReloadTrigger] = useState(false); // State to trigger reload
   const [editModeMap, setEditModeMap] = useState<{ [key: string]: boolean }>({});
   const [editableRank, setEditableRank] = useState<number>(0);
+  console.log("here is dthe data",venue?.data)
   useEffect(() => {
     // Effect to reload data when reloadTrigger state changes
     if (reloadTrigger) {
@@ -21,9 +33,11 @@ const VenueManagement: React.FC = () => {
     }
   }, [reloadTrigger, refetch]);
 
-  const handleApproval = async (id: string) => {
+  const handleApproval:(any) = async (id: string) => {
     const verificationStatus = "Approved";
-    await verify({ id, venue: { isVerified: verificationStatus } });
+    console.log("datda")
+    const res= await verify({ id, venue: { isVerified: verificationStatus } });
+    console.log("datda",res)
   };
 
   const handleRejection = async (id: string) => {
@@ -49,10 +63,9 @@ const VenueManagement: React.FC = () => {
   const handleRankChange = async (id: string, newRank: number) => {
     const clampedRank = Math.min(Math.max(newRank, 1), 10);
 
-    const res = await verify({ id, venue: {rank:clampedRank} });
-    console.log("rank lelo",res);
-    
-    console.log(`Updating rank to ${clampedRank} for admin with ID ${id}`);
+    const res = await verify({ id, venue: { rank: clampedRank } });
+    console.log("Rank updated:", res);
+
     toggleEditMode(id);
   };
 
@@ -80,13 +93,13 @@ const VenueManagement: React.FC = () => {
             <div className="w-1/12 p-2">Delete</div>
           </div>
           <div className="bg-gray-50">
-            {venue?.data.venues?.map((admin, index) => (
+            {venue?.data?.map((admin: Venue, index: number) => (
               <div key={index} className="flex text-center items-center hover:bg-gray-100">
                 <div className="w-1/12 p-2">{index + 1}</div>
                 <div className="w-2/12 p-2">{admin.yourName}</div>
                 <div className="w-3/12 p-2">{admin.email}</div>
                 <div className="w-1/12 p-2">
-                  {editModeMap[admin._id] ? (
+                  {editModeMap[admin._id ?? ""] ? (
                     <div className="flex items-center justify-center">
                       <input
                         type="number"
@@ -94,10 +107,10 @@ const VenueManagement: React.FC = () => {
                         value={editableRank !== undefined ? editableRank : ''}
                         onChange={(e) => setEditableRank(parseInt(e.target.value))}
                       />
-                      <button className="ml-2 bg-green-500 text-white rounded-md px-1 py-1 flex items-center" onClick={() => handleRankChange(admin._id, editableRank)}>
+                      <button className="ml-2 bg-green-500 text-white rounded-md px-1 py-1 flex items-center" onClick={() => admin._id && handleRankChange(admin._id, editableRank)}>
                         <FaSave fontSize={14} className="" />
                       </button>
-                      <button className="ml-2 bg-red-500 text-white rounded-md px-1 py-1 flex items-center" onClick={() => toggleEditMode(admin._id)}>
+                      <button className="ml-2 bg-red-500 text-white rounded-md px-1 py-1 flex items-center" onClick={() => admin._id && toggleEditMode(admin._id)}>
                         <FaTimes fontSize={14} className="" />
                       </button>
                     </div>
@@ -106,7 +119,7 @@ const VenueManagement: React.FC = () => {
                       <span>{admin.rank}</span>
                       <div
                         className="cursor-pointer ml-4"
-                        onClick={() => toggleEditMode(admin._id)}
+                        onClick={() => admin._id && toggleEditMode(admin._id)}
                       >
                         <FaPencilAlt fontSize={14} />
                       </div>
@@ -117,29 +130,29 @@ const VenueManagement: React.FC = () => {
                 <div className="w-1/12 p-2">{admin.city}</div>
                 <div
                   className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
-                  onClick={() => viewUser(admin._id)}
+                  onClick={() => admin._id && viewUser(admin._id)}
                 >
                   <FaEye size={20} />
                 </div>
                 <div className="w-1/12 p-2 flex justify-center items-center">
-                  {admin?.isVerified === "Approved" ? (
+                  {admin.isVerified === "Approved" ? (
                     <span className="bg-green-500 text-white rounded-full px-2 py-1 font-semibold">
                       Approved
                     </span>
-                  ) : admin?.isVerified === "Rejected" ? (
+                  ) : admin.isVerified === "Rejected" ? (
                     <span className="bg-red-500 text-white rounded-full px-2 py-1 font-semibold">
                       Rejected
                     </span>
                   ) : (
                     <>
                       <button
-                        onClick={() => handleApproval(admin._id)}
+                        onClick={() => admin._id && handleApproval(admin._id)}
                         className="bg-green-500 text-white rounded-full p-1 mr-2"
                       >
                         <FaCheck />
                       </button>
                       <button
-                        onClick={() => handleRejection(admin._id)}
+                        onClick={() => admin._id && handleRejection(admin._id)}
                         className="bg-red-500 text-white rounded-full p-1"
                       >
                         <FaTimes />
@@ -149,7 +162,7 @@ const VenueManagement: React.FC = () => {
                 </div>
                 <div
                   className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
-                  onClick={() => handleDelete(admin._id)}
+                  onClick={() => admin._id && handleDelete(admin._id)}
                 >
                   <FaTrash />
                 </div>

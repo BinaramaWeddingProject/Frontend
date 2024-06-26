@@ -1,6 +1,10 @@
 import { FC, useState } from "react";
 import { useGetAdminQuery, useUpdateAdminMutation } from "../../../../redux/api/admin";
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
+
+
 // Define interface for props
 interface ProfileProps {
   avatar?: string;
@@ -11,7 +15,7 @@ interface ProfileProps {
   city?: string;
 }
 
-const id = "665ee38ffd074e3e7c25f70b";
+// const id = "665ee38ffd074e3e7c25f70b";
 
 // Use interface in component props
 const Profile: FC<ProfileProps> = ({
@@ -22,6 +26,11 @@ const Profile: FC<ProfileProps> = ({
   address,
   city,
 }) => {
+
+    
+  const id =  useSelector((state: RootState) => state?.auth?.user?._id) ;
+  console.log("admin" , id)
+
   const [isEditing, setIsEditing] = useState(false);
   const [editedAvatar, setEditedAvatar] = useState(avatar);
   const [editedName, setEditedName] = useState(name || undefined);
@@ -29,13 +38,16 @@ const Profile: FC<ProfileProps> = ({
   const [editedCity, setEditedCity] = useState(city || undefined);
   const [editedAddress, setEditedAddress] = useState(address || undefined);
   const [editedPassword, setEditedPassword] = useState("");
-  const { data: admin, refetch } = useGetAdminQuery(id);
+  const { data: admin, refetch } = useGetAdminQuery(id || "");
   const [updateAdmin] = useUpdateAdminMutation();
+
+
+
 
   // Fetch admin details
   if (admin) {
     avatar = "default-avatar.jpg";
-    name = admin?.profile.name;
+    name = admin?.profile?.name;
     email = admin?.profile.email;
     contact = admin?.profile.contact;
     address = admin?.profile.address;
@@ -49,7 +61,7 @@ const Profile: FC<ProfileProps> = ({
   const handleSaveClick = async () => {
     // Perform save action, for now just log the edited values
     const updatedData = {
-      id: id,
+      id: id ?? "",
       admin: {
         name: editedName,
         contact: editedContact,

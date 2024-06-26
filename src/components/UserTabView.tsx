@@ -12,6 +12,9 @@ import { useGetUserQuery } from '../redux/api/user';
 // const userId = "665d6d766063ea750000e096"
 import { useUpdateUserMutation } from '../redux/api/user';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
 const dummyPackages = [
     {
         name: "Basic History",
@@ -49,10 +52,18 @@ interface OverviewTabProps {
     handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const userId = "665d6d766063ea750000e096";
+// const userId = "665d6d766063ea750000e096";
+
+
+
+
+
 
 const UserTabView = () => {
-    const { data: user, refetch } = useGetUserQuery(userId)
+
+    const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+
+    const { data: user, refetch } = useGetUserQuery(userId ?? "")
     const [updateUser] = useUpdateUserMutation()
     console.log("checking for data", user?.data?.user)
 
@@ -71,14 +82,14 @@ const UserTabView = () => {
     useEffect(() => {
         if (userData) {
             setProfileData({
-                name: userData.fullName,
-                phoneNumber: userData.phone,
-                address: userData.city,
-                email: userData.email,
+                name: userData.fullName ?? "",
+                phoneNumber: userData.phone ?? "",
+                address: userData.city ?? "",
+                email: userData.email ?? "",
                 avatarUrl: 'https://via.placeholder.com/150',
             });
         }
-    }, [userData]);
+    }, [userData]); 
 
     const handleTabClick = (tab: string) => {
         setActiveTab(tab);
@@ -96,7 +107,7 @@ const UserTabView = () => {
         try {
             console.log("ispe kuchlikhdo comment", profileData);
             const updatedUser = await updateUser({
-                id: userId,
+                id: userId ?? "",
                 user: {
                     fullName: profileData.name,
                     phone: profileData.phoneNumber,
@@ -107,11 +118,11 @@ const UserTabView = () => {
             }).unwrap();
             
             setProfileData({
-                name: updatedUser.fullName,
-                phoneNumber: updatedUser.phone,
-                address: updatedUser.city,
-                email: updatedUser.email,
-                avatarUrl: updatedUser.avatarUrl,
+                name: updatedUser.fullName ?? "",
+                phoneNumber: updatedUser.phone ?? "",
+                address: updatedUser.city ?? "",
+                email: updatedUser.email ?? "",
+                avatarUrl: updatedUser.avatarUrl ?? "",
             });
             refetch(); // Optionally refetch user data to ensure it's up to date
         } catch (error) {
@@ -320,8 +331,12 @@ const OverviewTab: React.FC<OverviewTabProps> = ({ profileData, isEditing, handl
 
 
 
+
+
 const Wishlist = () => {
-    const { data: wishlistData, refetch: refetchWishlist } = useGetWishlistQuery(userId);
+    const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+    
+    const { data: wishlistData, error: wishlistError, isLoading: wishlistLoading } = useGetWishlistQuery(userId ?? "");
     const { data: allVenuesData, error: venueError, isLoading: venueLoading } = useAllVenueQuery("");
     const { data: allVendorsData, error: vendorError, isLoading: vendorLoading } = useAllVendorQuery("");
 
@@ -329,80 +344,116 @@ const Wishlist = () => {
     const [wishlistVendors, setWishlistVendors] = useState<Vendor[]>([]);
 
     useEffect(() => {
-        if (wishlistData && allVenuesData && allVendorsData) {
-            const itemArray = wishlistData.wishlist.items || [];
-            const wishlistVendorItems = itemArray.filter(item => item.itemType === 'vendor');
-            const wishlistVenueItems = itemArray.filter(item => item.itemType === 'venue');
+        console.log("Effect triggered. Checking data:", { wishlistData, allVenuesData, allVendorsData });
 
-            const allVenues = allVenuesData.data.venues;
-            const allVendors = allVendorsData.data.vendors;
-
-            const filteredVenues = allVenues.filter(venue => wishlistVenueItems.some(item => item.itemId === venue._id));
-            const filteredVendors = allVendors.filter(vendor => wishlistVendorItems.some(item => item.itemId === vendor._id));
-
-            setWishlistVenues(filteredVenues);
-            setWishlistVendors(filteredVendors);
+        if (!wishlistData || !allVenuesData || !allVendorsData) {
+            console.log("Some data is missing. Skipping effect.");
+            return;
         }
+
+        const itemArray = wishlistData.wishlist?.items;
+        if (!itemArray || !Array.isArray(itemArray)) {
+            console.error("Wishlist items are not in expected format:", wishlistData);
+            return;
+        }
+
+        const wishlistVendorItems = itemArray.filter(item => item.itemType === 'vendor');
+        const wishlistVenueItems = itemArray.filter(item => item.itemType === 'venue');
+
+        console.log("Filtered wishlist items:", { wishlistVendorItems, wishlistVenueItems });
+
+        const allVenues = allVenuesData?.data;
+        const allVendors = allVendorsData.data?.vendors;
+
+        if (!Array.isArray(allVenues) || !Array.isArray(allVendors)) {
+            console.error("Venues or Vendors data is not in expected format:", { allVenues, allVendors });
+            return;
+        }
+
+        console.log("All venues and vendors:", { allVenues, allVendors });
+
+        const filteredVenues = allVenues.filter(venue => 
+            wishlistVenueItems.some(item => item.itemId === venue._id)
+        );
+        const filteredVendors = allVendors.filter(vendor => 
+            wishlistVendorItems.some(item => item.itemId === vendor._id)
+        );
+
+        console.log("Filtered venues and vendors:", { filteredVenues, filteredVendors });
+
+        setWishlistVenues(filteredVenues);
+        setWishlistVendors(filteredVendors);
+
     }, [wishlistData, allVenuesData, allVendorsData]);
 
-    if (venueError || vendorError) {
+    if (wishlistError || venueError || vendorError) {
+        console.error("Errors:", { wishlistError, venueError, vendorError });
         return <h1>Error while loading data</h1>;
     }
 
-    if (venueLoading || vendorLoading) {
+    if (wishlistLoading || venueLoading || vendorLoading) {
         return <h1>Loading</h1>;
     }
 
+  
+
+    if (!wishlistVenues.length && !wishlistVendors.length) {
+        return <h1>Your wishlist is empty</h1>;
+    }
+
+
     return (
         <div className="flex flex-col items-center">
-           
-            
             <div className='flex'>
-
-            <div className=" w-[50%] overflow-scroll border-2 border-white">
-                <h3 className="text-xl font-semibold  font-roboto mt-4 mb-12 text-center">Vendors</h3>
-                
-                    {wishlistVendors.length > 0 ? wishlistVendors.map((vendor, index) => (
-                        <div className=' mix-blend-screen scale-90'>
-                        <VendorCard
-                            key={index}
-                            _id={vendor._id}
-                            businessName={vendor.name}
-                            city={vendor.city}
-                            packagePrice={vendor.packages?.price}
-                            summary={vendor.summary}
-                            image={vendor.portfolio ? vendor.portfolio[4] : ""}
-                        
-                        />
-                          </div>
+                <div className="w-[50%] overflow-scroll border-2 border-white">
+                    <h3 className="text-xl font-semibold font-roboto mt-4 mb-12 text-center">Vendors</h3>
+                    {wishlistVendors.length > 0 ? wishlistVendors.map((vendor) => (
+                        <div key={vendor._id} className='mix-blend-screen scale-90'>
+                            <VendorCard
+                                _id={vendor._id}
+                                businessName={vendor.name}
+                                city={vendor.city}
+                                packagePrice={vendor.packages?.price}
+                                summary={vendor.summary}
+                                image={vendor.portfolio ? vendor.portfolio[4] : ""}
+                            />
+                        </div>
                     )) : <div>No Vendor found</div>}
-              </div>
-              <div className=" w-[50%] overflow-scroll border-2 border-white">
-                <h3 className="text-xl font-semibold mt-4 mb-2 font-roboto text-center">Venues</h3>
-                
-                    {wishlistVenues.length > 0 ? wishlistVenues.map((venue, index) => (
-                        <div className='mix-blend-screen -ml-24 pr-2 scale-75 h-[20%] w-[135%]'>
-                        <VenueCard
-                            key={index}
-                            venue={{
-                                name: venue.businessName,
-                                location: venue.city,
-                                maxGuests: venue.guestCapacity,
-                                contact: venue.phone,
-                                description: venue.summary,
-                                vegPrice: 20,
-                                nonVegPrice: 30,
-                                images: venue.images,
-                                id: venue._id
-                            }}
-                        /> </div>
+                </div>
+                <div className="w-[50%] overflow-scroll border-2 border-white">
+                    <h3 className="text-xl font-semibold mt-4 mb-2 font-roboto text-center">Venues</h3>
+                    {wishlistVenues.length > 0 ? wishlistVenues.map((venue) => (
+                        <div key={venue._id} className='mix-blend-screen -ml-24 pr-2 scale-75 h-[20%] w-[135%]'>
+                            <VenueCard
+                                venue={{
+                                    name: venue.businessName,
+                                    location: venue.city,
+                                    maxGuests: venue.guestCapacity,
+                                    contact: venue.phone,
+                                    description: venue.summary,
+                                    vegPrice: venue.foodPackages,
+                                    images: venue.images,
+                                    id: venue._id
+                                }}
+                            />
+                        </div>
                     )) : <div>No Venue found</div>}
-               
-            </div>
+                </div>
             </div>
         </div>
     );
 };
+
+
+
+
+
+
+
+
+
+
+
 
 const PortfolioTab = () => {
     return (

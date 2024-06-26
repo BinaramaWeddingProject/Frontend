@@ -2,11 +2,13 @@ import  { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkLoginStatus } from '../redux/reducer/auth';
 import Login from '../auth/Login';
+import { RootState } from '../redux/store'; 
 
 const PopUp = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const [seconds, setSeconds] = useState(20); // Adjusted back to 60 seconds
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  // const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
   // Check login status on component mount

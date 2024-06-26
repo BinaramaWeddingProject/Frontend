@@ -13,6 +13,7 @@ import { adminAPI } from "./api/admin.ts";
 import { blogAPI } from "./api/blog.ts";
 import { notificationApi } from "./api/notification.ts";
 import { realWeddingsAPI } from "./api/realWeddings.ts";
+import { bookingAPI } from "./api/booking.ts";
 
 export const store = configureStore({
   reducer: {
@@ -26,9 +27,10 @@ export const store = configureStore({
     [blogAPI.reducerPath]:blogAPI.reducer,
     [realWeddingsAPI.reducerPath]:realWeddingsAPI.reducer,
     [notificationApi.reducerPath]:notificationApi.reducer,
+    [bookingAPI.reducerPath]:bookingAPI.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(vendorAPI.middleware , VenueAPI.middleware, wishlistAPI.middleware, userAPI.middleware, adminAPI.middleware, blogAPI.middleware, notificationApi.middleware,realWeddingsAPI.middleware),
+    getDefaultMiddleware().concat(vendorAPI.middleware , VenueAPI.middleware, wishlistAPI.middleware, userAPI.middleware, adminAPI.middleware, blogAPI.middleware, notificationApi.middleware,realWeddingsAPI.middleware,bookingAPI.middleware),
   });
 
 export type RootState = ReturnType<typeof store.getState>;

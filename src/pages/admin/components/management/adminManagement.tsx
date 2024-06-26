@@ -27,10 +27,10 @@ const AdminManagement: React.FC = () => {
     if (id === superadmin) {
       // Skip deletion if the ID matches
       // console.log("Skipping deletion for admin with ID:", id);
-      alert("bhsdk papa hai hum");
-      alert("nikal laude");
-      alert("pehli fursat me nikal");
-      alert("ab bakchodi krne aa mat jaiyo");
+      alert("Super Admin can't be deleted!!");
+      // alert("nikal laude");
+      // alert("pehli fursat me nikal");
+      // alert("ab bakchodi krne aa mat jaiyo");
       return;
     } else {
       // Display confirmation dialog for other admins
@@ -48,26 +48,29 @@ const AdminManagement: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+  
+    const formData = new FormData(event.currentTarget);
+  
+    const profile = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      contact: formData.get('contact') as string,
+      password: formData.get('password') as string,
+      city: formData.get('city') as string,
+      address: formData.get('address') as string,
+    };
+  
     try {
-      const { data } = await addAdmin({
-        profile: {
-          name: event.currentTarget.name.value,
-          email: event.currentTarget.email.value,
-          contact: event.currentTarget.contact.value,
-          password: event.currentTarget.password.value,
-          city: event.currentTarget.city.value,
-          address: event.currentTarget.address.value,
-        },
-      });
-      // console.log("New admin added:", data);
+       await addAdmin({ profile });
+      
       setReloadTrigger(true); // Trigger reload after addition
     } catch (error) {
       console.error("Error adding admin:", error);
     }
-
+  
     setShowModal(false); // Close modal after submission
   };
+  
 
   return (
     <>

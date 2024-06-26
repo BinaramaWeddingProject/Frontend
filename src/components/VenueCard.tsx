@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp, FaCarrot, FaDrumstickBite, FaHeart } from 'react-icons/fa';
+import {  FaChevronLeft, FaChevronRight, FaHeart,FaChevronUp ,FaChevronDown } from 'react-icons/fa';
 import { Link, To } from 'react-router-dom';
 import { useGetWishlistQuery } from '../redux/api/wishlist';
 
-const userId = "665d6d766063ea750000e096";
+// FaChevronUp ,FaChevronDown
+
+// const userId = "665d6d766063ea750000e096";
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { MdDinnerDining } from "react-icons/md";
+
 
 interface VenueProps {
   venue: {
@@ -12,49 +18,60 @@ interface VenueProps {
     maxGuests: string | undefined;
     contact: string | undefined;
     description: string | undefined;
-    vegPrice: number | undefined;
-    nonVegPrice: number | undefined;
+    vegPrice?: string | undefined;
+    nonVegPrice?: number | undefined;
     images: string[] | undefined;
     id: string | undefined;
   };
 }
 
 const VenueCard: React.FC<VenueProps> = ({ venue }) => {
+
+  const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+
   const [showFullDescription, setShowFullDescription] = useState(false);
+  
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const { data: wishlistData } = useGetWishlistQuery(userId);
+  const { data: wishlistData } = useGetWishlistQuery(userId ?? "");
 
   const [isInWishlist, setIsInWishlist] = useState(false);
   const itemId = venue.id;
 
+  console.log("widsdhlist",wishlistData)
   useEffect(() => {
     if (wishlistData) {
-      const isWishlisted = wishlistData?.wishlist?.items.some(item => item.itemId === itemId);
+      const isWishlisted = wishlistData?.wishlist?.items?.some(item => item.itemId === itemId) ?? false;
       setIsInWishlist(isWishlisted);
     }
   }, [wishlistData, itemId]);
 
+
   const toggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
+    setShowFullDescription(prevState => !prevState);
   };
+
+  const truncatedDescription = venue.description ? `${venue.description.slice(0, 100)}...` : '';
+
 
   const handlePrevImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === 0 ? venue?.images?.length - 1 : currentImageIndex - 1
-      currentImageIndex === 0 ? venue?.images?.length - 1 : currentImageIndex - 1
+      currentImageIndex === 0 ? (venue?.images?.length  ?? 0 ) - 1 : currentImageIndex - 1
     );
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex(
-      currentImageIndex === venue?.images?.length - 1 ? 0 : currentImageIndex + 1
-      currentImageIndex === venue?.images?.length - 1 ? 0 : currentImageIndex + 1
+      currentImageIndex === (venue?.images?.length ?? 0) - 1 ? 0 : currentImageIndex + 1
     );
   };
 
+  if (!venue?.images || venue.images.length === 0) {
+    return <div>No images available</div>;
+  }
+
   return (
-    <div className="flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 border-2 border-gray-300">
+    <div className="flex bg-gray-100 flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 ">
       <div className="relative md:w-1/2 h-56 md:h-80">
         <img
           src={venue?.images[currentImageIndex]}
@@ -77,12 +94,15 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
           </button>
         </div>
       </div>
+
       <div className="md:w-1/2 p-4 text-center">
+
         <div
           className={`flex justify-center text-end items-end ${isInWishlist ? "text-red-500 transform scale-125" : "text-white transform scale-125 "}`}
         >
           <FaHeart size={25} />
         </div>
+
         <h2 className="text-xl md:text-3xl font-bold mb-2">{venue.name}</h2>
         <p className="text-lg md:text-xl text-gray-600 mb-2">{venue.location}</p>
         <div className="mb-4 flex justify-center">
@@ -94,30 +114,27 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
           </p>
         </div>
         <div className="mb-4 text-sm md:text-lg text-gray-700">
-          {showFullDescription
-            ? venue.description
-            : `${venue?.description?.slice(0, 100)}...`}
-          {venue?.description?.length > 100 && (
-            : `${venue?.description?.slice(0, 100)}...`}
-          {venue?.description?.length > 100 && (
+      {venue.description && (
+        <>
+          {showFullDescription ? venue.description : truncatedDescription}
+          {venue.description.length > 100 && (
             <button
               onClick={toggleDescription}
-              className="text-blue-500 hover:text-blue-700 focus:outline-none"
+              className="text-blue-500 hover:text-blue-700 focus:outline-none ml-2"
             >
               {showFullDescription ? ' Read Less' : ' Read More'}
               {showFullDescription ? <FaChevronUp size={18} /> : <FaChevronDown size={18} />}
             </button>
           )}
-        </div>
+        </>
+      )}
+    </div>
         <div className="mb-4 flex justify-center">
           <div className="mr-8 text-sm md:text-lg text-gray-600 flex items-center">
-            <FaCarrot size={20} className="mr-2" />
-            <span className="font-bold">Veg Price:</span> {venue.vegPrice}
+            <MdDinnerDining size={20} className="mr-2" />
+            <span className="font-bold">Price Per Plate: </span> {venue.vegPrice}
           </div>
-          <div className="text-sm md:text-lg text-gray-600 flex items-center">
-            <FaDrumstickBite size={20} className="mr-2" />
-            <span className="font-bold">Non-Veg Price:</span> {venue.nonVegPrice}
-          </div>
+         
         </div>
         <Link
           to={{

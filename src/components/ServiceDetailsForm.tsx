@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import PortfolioCarousel from './PortfolioCarousel';
-import VendorCarousel from './vendorCarousel';
+import React, { useState } from 'react';
+
 import Caro from './Carousel3';
-import { useAllVendorQuery } from '../redux/api/vendor';
-import { string } from 'yup';
+
+
 import { useUpdateVendorMutation } from '../redux/api/vendor';
 
 
 interface Package {
-    name: string;
-    days: string;
-    price: string;
-    minAdvance: string;
+    name?: string;
+    days?: string;
+    price?: string;
+    minAdvance?: string;
 }
 
 interface Props {
@@ -27,7 +26,7 @@ interface Props {
 }
 
 const ServiceDetailsForm: React.FC<Props> = ({ price, portfolio, experience, event_completed, willingToTravel, summary, packages, id }) => {
-    const [updateVendor, { isLoading }] = useUpdateVendorMutation();
+    const [updateVendor, ] = useUpdateVendorMutation();
 
     console.log("packages", packages?.days)
     

@@ -1,41 +1,24 @@
-import React, { useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
-import { useGetRealWeddingsPostByIdQuery, useUpdateRealWeddingsPostMutation } from '../redux/api/realWeddings';
+import { useGetRealWeddingsPostByIdQuery } from '../redux/api/realWeddings';
 import NavBar from '../components/navbar';
 // import Footer from '../../../../../components/Footer';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-interface RealWeddingPostInterface {
-  id: string;
-  title: string;
-  images: string[];
-  content: string;
-}
+// interface RealWeddingPostInterface {
+//   id: string;
+//   title: string;
+//   images: string[];
+//   content: string;
+// }
 
 const RealWeddingsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: realWeddingData, error, isLoading, refetch } = useGetRealWeddingsPostByIdQuery(id || '');
-  const [isEditing, setIsEditing] = useState(false);
-  const [updateRealWedding] = useUpdateRealWeddingsPostMutation();
-  const [formData, setFormData] = useState<RealWeddingPostInterface>({
-    id: '',
-    title: '',
-    images: [],
-    content: ''
-  });
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const { data: realWeddingData, error, isLoading } = useGetRealWeddingsPostByIdQuery(id || '');
 
-  useEffect(() => {
-    if (realWeddingData?.data) {
-      setFormData({
-        id: realWeddingData.data.realWeddings._id,
-        title: realWeddingData.data.realWeddings.title || '',
-        images: realWeddingData.data.realWeddings.images || [],
-        content: realWeddingData.data.realWeddings.content || ''
-      });
-    }
-  }, [realWeddingData]);
+
+
 
   if (isLoading) {
     return (
@@ -55,51 +38,11 @@ const RealWeddingsView: React.FC = () => {
 
   const realWedding = realWeddingData?.data.realWeddings;
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-    setFormData({
-      id: realWedding._id,
-      title: realWedding.title || '',
-      images: realWedding.images || [],
-      content: realWedding.content || '',
-    });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setSelectedImages(Array.from(e.target.files));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formDataToSubmit = new FormData();
-    formDataToSubmit.append('title', formData.title);
-    formDataToSubmit.append('content', formData.content);
-    selectedImages.forEach(image => {
-      formDataToSubmit.append('images', image);
-    });
-
-    try {
-      const res = await updateRealWedding({ id: formData.id, realWeddingsFormData: formDataToSubmit });
-      setIsEditing(false);
-      refetch();
-    } catch (error) {
-      console.error('Failed to update real wedding:', error);
-    }
-  };
 
   return (
     <>
     <NavBar />
-    <div className="min-h-screen flex flex-col">``
+    <div className="min-h-screen flex flex-col">
       <div className="flex-grow container mx-auto py-8">
        
           <div className="max-w-4xl mx-auto">

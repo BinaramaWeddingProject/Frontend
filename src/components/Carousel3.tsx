@@ -9,7 +9,8 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface Props {
-  images?: string[] | undefined;
+  portfolio?: string[] | undefined;
+  images? : string[] | undefined;
 }
 
 const Caro: React.FC<Props> = ({ images }) => {

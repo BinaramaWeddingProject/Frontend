@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { NotificationtResponse, wishlistResponse } from "../../types/api-types";
 
+const server = import.meta.env.VITE_API_Server;
 export const notificationApi = createApi({
   reducerPath: "NotificationApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api/v1/notification/",
+    // baseUrl: "http://localhost:8000/api/v1/notification/",
+    baseUrl: `${server}/api/v1/notification/`
   }),
 
   endpoints: (builder) => ({
@@ -51,6 +53,7 @@ export const notificationApi = createApi({
       method:'GET',
   }),
   }),
+
 })
 });
 

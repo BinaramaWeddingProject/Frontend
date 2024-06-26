@@ -1,16 +1,22 @@
 // src/pages/RealWeddingsList.tsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
-import { RealWeddingsResponse} from '../types/api-types';
-import { RealWeddings } from '../types/types';
-import { useGetAllRealWeddingsQuery } from '../redux/api/realWeddings';
 import NavBar from '../components/navbar';
 
+import { RealWeddings } from '../types/types';
+import { useGetAllRealWeddingsQuery } from '../redux/api/realWeddings';
+import SkeletonWeddingCard from '../components/skeleton/RealWedding';
+
 const RealWeddingsList: React.FC = () => {
-  const { data: realWeddingsData, refetch } = useGetAllRealWeddingsQuery();
+  const { data: realWeddingsData, isLoading , error } = useGetAllRealWeddingsQuery();
   console.log("real data",realWeddingsData);
   const realWeddings: RealWeddings[] = realWeddingsData?.data.realWeddings || [];
+
+  if (error) {
+    return <h1>Error while loading data</h1>;
+  }
 
   return (
     <>
@@ -18,7 +24,11 @@ const RealWeddingsList: React.FC = () => {
       <div className="container mx-auto p-8 font-roboto">
         <h1 className="text-4xl font-bold mb-8 text-center">Real Weddings</h1>
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {realWeddings.length > 0 ? (
+          {isLoading ? (
+            Array.from({ length: 8 }).map((_, index) => (
+              <SkeletonWeddingCard key={index} />
+            ))
+          ) : realWeddings.length > 0 ? (
             realWeddings.map((wedding: RealWeddings) => (
               <div key={wedding._id} className="border rounded-lg overflow-hidden shadow-lg">
                 {wedding.images && wedding.images.length > 0 && (

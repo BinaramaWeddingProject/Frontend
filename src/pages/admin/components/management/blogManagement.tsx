@@ -78,7 +78,7 @@ const BlogManagement: React.FC = () => {
                 </div>
                 <div
                   className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
-                  onClick={() => handleDelete(admin?._id)}
+                  onClick={() => admin?._id && handleDelete(admin._id)}
                 >
                   <FaTrash />
                 </div>

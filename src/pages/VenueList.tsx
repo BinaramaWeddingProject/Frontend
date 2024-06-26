@@ -1,39 +1,41 @@
-// VenueList.tsx
-
-import { useState, useEffect } from 'react';
+import  { useState, useEffect, useCallback } from 'react';
 import VenueCard from '../components/VenueCard';
 import NavBar from '../components/navbar';
 import RelatedArticles from '../components/RelatedArticles';
 import Footer from '../components/Footer';
-import { Filter, Venue } from '../types/types';
+import { Venue } from '../types/types';
 import { useAllVenueQuery } from '../redux/api/venue';
-import TopFilter from '../components/TopFilter';
+import Universal from '../components/skeleton/Universal';
 import FilterBar from '../components/FilterBar';
-// import { mockVenues } from '../data';
-
 
 function VenueList() {
   const [filters, setFilters] = useState({});
-  const filtersString = JSON.stringify(filters); 
-  console.log("filters" , filters);
-  console.log("strign" , filtersString)
-  const queryString = new URLSearchParams(filters).toString();
-  console.log("url" , queryString)
-  
-  const { data, error, isLoading } = useAllVenueQuery(filtersString);
+  const queryString = new URLSearchParams(
+    Object.entries(filters).filter(([, v]) => v !== undefined) as [string, string][]
+  ).toString();
+  const { data, error, isLoading } = useAllVenueQuery(queryString);
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
-
-  useEffect(() => {
-    if (data) { 
-      setAllVenues(data.data.venues);
+// console.log('helod', data)
+  const updateVenues = useCallback(() => {
+    if (data && Array.isArray(data.data)) {
+      setAllVenues(data.data);
     }
   }, [data]);
 
-  const handleFilterChange = (newFilters:Filter) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      ...newFilters,
-    }));
+  useEffect(() => {
+    updateVenues();
+  }, [updateVenues]);
+
+  const allowedVenues = allVenues.filter(
+    (venue) => venue.isVerified === "Approved"
+  );
+
+  const handleFilterChange = (newFilters: any) => {
+    // Remove undefined values from filters
+    const cleanFilters = Object.fromEntries(
+      Object.entries(newFilters).filter(([, v]) => v != null && v !== '')
+    );
+    setFilters(cleanFilters);
   };
 
   if (error) {
@@ -41,21 +43,19 @@ function VenueList() {
   }
 
   if (isLoading) {
-    return <h1>Loading</h1>;
+    return <Universal />;
   }
 
-  console.log("all venues", allVenues);
-  
-
+  console.log("venue" , allVenues  , allowedVenues)
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen  bg-[#fffdd0]">
       <NavBar />
-      <TopFilter onChange={handleFilterChange} />
-      <div className="flex flex-grow container mx-auto">
-        <div className="w-1/4 ">
-          <FilterBar  onChange={handleFilterChange} />
-        </div>
-        <div className="w-full md:w-3/4">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="w-full md:w-1/4">
+            <FilterBar onFilterChange={handleFilterChange} />
+          </div>
+          <div className="w-full md:w-3/4">
           <div className="grid grid-cols-1 gap-4">
             {allVenues.length > 0 ? (
               allVenues.map((venue, index) => (
@@ -68,7 +68,7 @@ function VenueList() {
                     maxGuests: venue.guestCapacity,
                     contact: venue.phone,
                     description: venue.summary,
-                    vegPrice: 20,
+                    vegPrice: venue.foodPackages,
                     nonVegPrice: 30,
                     images: venue.images,
                     id: venue._id,
@@ -78,6 +78,7 @@ function VenueList() {
             ) : (
               <div>No Venue found</div>
             )}
+          </div>
           </div>
         </div>
       </div>

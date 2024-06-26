@@ -5,45 +5,45 @@ import { useSignupMutation } from "../redux/api/vendor";
 import toast from "react-hot-toast";
 import { useSignupVenueMutation } from "../redux/api/venue";
 import { styles } from "../styles/style";
+import { Link, useNavigate } from "react-router-dom";
 
 export const VenueRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [register] = useSignupVenueMutation();
-
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       businessName: "",
       city: "",
-      // businessType: '',
       yourName: "",
       phone: "",
       email: "",
       password: "",
-      // confirmPassword: '',
       comments: "",
     },
     validationSchema: Yup.object({
       businessName: Yup.string().required("Business name is required"),
       city: Yup.string().required("City name is required"),
-      // businessType: Yup.string().required('Type of business is required'),
       yourName: Yup.string().required("Your name is required"),
       phone: Yup.string().required("Contact number is required"),
       email: Yup.string().email("Invalid email").required("Email is required"),
       password: Yup.string().required("Password is required"),
-      // confirmPassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match').required('Confirm password is required'),
       comments: Yup.string(),
     }),
     onSubmit: async (values) => {
       console.log("Vendor registration form submitted:", values);
-      await register(values);
+      const res = await register(values);
+      console.log('datat', res)
+      if(res?.data?.success==true){
+        navigate('/login')
+      }
       setSubmitted(true);
     },
   });
 
   return (
-    <div className="w-[450px] mx-auto p-6 bg-white rounded shadow-md">
+    <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded shadow-md">
       <form className="w-full" onSubmit={formik.handleSubmit}>
-        {/* <h2 className="text-2xl font-bold mb-4">1st Column</h2> */}
         <div className="mb-4">
           <label htmlFor="businessName" className="block mb-1 font-medium">
             Business Name
@@ -82,7 +82,6 @@ export const VenueRegistrationForm: React.FC = () => {
             </div>
           )}
         </div>
-
         <div className="mb-4">
           <label htmlFor="yourName" className="block mb-1 font-medium">
             Your Name
@@ -102,7 +101,6 @@ export const VenueRegistrationForm: React.FC = () => {
             </div>
           )}
         </div>
-
         <div className="mb-4">
           <label htmlFor="contact" className="block mb-1 font-medium">
             Contact
@@ -122,7 +120,6 @@ export const VenueRegistrationForm: React.FC = () => {
             </div>
           )}
         </div>
-
         <div className="mb-4">
           <label htmlFor="email" className="block mb-1 font-medium">
             Email
@@ -142,7 +139,6 @@ export const VenueRegistrationForm: React.FC = () => {
             </div>
           )}
         </div>
-
         <div className="mb-4">
           <label htmlFor="password" className="block mb-1 font-medium">
             Password
@@ -162,7 +158,6 @@ export const VenueRegistrationForm: React.FC = () => {
             </div>
           )}
         </div>
-
         <div className="mb-4">
           <label htmlFor="comments" className="block mb-1 font-medium">
             Comments
@@ -176,28 +171,9 @@ export const VenueRegistrationForm: React.FC = () => {
             value={formik.values.comments}
           />
         </div>
-
-        {/* <h2 className="text-2xl font-bold mb-4">2nd Column</h2> */}
-
-        {/* <div className="mb-4">
-          <label htmlFor="confirmPassword" className="block mb-1 font-medium">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.confirmPassword}
-          />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-            <div className="text-red-500 mt-1 text-sm">{formik.errors.confirmPassword}</div>
-          )}
-        </div> */}
-
         <button
           type="submit"
-          className={`${styles.button} `}
+          className={`${styles.button} w-full py-2 px-4 rounded-md text-white bg-blue-500 hover:bg-blue-600`}
         >
           Submit
         </button>
@@ -223,6 +199,7 @@ export const VendorRegistrationForm: React.FC = () => {
     type_Of_Business: Yup.string().required("Please enter your business type!"),
     businessName: Yup.string().required("Please enter your business name!"),
   });
+  const navigate = useNavigate();
 
   const [register, { data, error, isSuccess }] = useSignupMutation();
 
@@ -231,8 +208,6 @@ export const VendorRegistrationForm: React.FC = () => {
       const message = data?.message || "Registration successful";
       toast.success(message);
       console.log(message);
-      // setRoute("Verification");
-      // alert ('error');
     }
     if (error) {
       if ("data" in error) {
@@ -253,209 +228,149 @@ export const VendorRegistrationForm: React.FC = () => {
       city: "",
       type_Of_Business: "",
       businessName: "",
-      // confirmPassword: '',
-      // comments: ''
     },
     validationSchema: Vendor,
-    onSubmit: async ({
-      name,
-      email,
-      password,
-      phone,
-      city,
-      type_Of_Business,
-      businessName,
-    }) => {
-      const data = {
-        name,
-        email,
-        password,
-        phone,
-        city,
-        type_Of_Business,
-        businessName,
-      };
-      await register(data);
+    onSubmit: async (values) => {
+    const res =   await register(values);
+
+      if(res?.data?.success==true){
+        navigate('/login')
+      }
     },
   });
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
   return (
-    <div className="w-[450px] mx-auto p-6 bg-white rounded shadow-md ">
-      <form className= 'w-full' onSubmit={handleSubmit}>
-        
-          {/* <h2 className="text-2xl font-bold mb-4">1st Column</h2> */}
-
-          <div className="mb-4">
-            <label htmlFor="businessName" className="block mb-1 font-medium">
-              Business Name
-            </label>
-            <input
-              id="businessName"
-              name="businessName"
-              type="text"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              value={values.businessName}
-            />
-            {touched.businessName && errors.businessName && (
-              <div className="text-red-500 mt-1 text-sm">
-                {errors.businessName}
-              </div>
-            )}
-          </div>
-
-          <div className="mb-4">
-  <label htmlFor="type_Of_Business" className="block mb-1 font-medium">
-    Type of Business
-  </label>
-  <select
-    id="type_Of_Business"
-    name="type_Of_Business"
-    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-    onChange={formik.handleChange}
-    onBlur={formik.handleBlur}
-    value={values.type_Of_Business}
-  >
-    <option value="" label="Select type of business" />
-    <option value="Photographer" label="Photographer" />
-    <option value="MakeupArtist" label="MakeupArtist" />
-    <option value="MehendiArtist" label="MehendiArtist" />
-    <option value="Decorator" label="Decorator" />
-    <option value="Caterer" label="Caterer" />
-   
-    {/* Add more options as needed */}
-  </select>
-  {touched.type_Of_Business && errors.type_Of_Business && (
-    <div className="text-red-500 mt-1 text-sm">
-      {errors.type_Of_Business}
-    </div>
-  )}
-</div>
-
-          
-          <div className="mb-4">
-            <label htmlFor="cityName" className="block mb-1 font-medium">
-              City Name
-            </label>
-            <input
-              id="city"
-              name="city"
-              type="text"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              value={values.city}
-            />
-            {touched.city && errors.city && (
-              <div className="text-red-500 mt-1 text-sm">{errors.city}</div>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="yourName" className="block mb-1 font-medium">
-              Your Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              value={values.name}
-            />
-            {touched.name && errors.name && (
-              <div className="text-red-500 mt-1 text-sm">
-                {formik.errors.name}
-              </div>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="contact" className="block mb-1 font-medium">
-              Contact
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              type="number"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.phone}
-            />
-            {formik.touched.phone && formik.errors.phone && (
-              <div className="text-red-500 mt-1 text-sm">
-                {formik.errors.phone}
-              </div>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="password" className="block mb-1 font-medium">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={values.password}
-            />
-            {touched.password && errors.password && (
-              <div className="text-red-500 mt-1 text-sm">{errors.password}</div>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="email" className="block mb-1 font-medium">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              value={values.email}
-            />
-            {touched.email && errors.email && (
-              <div className="text-red-500 mt-1 text-sm">{errors.email}</div>
-            )}
-          </div>
-
-         
-        
-
-      
-          {/* <h2 className="text-2xl font-bold mb-4">2nd Column</h2> */}
-          
-
-          {/* <div className="mb-4">
-          <label htmlFor="confirmPassword" className="block mb-1 font-medium">Confirm Password</label>
+    <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded shadow-md">
+      <form className="w-full" onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="businessName" className="block mb-1 font-medium">
+            Business Name
+          </label>
           <input
-            id="confirmPassword"
-            name="confirmPassword"
+            id="businessName"
+            name="businessName"
+            type="text"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            value={values.businessName}
+          />
+          {touched.businessName && errors.businessName && (
+            <div className="text-red-500 mt-1 text-sm">
+              {errors.businessName}
+            </div>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="city" className="block mb-1 font-medium">
+            City Name
+          </label>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            value={values.city}
+          />
+          {touched.city && errors.city && (
+            <div className="text-red-500 mt-1 text-sm">
+              {errors.city}
+            </div>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="name" className="block mb-1 font-medium">
+            Your Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            value={values.name}
+          />
+          {touched.name && errors.name && (
+            <div className="text-red-500 mt-1 text-sm">{errors.name}</div>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="phone" className="block mb-1 font-medium">
+            Contact
+          </label>
+          <input
+            id="phone"
+            name="phone"
+            type="text"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            value={values.phone}
+          />
+          {touched.phone && errors.phone && (
+            <div className="text-red-500 mt-1 text-sm">{errors.phone}</div>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block mb-1 font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            value={values.email}
+          />
+          {touched.email && errors.email && (
+            <div className="text-red-500 mt-1 text-sm">{errors.email}</div>
+          )}
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password" className="block mb-1 font-medium">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
             type="password"
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
-            onChange={formik.handleChange}
+            onChange={handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.confirmPassword}
+            value={values.password}
           />
-          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-            <div className="text-red-500 mt-1 text-sm">{formik.errors.confirmPassword}</div>
+          {touched.password && errors.password && (
+            <div className="text-red-500 mt-1 text-sm">{errors.password}</div>
           )}
-        </div> */}
-        
+        </div>
+        <div className="mb-4">
+          <label htmlFor="type_Of_Business" className="block mb-1 font-medium">
+            Type Of Business
+          </label>
+          <input
+            id="type_Of_Business"
+            name="type_Of_Business"
+            type="text"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            value={values.type_Of_Business}
+          />
+          {touched.type_Of_Business && errors.type_Of_Business && (
+            <div className="text-red-500 mt-1 text-sm">
+              {errors.type_Of_Business}
+            </div>
+          )}
+        </div>
         <button
           type="submit"
-          value="Sign Up"
-          className={`${styles.button} `}
+          className={`${styles.button} w-full py-2 px-4 rounded-md text-white bg-blue-500 hover:bg-blue-600`}
         >
           Submit
         </button>

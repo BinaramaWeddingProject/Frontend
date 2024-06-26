@@ -12,6 +12,7 @@ import { AppDispatch } from "../redux/store.ts";
 import { login } from "../redux/reducer/auth.ts";
 import { User } from "../types/types.ts";
 import { useLoginUserMutation } from "../redux/api/user.ts";
+import { useLoginAdminMutation } from "../redux/api/admin.ts";
 
 // import { setUserId } from "../redux/reducer/login";
 
@@ -31,6 +32,7 @@ const Login: FC = () => {
   const [loginVendor] = useLoginVendorMutation();
   const [loginVenue] = useLoginVenueMutation();
   const [loginUser] = useLoginUserMutation();
+  const[loginAdmin] = useLoginAdminMutation();
 
   const handleLogin = (_id: string, role: string) => {
     const user: User = { _id: _id, role }; // Replace this with actual login logic
@@ -47,20 +49,30 @@ const Login: FC = () => {
 
         if (values.role === "vendor") {
           response = await loginVendor(values).unwrap(); // Assuming loginVendor is a function that sends login request for vendor role
-          handleLogin(response?.data?.loggedInVendor?._id, values.role);
+          const id:string = response?.data?.loggedInVendor?._id || ""
+          handleLogin(id , values.role);
           navigate("/vendorProfilePage");
         }
 
         if (values.role === "venue") {
           response = await loginVenue(values).unwrap(); // Assuming loginVenue is a function that sends login request for venue role
-          handleLogin(response?.data?.loggedInVenue?._id, values.role);
+          const id:string = response?.data?.loggedInVenue?._id || ""
+          handleLogin(id, values.role);
           navigate("/venueProfilePage");
         }
 
         if (values.role === "user") {
           response = await loginUser(values).unwrap(); // Assuming loginVenue is a function that sends login request for venue role
-          handleLogin(response?.data?.loggedInUser?._id, values.role);
+          const id =response?.data?.loggedInUser?._id || ""
+          handleLogin(id, values.role);
           navigate("/userProfilePage");
+        }
+
+        if (values.role === "admin") {
+          response = await loginAdmin(values).unwrap(); // Assuming loginVenue is a function that sends login request for venue role
+          const id = response?.data?.loggedInAdmin?._id || ""
+          handleLogin(id, values.role);
+          navigate("/adminDashboard");
         }
 
         console.log("Login successful:", response);

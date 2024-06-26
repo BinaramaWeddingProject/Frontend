@@ -1,21 +1,28 @@
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
 // import { useUpdateVendorMutation } from '../redux/api/vendor';
-import { useGetVenueByIdQuery } from '../redux/api/venue';
+// import { useGetVenueByIdQuery } from '../redux/api/venue';
 import UserSidebar from '../components/UserSidebar';
 import UserTabView from '../components/UserTabView';
 
-const vendorid = '6654342528aa54d4db41612a';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { useGetUserQuery } from '../redux/api/user';
 
-// Corrected function declaration
+
+
+
 const VenueProfilePage = () => {
-    console.log('hello')
-    const { data: venue } = useGetVenueByIdQuery(vendorid);
-    // const { data: venues, error, isLoading } = useAllVenueQuery('');
 
-    // console.log("updatevendor", updatevendor)
-    const venueData = venue?.data?.venue;
-    console.log("vendue data", venueData);
+    const userId = useSelector((state: RootState) => state?.auth?.user?._id);
+   // console.log("user" , userId)
+
+
+  const { data: user} = useGetUserQuery(userId || "");
+  //console.log("checking the data",user)
+    
+    const userData = user?.data?.user;
+  //  console.log(userData);
 
 
 
@@ -26,10 +33,10 @@ const VenueProfilePage = () => {
             <div className=" flex-col-1 justify-start border-2 border-white">
                     <div className="w-80">
                         <UserSidebar
-                            yourName={venueData?.yourName}
-                            phone={venueData?.phone}
-                            email={venueData?.email}
-                            id={vendorid}
+                            yourName={userData?.fullName}
+                            phone={userData?.phone}
+                            email={userData?.email}
+                            id={userId}
                         />
                     </div>
                 </div>

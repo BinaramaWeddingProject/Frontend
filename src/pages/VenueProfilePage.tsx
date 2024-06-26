@@ -41,7 +41,7 @@ const VenueProfilePage: React.FC = () => {
     return (
         <>
             <NavBar />
-            <div className="flex justify-center text-white bg-blue-900 p-4">
+            <div className="flex justify-center text-white bg-[#fffdd0] p-4">
                 <div className="text-4xl font-semibold">PROFILE PAGE</div>
             </div>
 
@@ -50,7 +50,7 @@ const VenueProfilePage: React.FC = () => {
                     <VenueProfileCard 
                         yourName={venueData?.yourName} 
                         phone={venueData?.phone} 
-                        profile = {venueData?.images ? venueData?.images[0] : undefined}
+                        profile = {venueData?.images ? venueData.images[0] : undefined} // Accessing the first image URL
                         id={venueId}
                         email={venueData?.email} 
                         // id={vendorid}

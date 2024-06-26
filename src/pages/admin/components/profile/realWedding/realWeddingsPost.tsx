@@ -88,7 +88,7 @@ const RealWeddingsPost: React.FC = () => {
     });
 
     try {
-      const res = await updateRealWedding({ id: formData.id, realWeddingsFormData: formDataToSubmit });
+      await updateRealWedding({ id: formData.id, realWeddingsFormData: formDataToSubmit });
       setIsEditing(false);
       refetch();
     } catch (error) {

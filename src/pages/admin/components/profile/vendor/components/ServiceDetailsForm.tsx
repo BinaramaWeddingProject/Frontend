@@ -3,10 +3,10 @@ import React from "react";
 import Caro from "../components/Carousel3";
 
 interface Package {
-  name: string;
-  days: string;
-  price: string;
-  minAdvance: string;
+  name?: string;
+  days?: string;
+  price?: string;
+  minAdvance?: string;
 }
 
 interface Props {

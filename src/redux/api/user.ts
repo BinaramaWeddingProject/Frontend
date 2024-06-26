@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { User } from "../../types/types";
-import { UserResponse } from "../../types/api-types";
+import { UserResponse , LoggdInUserResponse , AllUserResponse} from "../../types/api-types";
 
 const server = import.meta.env.VITE_API_Server;
 export const userAPI =  createApi({
@@ -21,7 +21,7 @@ export const userAPI =  createApi({
             invalidatesTags: ["user"],
           }),
       
-          loginUser: builder.mutation<UserResponse, { email: string; password: string }>({
+          loginUser: builder.mutation<LoggdInUserResponse, { email: string; password: string }>({
             query: ({ email, password }) => ({
               url: "login",
               method: "POST",
@@ -37,7 +37,7 @@ export const userAPI =  createApi({
             }),
         }),
 
-        updateUser: builder.mutation<UserResponse, {id:string, user:User}>({
+        updateUser: builder.mutation<User, {id:string, user:User}>({
             query: ({id ,user}) => ({
                 url: `${id}`,
                 method:"PUT",
@@ -45,7 +45,7 @@ export const userAPI =  createApi({
             }),
         }),
 
-        getAllUser: builder.query<UserResponse, void>({
+        getAllUser: builder.query<AllUserResponse, void>({
             query: () => ({
                 url: "ALL",
                 method:"GET",

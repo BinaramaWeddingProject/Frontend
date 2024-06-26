@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RealWeddings } from "../../types/types";
-import { RealWeddingsResponse } from "../../types/api-types";
+
+import { RealWeddingsResponse , AllRealWeddingsResponse} from "../../types/api-types";
 
 const server = import.meta.env.VITE_API_Server;
 
@@ -17,7 +17,7 @@ export const realWeddingsAPI = createApi({
           method: "GET",
         }),
       }),
-      getAllRealWeddings: builder.query<RealWeddingsResponse, void>({
+      getAllRealWeddings: builder.query<AllRealWeddingsResponse, void>({
         query: () => "all/realweddings"
       }),
       addRealWeddingPost: builder.mutation<RealWeddingsResponse, FormData>({

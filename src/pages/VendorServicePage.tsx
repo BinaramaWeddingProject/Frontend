@@ -69,7 +69,7 @@ function VendorServicePage() {
 
         <div className="flex flex-col lg:flex-row max-w-full">
           <div className="lg:w-3/4 mb-4 lg:mb-0">
-            <Caro portfolio={vendorData?.portfolio} />
+            <Caro portfolio={vendorData?.portfolio } />
             <div className="max-w-full">
               <TabView vendorData={vendorData} />
             </div>

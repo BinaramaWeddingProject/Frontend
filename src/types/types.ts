@@ -1,34 +1,33 @@
 
-
-export type Vendor = Partial<{
-  _id: string;
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  address: string;
-  city: string;
-  state: string;
-  businessName: string;
-  type_Of_Business: string;
-  packages: {
-    name: string;
-    days: string;
-    price: string;
-    minAdvance: string;
+export type Vendor = {
+  _id?: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  businessName?: string;
+  type_Of_Business?: string;
+  packages?: {
+    name?: string;
+    days?: string;
+    price?: string;
+    minAdvance?: string;
   };
-  portfolio?: string[]; 
-  experience: string;
-  event_completed: number;
-  willingToTravel: boolean;
-  isVerified: 'Approved' | 'Rejected' | 'Pending';
-  usp: string;
-  summary: string;
-  bookingPolicy: string;
-  cancellationPolicy: string;
-  termAndConditions: string;
-  review: string; 
-}>;
+  portfolio?: string[];
+  experience?: string;
+  event_completed?: number;
+  willingToTravel?: boolean;
+  isVerified?: 'Approved' | 'Rejected' | 'Pending';
+  usp?: string;
+  summary?: string;
+  bookingPolicy?: string;
+  cancellationPolicy?: string;
+  termAndConditions?: string;
+  review?: string;
+};
 
 //venue type
 
@@ -66,7 +65,9 @@ export interface Venue {
 export interface wishlist{
   userId?: string,
   itemId?: string,
-  itemType?:string
+  itemType?:string,
+  wishlist?:string,
+  items?:any[],
 }
 
 export interface User{
@@ -77,18 +78,22 @@ export interface User{
   password?: string;
   phone?: string;
   city?: string;
+  avatarUrl?: string
 }
 
 
 export interface Admin{
- profile:{
+ profile?:{
+ 
     name?: string;
     email?: string;
     password?: string;
     contact?: string;
     address?: string;
     city?: string;
- }
+ },
+ _id?: string;
+ 
 }
 
 export interface BodyAdmin{
@@ -100,8 +105,9 @@ export interface BodyAdmin{
   address?: string;
   city?: string;
 }
+
 export interface Blog{
-  _id:string
+  _id?:string
   title?: string;
   createdAt?: string;
   images?: string[];
@@ -118,6 +124,7 @@ export interface RealWeddings{
   author?: string;
   category?: string;
   organizerName?: string;
+  createdAt?: any;
 }
 
 export interface Notification{
@@ -137,4 +144,19 @@ export interface Notification{
   maxGuests?:string
   minGuests?:string
  }
-  
+
+ export interface Bookings{
+  uId?: string;
+  vId?: string;
+  name?: string;
+  contact?: number;
+  location?: string;
+  guests?: string;
+  date?: Date;
+  address?: string;
+  message?: string;
+  bookingId?: string;   
+  isVerified?: 'Approved' | 'Rejected' | 'Pending';
+ }
+
+

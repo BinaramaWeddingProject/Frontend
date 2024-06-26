@@ -3,7 +3,7 @@ import { FaEye, FaTrash, FaPlus } from "react-icons/fa"; // Import FaPlus for th
 // import { useGetAllBlogsQuery } from "../../../../redux/api/blog";
 import { useGetAllRealWeddingsQuery } from "../../../../redux/api/realWeddings";
 // import { useDeleteUserMutation } from "../../../../redux/api/user";
-import { useDeleteBlogMutation } from "../../../../redux/api/blog";
+// import { useDeleteBlogMutation } from "../../../../redux/api/blog";
 import { useDeleteRealWeddingMutation } from "../../../../redux/api/realWeddings";
 import { useNavigate } from "react-router-dom";
 

@@ -3,6 +3,7 @@ import {
   AllVendorsResponse,
   MessageResponse,
   VendorResponse,
+  LoggdInVendorResponse
 } from "../../types/api-types.ts";
 import { Vendor } from "../../types/types.ts";
 
@@ -23,11 +24,11 @@ export const vendorAPI = createApi({
     // Define endpoint for fetching a single vendor
     getVendorById: builder.query<VendorResponse, string>({
       query: (id: string | undefined) => `${id}`,
-      providesTags: ["vendors"],
+      providesTags: ["vendor"],
 
     }),
 
-    signup: builder.mutation<MessageResponse, Vendor>({
+    signup: builder.mutation<VendorResponse, Vendor>({
       query: (vendor) => ({
         url: "register",
         method: "POST",
@@ -36,7 +37,7 @@ export const vendorAPI = createApi({
       invalidatesTags: ["vendors"],
     }),
 
-    loginVendor: builder.mutation<MessageResponse, { email: string; password: string }>({
+    loginVendor: builder.mutation<LoggdInVendorResponse, { email: string; password: string }>({
       query: ({ email, password }) => ({
         url: "login",
         method: "POST",

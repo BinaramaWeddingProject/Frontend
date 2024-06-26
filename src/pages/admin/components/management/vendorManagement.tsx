@@ -29,7 +29,7 @@ const VendorManagement: React.FC = () => {
 
   const handleApproval = async (id: string) => {
     const verificationStatus = "Approved"; // Setting the verification status to "Approved"
-    const res = await verify({
+   await verify({
       id,
       vendor: { isVerified: verificationStatus },
     });
@@ -40,7 +40,7 @@ const VendorManagement: React.FC = () => {
 
   const handleRejection = async (id: string) => {
     const verificationStatus = "Rejected"; // Setting the verification status to "Approved"
-    const res = await verify({
+    await verify({
       id,
       vendor: { isVerified: verificationStatus },
     });
@@ -53,7 +53,7 @@ const VendorManagement: React.FC = () => {
     
     // If user confirms deletion, proceed with deletion
     if (confirmDelete) {
-    const res = await deleteVendor(id);
+    await deleteVendor(id);
 setReloadTrigger(true);
     // console.log("admin deleted", res);
     }
@@ -104,13 +104,13 @@ setReloadTrigger(true);
                   ) : (
                     <>
                       <button
-                        onClick={() => handleApproval(admin?._id)}
+                        onClick={() => admin?._id && handleApproval(admin?._id)}
                         className="bg-green-500 text-white rounded-full p-1 mr-2"
                       >
                         <FaCheck />
                       </button>
                       <button
-                        onClick={() => handleRejection(admin?._id)}
+                        onClick={() =>admin?._id &&  handleRejection(admin?._id)}
                         className="bg-red-500 text-white rounded-full p-1"
                       >
                         <FaTimes />
@@ -120,7 +120,7 @@ setReloadTrigger(true);
                 </div>
                 <div
                   className="w-1/12 p-2 cursor-pointer flex justify-center items-center"
-                  onClick={() => handleDelete(admin?._id)}
+                  onClick={() => admin?._id && handleDelete(admin?._id)}
                 >
                   <FaTrash />
                 </div>

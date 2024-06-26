@@ -26,7 +26,7 @@ export const wishlistAPI = createApi({
             }),
         }),
 
-        getWishlist: builder.query<void, string>({
+        getWishlist: builder.query<wishlistResponse, string>({
             query: (userId) => ({
                 url: `${userId}`,
                 method: "GET",
