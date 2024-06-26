@@ -9,13 +9,6 @@ import SkeletonBlogCard from '../components/skeleton/Blog';
 import { Blog } from '../types/types';
 
 
-interface BlogPost {
-  _id: string;  // Assuming MongoDB ObjectId is used
-  title: string;
-  images: string;
-  content: string;
-}
-
 const RelatedArticles: React.FC = () => {
   const { data: blogData, error, isLoading } = useGetAllBlogsQuery('');
   const blogs:any = blogData?.data.blog || [];
