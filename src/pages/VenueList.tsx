@@ -9,7 +9,7 @@ import { Filter, Venue } from '../types/types';
 import { useAllVenueQuery } from '../redux/api/venue';
 import TopFilter from '../components/TopFilter';
 import FilterBar from '../components/FilterBar';
-import { mockVenues } from '../data';
+// import { mockVenues } from '../data';
 
 
 function VenueList() {

@@ -33,7 +33,7 @@ export type Vendor = Partial<{
 //venue type
 
 export interface Venue {
-  _id:string;
+  _id?:string;
   yourName?: string;
   businessName?: string;
   email?: string;
@@ -45,7 +45,7 @@ export interface Venue {
   state?: string;
   comment?: string;
   guestCapacity?: string;
-  images: string[];
+  images?: string[];
   description?: string;
   about?: string;
   howToReach?: string;
@@ -61,6 +61,7 @@ export interface Venue {
   isPasswordCorrect?(password: string | Buffer): Promise<boolean>;
 
 }
+
 
 export interface wishlist{
   userId?: string,
@@ -136,3 +137,4 @@ export interface Notification{
   maxGuests?:string
   minGuests?:string
  }
+  

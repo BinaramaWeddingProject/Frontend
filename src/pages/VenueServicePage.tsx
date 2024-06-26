@@ -7,7 +7,7 @@ import VenueBooking from '../components/VenueBookings';
 import RatingsAndReviews from '../components/RatingsAndReviews';
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
-import MenuCard from '../components/MenuCard';
+// import MenuCard from '../components/MenuCard';
 import VenueLocation from '../components/VenueLocation';
 import ScheduleVisit from '../components/ScheduleVisit';
 import VenueImageCarousel from '../components/VenueImageCarousel';
@@ -22,10 +22,10 @@ import { useParams } from 'react-router-dom';
 
 const VenueServicePage = () => {
   const { id } = useParams();
-  const { data: venue, error, isLoading } = useGetVenueByIdQuery(id ? id : "");
+  const { data: venue } = useGetVenueByIdQuery(id ? id : "");
   const venueData = venue?.data.venue;
 
-  const handleContactFormSubmit = (phoneNumber) => {
+  const handleContactFormSubmit = (phoneNumber:any) => {
     console.log('Phone number submitted:', phoneNumber);
   };
 
@@ -78,11 +78,11 @@ const VenueServicePage = () => {
     alert('Contact button clicked!');
   };
 
-  const checkAvailability = (date) => {
+  const checkAvailability = (date:any) => {
     return date.getDay() % 2 === 0; // Example: available on even days
   };
 
-  const handleScheduleVisit = (date, time) => {
+  const handleScheduleVisit = (date:any, time:any) => {
     alert(`Scheduled visit on ${date.toDateString()} at ${time}`);
   };
 

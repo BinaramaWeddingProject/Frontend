@@ -42,11 +42,13 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
   const handlePrevImage = () => {
     setCurrentImageIndex(
       currentImageIndex === 0 ? venue?.images?.length - 1 : currentImageIndex - 1
+      currentImageIndex === 0 ? venue?.images?.length - 1 : currentImageIndex - 1
     );
   };
 
   const handleNextImage = () => {
     setCurrentImageIndex(
+      currentImageIndex === venue?.images?.length - 1 ? 0 : currentImageIndex + 1
       currentImageIndex === venue?.images?.length - 1 ? 0 : currentImageIndex + 1
     );
   };
@@ -55,6 +57,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
     <div className="flex flex-col md:flex-row rounded-lg shadow-lg overflow-hidden mx-4 my-4 border-2 border-gray-300">
       <div className="relative md:w-1/2 h-56 md:h-80">
         <img
+          src={venue?.images[currentImageIndex]}
           src={venue?.images[currentImageIndex]}
           alt={`Venue ${currentImageIndex}`}
           className="w-full h-full object-cover"
@@ -95,6 +98,8 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
             ? venue.description
             : `${venue?.description?.slice(0, 100)}...`}
           {venue?.description?.length > 100 && (
+            : `${venue?.description?.slice(0, 100)}...`}
+          {venue?.description?.length > 100 && (
             <button
               onClick={toggleDescription}
               className="text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -130,3 +135,4 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
 };
 
 export default VenueCard;
+

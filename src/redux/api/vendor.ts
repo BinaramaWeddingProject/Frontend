@@ -44,7 +44,6 @@ export const vendorAPI = createApi({
       }),
       invalidatesTags: ["vendors"],
     }),
-
     updateVendor: builder.mutation<MessageResponse, { id: string, vendor: Vendor }>({
       query: ({ id, vendor }) => ({
         url: `${id}`, // Assuming your update route is like 'http://localhost:8000/api/v1/vendor/:id'
@@ -53,6 +52,8 @@ export const vendorAPI = createApi({
       }),
       invalidatesTags: ["vendors"],
     }),
+
+  
 
     
     getVendorByType: builder.query<VendorResponse, string>({
