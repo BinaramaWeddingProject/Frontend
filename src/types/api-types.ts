@@ -62,13 +62,21 @@ export type VenueResponse = {
   };
 }
 
+// export type AllVenuesResponse = {
+//   success: boolean;
+//   statusCode: number;
+//   message:string;
+//   data: {
+//     venues: Venue[];
+
+//   };
+// };
+
 export type AllVenuesResponse = {
   success: boolean;
-  statusCode: number;
   message:string;
-  data: {
-    venues: Venue[];
-  };
+  statusCode: number;
+  data: Venue[];
 };
 
 export type wishlistResponse = {

@@ -1,32 +1,33 @@
+// @ts-ignore
 import React, { useEffect, useState } from "react";
 import { FaCheck, FaEye, FaTimes, FaTrash, FaPencilAlt, FaSave } from "react-icons/fa";
 import { useAllVenueQuery } from "../../../../redux/api/venue";
 import { useUpdateVenueMutation } from "../../../../redux/api/venue";
 import { useDeleteVenueByIdMutation } from "../../../../redux/api/venue";
 import { useNavigate } from "react-router-dom";
-import { Venue } from "../../../../types/types"; // Import Venue type or adjust import path accordingly
+import { Venue } from "../../../../types/types";
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
-
-
+import { AllVenuesResponse } from "../../../../types/api-types";
 
 const VenueManagement: React.FC = () => {
-
   const adminId = useSelector((state: RootState) => state?.auth?.user?._id);
-  console.log("admin" , adminId)
-
+  console.log("admin", adminId);
 
   const navigate = useNavigate();
-  const { data: venue, refetch } = useAllVenueQuery("");
+  const { data: venueData, refetch } = useAllVenueQuery("");
+  const venues = (venueData as AllVenuesResponse)?.data || [];
+  console.log("Venue data structure:", venueData);
   const [verify] = useUpdateVenueMutation();
   const [deleteVenue] = useDeleteVenueByIdMutation();
-  const [reloadTrigger, setReloadTrigger] = useState(false); // State to trigger reload
+  const [reloadTrigger, setReloadTrigger] = useState(false);
   const [editModeMap, setEditModeMap] = useState<{ [key: string]: boolean }>({});
   const [editableRank, setEditableRank] = useState<number>(0);
 
+  console.log("here is the data", venueData?.data);
+
   useEffect(() => {
-    // Effect to reload data when reloadTrigger state changes
     if (reloadTrigger) {
       refetch();
       setReloadTrigger(false);
@@ -35,7 +36,9 @@ const VenueManagement: React.FC = () => {
 
   const handleApproval = async (id: string) => {
     const verificationStatus = "Approved";
-    await verify({ id, venue: { isVerified: verificationStatus } });
+    console.log("data");
+    const res = await verify({ id, venue: { isVerified: verificationStatus } });
+    console.log("data", res);
   };
 
   const handleRejection = async (id: string) => {
@@ -50,7 +53,7 @@ const VenueManagement: React.FC = () => {
 
     if (confirmDelete) {
       await deleteVenue(id);
-      setReloadTrigger(true); // Trigger reload after deletion
+      setReloadTrigger(true);
     }
   };
 
@@ -70,7 +73,7 @@ const VenueManagement: React.FC = () => {
   const toggleEditMode = (id: string) => {
     setEditModeMap((prevState) => ({
       ...prevState,
-      [id]: !prevState[id], // Toggle edit mode for the admin with the given id
+      [id]: !prevState[id],
     }));
   };
 
@@ -91,7 +94,8 @@ const VenueManagement: React.FC = () => {
             <div className="w-1/12 p-2">Delete</div>
           </div>
           <div className="bg-gray-50">
-            {venue?.data.venues?.map((admin: Venue, index: number) => (
+          
+          {venues.map((admin: Venue, index: number) => (
               <div key={index} className="flex text-center items-center hover:bg-gray-100">
                 <div className="w-1/12 p-2">{index + 1}</div>
                 <div className="w-2/12 p-2">{admin.yourName}</div>

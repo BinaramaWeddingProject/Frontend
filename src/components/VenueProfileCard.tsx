@@ -8,21 +8,27 @@ import {  AppDispatch } from '../redux/store';
 
 
 
-interface Props {
-  yourName: string | undefined;
+
   
-  phone: string | undefined;
+
+interface Props {
+  yourName?: string | undefined;
+  email?: string | undefined;
+  phone?: string | undefined;
   password?: string | undefined;
   profile?: string | undefined;
   id?: string | undefined;
 }
 
-const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, password, id }) => {
-  const dispatch = useDispatch<AppDispatch>();
+
+
+const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, email, password, id }) => {
   const [updateVenue] = useUpdateVenueMutation();
+  const dispatch = useDispatch<AppDispatch>();
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
     yourName,
+    email,
     phone,
     password,
     profile,
@@ -49,11 +55,8 @@ const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, password,
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("id is " , id);
-    console.log("dta is :" , formData)
     if (!id) return;
-    const res = await updateVenue({ id, venue: formData });
-    console.log(res);
+    await updateVenue({ id, venue: formData });
     setEditing(false);
   };
 
@@ -102,7 +105,17 @@ const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, password,
                   className="w-full rounded-md border-gray-300 px-3 py-2"
                 />
               </div>
-              
+              <div>
+                <label htmlFor="email" className="block mb-1 text-white">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full rounded-md border-gray-300 px-3 py-2"
+                />
+              </div>
               <div>
                 <label htmlFor="phone" className="block mb-1 text-white">Phone Number:</label>
                 <input
@@ -133,7 +146,7 @@ const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, password,
           ) : (
             <>
               <h3 className="text-4xl font-semibold my-2 text-white">{yourName}</h3>
-             
+              <p className="text-gray-300">{email}</p>
               <p className="text-gray-300">{phone}</p>
               <button
                 onClick={handleEditClick}

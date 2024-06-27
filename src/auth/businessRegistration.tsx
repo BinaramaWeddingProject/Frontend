@@ -5,11 +5,12 @@ import { useSignupMutation } from "../redux/api/vendor";
 import toast from "react-hot-toast";
 import { useSignupVenueMutation } from "../redux/api/venue";
 import { styles } from "../styles/style";
+import { useNavigate } from "react-router-dom";
 
 export const VenueRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [register] = useSignupVenueMutation();
-
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       businessName: "",
@@ -31,10 +32,19 @@ export const VenueRegistrationForm: React.FC = () => {
     }),
     onSubmit: async (values) => {
       console.log("Vendor registration form submitted:", values);
-      await register(values);
+      values.city = capitalizeFirstLetter(values.city);
+      const res = await register(values);
+      console.log('datat', res)
+      if(res?.data?.success==true){
+        navigate('/login')
+      }
       setSubmitted(true);
     },
   });
+
+  function capitalizeFirstLetter(city:any) {
+    return city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
+  }
 
   return (
     <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded shadow-md">
@@ -194,6 +204,7 @@ export const VendorRegistrationForm: React.FC = () => {
     type_Of_Business: Yup.string().required("Please enter your business type!"),
     businessName: Yup.string().required("Please enter your business name!"),
   });
+  const navigate = useNavigate();
 
   const [register, { data, error, isSuccess }] = useSignupMutation();
 
@@ -225,9 +236,19 @@ export const VendorRegistrationForm: React.FC = () => {
     },
     validationSchema: Vendor,
     onSubmit: async (values) => {
-      await register(values);
+      values.city = capitalizeFirstLetter(values.city);
+    const res =   await register(values);
+
+      if(res?.data?.success==true){
+        navigate('/login')
+      }
     },
   });
+  
+  function capitalizeFirstLetter(city:any) {
+    return city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
+  }
+  
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;
   return (

@@ -15,7 +15,7 @@ function VenueList() {
   ).toString();
   const { data, error, isLoading } = useAllVenueQuery(queryString);
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
-
+// console.log('helod', data)
   const updateVenues = useCallback(() => {
     if (data && Array.isArray(data.data)) {
       setAllVenues(data.data);
@@ -56,28 +56,29 @@ function VenueList() {
             <FilterBar onFilterChange={handleFilterChange} />
           </div>
           <div className="w-full md:w-3/4">
-            <div className="grid grid-cols-1 gap-4">
-              {allVenues.length > 0 ? (
-                allVenues.map((venue) => (
-                  <VenueCard
-                    key={venue._id}
-                    venue={{
-                      name: venue?.businessName,
-                      location: venue.city,
-                      maxGuests: venue.guestCapacity,
-                      contact: venue.phone,
-                      description: venue.summary,
-                      vegPrice: venue.foodPackages,
-                      nonVegPrice: 30,
-                      images: venue?.images,
-                      id: venue._id,
-                    }}
-                  />
-                ))
-              ) : (
-                <div>No Venues found</div>
-              )}
-            </div>
+          <div className="grid grid-cols-1 gap-4">
+            {allVenues.length > 0 ? (
+              allVenues.map((venue, index) => (
+                venue.isVerified === "Approved"?(
+                <VenueCard
+                  key={index}
+                  venue={{
+                    name: venue?.businessName,
+                    location: venue.city,
+                    maxGuests: venue.guestCapacity,
+                    contact: venue.phone,
+                    description: venue.summary,
+                    vegPrice: venue.foodPackages,
+                    nonVegPrice: 30,
+                    images: venue.images,
+                    id: venue._id,
+                  }}
+                />) : null
+              ))
+            ) : (
+              <div>No Venue found</div>
+            )}
+          </div>
           </div>
         </div>
       </div>

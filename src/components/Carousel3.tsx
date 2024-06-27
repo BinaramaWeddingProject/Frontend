@@ -1,5 +1,10 @@
 import React from "react";
-import { Image, Box, ChakraProvider, AspectRatio } from "@chakra-ui/react";
+import {
+  Image,
+  Box,
+  ChakraProvider,
+  AspectRatio,
+} from "@chakra-ui/react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -8,9 +13,8 @@ interface Props {
   images? : string[] | undefined;
 }
 
-const Caro: React.FC<Props> = ({ portfolio }) => {
-  const slides = portfolio?.map((image) => ({ image }));
-  console.log("portfolio: ", portfolio);
+const Caro: React.FC<Props> = ({ images }) => {
+  const slides = images?.map((image) => ({ image }));
 
   return (
     <ChakraProvider>
