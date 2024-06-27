@@ -16,7 +16,7 @@ const NavBar: React.FC = () => {
   if (role === "vendor") url = '/vendorProfilePage';
   if (role === "venue") url = '/venueProfilePage';
   if (role === "user") url = '/userProfilePage';
-
+  if (role === "admin") url = '/adminDashboard';
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
