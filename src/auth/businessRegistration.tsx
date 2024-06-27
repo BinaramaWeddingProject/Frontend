@@ -5,7 +5,7 @@ import { useSignupMutation } from "../redux/api/vendor";
 import toast from "react-hot-toast";
 import { useSignupVenueMutation } from "../redux/api/venue";
 import { styles } from "../styles/style";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const VenueRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
