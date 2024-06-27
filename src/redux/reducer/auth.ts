@@ -5,7 +5,7 @@ import { User } from '../../types/types';
 interface AuthState {
   user: User | null;
   isLoggedIn: boolean;
-  city?: string | null;
+  city?: string;
 }
 
 const initialState: AuthState = {
@@ -39,16 +39,12 @@ const authSlice = createSlice({
       }
     },
 
-    cityStatus(state) {
-      const city = JSON.parse(localStorage.getItem('city') as string);
-      if (city) {
-        state.user = city;
-       
-      } else {
-        state.user = null;
-        
-      }
-    }
+    cityStatus(state, action: PayloadAction<string>) {
+      state.city = action.payload;
+      localStorage.setItem('city', JSON.stringify(action.payload));
+    },
+
+    
   },
 });
 

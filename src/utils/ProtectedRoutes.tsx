@@ -32,10 +32,3 @@ export const UserProtectedRoutes = () =>{
      
     return user === "user" ? <Outlet/> : <Navigate to = "/login"/>
 }
-
-export const CityRoutes = () =>{
-    const city =  useSelector((state: RootState) => state.auth.city);
-
-     
-    return city
-}

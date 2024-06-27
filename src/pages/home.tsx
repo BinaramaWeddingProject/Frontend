@@ -1,35 +1,41 @@
-// src/pages/Home.tsx
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from "../components/navbar";
 import InformationBanner from "../components/InformationBanner";
 import Footer from "../components/Footer";
 import { useRankedVenuesQuery } from "../redux/api/venue";
 import { useGetAllBlogsQuery } from '../redux/api/blog';
-import { useGetAllRealWeddingsQuery } from '../redux/api/realWeddings'; // Import the real weddings query hook
+import { useGetAllRealWeddingsQuery } from '../redux/api/realWeddings';
 import VenueCard from "../components/VenueCard";
 import SkeletonBlogCard from "../components/skeleton/Blog";
-import SkeletonRealWeddingCard from "../components/skeleton/RealWedding"; // Adjust the import path as needed
+import SkeletonRealWeddingCard from "../components/skeleton/RealWedding";
 import { AllVenuesResponse } from "../types/api-types";
 import { Blog, RealWeddings } from '../types/types';
+import { useGetAllCitiesQuery } from '../redux/api/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
+import { cityStatus } from '../redux/reducer/auth';
 
 const imageUrl = "/wv_cover2.jpg";
 
 const Home: React.FC = () => {
-  // Fetch ranked venues using useRankedVenuesQuery hook
+  const [selectedCity, setSelectedCity] = useState<string>('');
+
   const { data: venuesData, isLoading: isLoadingVenues, error: venuesError } = useRankedVenuesQuery();
   const { data: blogData, isLoading: isLoadingBlogs, error: blogsError } = useGetAllBlogsQuery('');
   const { data: realWeddingsData, isLoading: isLoadingRealWeddings, error: realWeddingsError } = useGetAllRealWeddingsQuery();
+  const { data: cityData } = useGetAllCitiesQuery();
 
-  // Type assertion to specify the shape of venuesData
+  const dispatch = useDispatch<AppDispatch>();
+
   const venues = venuesData?.data?.venues as AllVenuesResponse['data']['venues'] || [];
   const blogs = blogData?.data.blog || [];
   const realWeddings = realWeddingsData?.data.realWeddings || [];
+  const cities = cityData?.cities || [];
 
 
-  // const city = useSelector((state : RootState) => state?.auth?.city)
-  // console.log("data", city)
+  const city = useSelector((state : RootState) => state?.auth?.city)
+  console.log("data", city)
 
   // Handle error appropriately based on its type
   const errorMessageVenues = venuesError 
@@ -38,9 +44,9 @@ const Home: React.FC = () => {
       : venuesError.message
     : null;
 
-  const errorMessageBlogs = blogsError 
-    ? 'status' in blogsError 
-      ? `Error: ${blogsError.status} - ${JSON.stringify(blogsError.data)}` 
+  const errorMessageBlogs = blogsError
+    ? 'status' in blogsError
+      ? `Error: ${blogsError.status} - ${JSON.stringify(blogsError.data)}`
       : blogsError.message
     : null;
 
@@ -50,6 +56,12 @@ const Home: React.FC = () => {
       : realWeddingsError.message
     : null;
 
+    const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedCity(event.target.value);
+      dispatch(cityStatus(selectedCity)); // Assuming cityStatus is a Redux action creator
+    };
+    
+    console.log("cityy: ", selectedCity)
   return (
     <div>
       <NavBar />
@@ -60,8 +72,24 @@ const Home: React.FC = () => {
             backgroundImage: `url(${imageUrl})`,
           }}
         >
-          <div className="bg-black bg-opacity-10 h-[95vh] flex flex-col justify-center items-center">
-            {/* Additional content or components */}
+          <div className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 -translate-y-16 w-full max-w-md">
+            <div className="relative " >
+              <select
+                value={selectedCity}
+                onChange={handleCityChange}
+                className="w-full px-10 py-3 border border-gray-300 opacity-80 rounded-full bg-white bg-opacity-90 text-gray-900 focus:ring focus:ring-indigo-300 focus:outline-none transition duration-300"
+              >
+                <option className='' value="">Select City</option>
+                {cities.map((city:any) => (
+                  <option value={city}>{city}</option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-gray-800" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -74,21 +102,23 @@ const Home: React.FC = () => {
         ) : (
           <div className="flex justify-center items-center">
             <div className="grid grid-cols-1 sm:grid-cols-2 scale-90 -mt-16">
-              {venues.map((venue: any, index: number) => (
-                <VenueCard
-                  key={index}
-                  venue={{
-                    name: venue.businessName,
-                    location: venue.city,
-                    maxGuests: venue.guestCapacity,
-                    contact: venue.phone,
-                    description: venue.summary,
-                    vegPrice: venue.foodPackages,
-                    images: venue.images,
-                    id: venue._id,
-                  }}
-                />
-              ))}
+              {venues
+                .filter((venue:any) => selectedCity ? venue.city.toLowerCase() === selectedCity.toLowerCase() : true)
+                .map((venue:any, index:any) => (
+                  <VenueCard
+                    key={index}
+                    venue={{
+                      name: venue.businessName,
+                      location: venue.city,
+                      maxGuests: venue.guestCapacity,
+                      contact: venue.phone,
+                      description: venue.summary,
+                      vegPrice: venue.foodPackages,
+                      images: venue.images,
+                      id: venue._id,
+                    }}
+                  />
+                ))}
             </div>
           </div>
         )}
