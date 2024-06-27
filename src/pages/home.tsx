@@ -12,6 +12,8 @@ import SkeletonRealWeddingCard from "../components/skeleton/RealWedding";
 import { AllVenuesResponse } from "../types/api-types";
 import { Blog, RealWeddings } from '../types/types';
 import { useGetAllCitiesQuery } from '../redux/api/user';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../redux/store';
 
 const imageUrl = "/wv_cover2.jpg";
 
@@ -22,6 +24,8 @@ const Home: React.FC = () => {
   const { data: blogData, isLoading: isLoadingBlogs, error: blogsError } = useGetAllBlogsQuery('');
   const { data: realWeddingsData, isLoading: isLoadingRealWeddings, error: realWeddingsError } = useGetAllRealWeddingsQuery();
   const { data: cityData } = useGetAllCitiesQuery();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const venues = venuesData?.data?.venues as AllVenuesResponse['data']['venues'] || [];
   const blogs = blogData?.data.blog || [];
@@ -48,8 +52,9 @@ const Home: React.FC = () => {
 
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCity(event.target.value);
+    dispatch(cityStatus(selectedCity));
   };
-
+    console.log("cityy: ", selectedCity)
   return (
     <div>
       <NavBar />
@@ -60,17 +65,16 @@ const Home: React.FC = () => {
             backgroundImage: `url(${imageUrl})`,
           }}
         >
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
-            <div className="relative">
+          <div className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 -translate-y-16 w-full max-w-md">
+            <div className="relative " >
               <select
                 value={selectedCity}
                 onChange={handleCityChange}
-                className="w-full px-10 py-3 opacity-70 border border-gray-300 rounded-full bg-white bg-opacity-90 text-gray-900 focus:ring focus:ring-indigo-300 focus:outline-none transition duration-300"
-                style={{ direction: 'ltr' }}
+                className="w-full px-10 py-3 border border-gray-300 opacity-80 rounded-full bg-white bg-opacity-90 text-gray-900 focus:ring focus:ring-indigo-300 focus:outline-none transition duration-300"
               >
-                <option value="">Select City</option>
-                {cities.map((city, index) => (
-                  <option key={index} value={city}>{city}</option>
+                <option className='' value="">Select City</option>
+                {cities.map((city:any) => (
+                  <option value={city}>{city}</option>
                 ))}
               </select>
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
