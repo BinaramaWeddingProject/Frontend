@@ -1,6 +1,6 @@
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
-
+// import { useGetVendorByIdQuery } from '../redux/api/vendor';
 // import { useUpdateVendorMutation } from '../redux/api/vendor';
 import VenueProfileInfo from '../components/VenueProfileInfo';
 import VenueProfileCard from '../components/VenueProfileCard';
@@ -28,6 +28,9 @@ const VenueProfilePage: React.FC = () => {
    
     const { data: venue } = useGetVenueByIdQuery(venueId  || "");
    
+// import { useAllVenueQuery } from '../redux/api/venue';
+
+
    
     // console.log("updatevendor", updatevendor)
     const venueData = venue?.data?.venue;
@@ -49,6 +52,8 @@ const VenueProfilePage: React.FC = () => {
                         phone={venueData?.phone} 
                         profile = {venueData?.images ? venueData.images[0] : undefined} // Accessing the first image URL
                         id={venueId}
+                        email={venueData?.email} 
+                        // id={vendorid}
                     /> 
                 </div>
                 <div className='w-full'>

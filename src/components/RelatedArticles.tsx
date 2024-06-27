@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../components/navbar';
+// import NavBar from '../components/navbar';
+// import Footer from '../components/Footer';
 import { useGetAllBlogsQuery } from '../redux/api/blog';
 import SkeletonBlogCard from '../components/skeleton/Blog';
 import { Blog } from '../types/types';

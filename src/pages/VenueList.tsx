@@ -15,7 +15,7 @@ function VenueList() {
   ).toString();
   const { data, error, isLoading } = useAllVenueQuery(queryString);
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
-
+// console.log('helod', data)
   const updateVenues = useCallback(() => {
     if (data && Array.isArray(data.data)) {
       setAllVenues(data.data);

@@ -4,10 +4,10 @@ import Footer from '../components/Footer';
 // import { useGetVenueByIdQuery } from '../redux/api/venue';
 import UserSidebar from '../components/UserSidebar';
 import UserTabView from '../components/UserTabView';
-import { useGetUserQuery } from '../redux/api/user';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { useGetUserQuery } from '../redux/api/user';
 
 
 
@@ -26,10 +26,10 @@ const VenueProfilePage = () => {
 
 
 
-    return ( 
+    return (
         <>
             <NavBar />
-            <div className='flex  h-full bg-blue-900 '>
+            <div className='flex '>
             <div className=" flex-col-1 justify-start border-2 border-white">
                     <div className="w-80">
                         <UserSidebar

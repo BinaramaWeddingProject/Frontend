@@ -11,6 +11,7 @@ import VendorCard from "../components/card/Vendorcard";
 import { useParams } from "react-router-dom";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import SkeletonCard from "../components/skeleton/Vendor";
+import { useGetAllBlogsQuery } from "../redux/api/blog";
 
 interface VendorsListProps {
   NumberOfCards?: number;
@@ -22,12 +23,12 @@ interface VendorsListProps {
 }
 
 const VendorsList: React.FC<VendorsListProps> = ({
-  NumberOfArticleCards = 10,
+  // NumberOfArticleCards = 10,
   Search = "Search Bridal Mehndi Artists By Name",
   Img = "/public/mumbai.jpg",
   ImgTitle2 = "mumbai",
 }) => {
-  const ArticleCardsArray = Array.from({ length: NumberOfArticleCards });
+  // const ArticleCardsArray = Array.from({ length: NumberOfArticleCards });
   const { data, error, isLoading } = useAllVendorQuery("");
   const [allVendors, setAllVendors] = useState<Vendor[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,7 +38,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
 
   const [currentPage, setCurrentPage] = useState(1);
   const vendorsPerPage = 10;
-
+const {data: blog} = useGetAllBlogsQuery('');
+const blogs = blog?.data.blog || [];
   useEffect(() => {
     if (data) {
       setAllVendors(data.data.vendors);
@@ -73,6 +75,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
     return <h1>Error while loading data</h1>;
   }
 
+  // console.log("heloo", filteredVendors.length, totalPages, currentPage, vendorsPerPage, currentVendors)
+
   return (
     <>
       <NavBar />
@@ -92,6 +96,42 @@ const VendorsList: React.FC<VendorsListProps> = ({
                 ? "Decorators"
                 : Title === "Caterer"
                 ? "Caterers"
+                : Title === "Band baja"
+                ? "Band Baja"
+                : Title === "dhol"
+                ? "Dhol"
+                : Title === "Tatto Artist"
+                ? "Tatto Artists"
+                : Title === "Messkot"
+                ? "Messkot"
+                : Title === "Magicians"
+                ? "Magicians"
+                : Title === "Fog Event"
+                ? "Fog Events"
+                : Title === "Game Coordinator"
+                ? "Game Coordinators"
+                : Title === "Anchor"
+                ? "Anchor"
+                : Title === "Live singer"
+                ? "Live Singers"
+                : Title === "Welcome Girls"
+                ? "Welcome Girls"
+                : Title === "Waiter service boy"
+                ? "Waiter service boys"
+                : Title === "Vallet parking vendor"
+                ? "Vallet parking vendors"
+                : Title === "Dj"
+                ? "Dj"
+                : Title === "Birthday boy car Entry"
+                ? "Birthday boy car Entries"
+                : Title === "Jagran setup"
+                ? "Jagran setups"
+                : Title === "Mata ki Chowki setup"
+                ? "Mata ki Chowki setups"
+                : Title === "Bar tender boy"
+                ? "Bar tender boys"
+                : Title === "Rooms booking"
+                ? "Rooms bookings"
                 : Title}
             </p>
             <p className="text-md font-semibold text-gray-600">
@@ -103,24 +143,42 @@ const VendorsList: React.FC<VendorsListProps> = ({
           <hr className="h-1 bg-white my-2"></hr>
 
           <div className="bg-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-6 py-5 justify-center rounded-md">
-            {isLoading ? (
-              Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
-            ) : currentVendors.length > 0 ? (
-              currentVendors.map((vendor, index) => (
-                <VendorCard
-                  _id={vendor._id}
-                  key={index}
-                  businessName={vendor.name ?? "No name provided"}
-                  city={vendor.city}
-                  packagePrice={vendor.packages?.price}
-                  summary={vendor.summary}
-                  image={vendor.portfolio ? vendor.portfolio[4] : ""}
-                />
-              ))
-            ) : (
-              <h1>No vendors available</h1>
-            )}
-          </div>
+  {isLoading ? (
+    Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
+  ) : currentVendors.length > 0 ? (
+    currentVendors.map((vendor, index) => {
+      if (Title === "AllVendors") {
+        return (
+          <VendorCard
+            _id={vendor._id}
+            key={index}
+            businessName={vendor.name ?? "No name provided"}
+            city={vendor.city}
+            packagePrice={vendor.packages?.price}
+            summary={vendor.summary}
+            image={vendor.portfolio ? vendor.portfolio[4] : ""}
+          />
+        );
+      } else if (vendor.type_Of_Business === Title) {
+        return (
+          <VendorCard
+            _id={vendor._id}
+            key={index}
+            businessName={vendor.name ?? "No name provided"}
+            city={vendor.city}
+            packagePrice={vendor.packages?.price}
+            summary={vendor.summary}
+            image={vendor.portfolio ? vendor.portfolio[4] : ""}
+          />
+        );
+      } 
+    })
+  ) : (
+    <h1>No vendors available</h1>
+  )}
+</div>
+
+
 
           <div className="flex justify-center mt-4">
             <button
@@ -169,12 +227,21 @@ const VendorsList: React.FC<VendorsListProps> = ({
             <p className="text-xl font-semibold pt-3 pb-2 shadow">Related Article</p>
 
             <div className="flex flex-wrap justify-center shadow">
-              {ArticleCardsArray.map((_, index) => (
-                <div key={index} className="mx-2 mb-4 shadow-xl">
-                  <ArticleCard />
-                </div>
-              ))}
-            </div>
+  {/* Render ArticleCard components */}
+  {blogs?.map((items:any, index:any) => (
+    index < 10 ? (
+      <div key={index} className="mx-2 mb-4 shadow-xl">
+        <ArticleCard
+        id={items?._id}
+          image={items?.images[0]}
+          title={items?.title}
+          description={items?.content}
+          date={items?.createdAt}
+        />
+      </div>
+    ) : null
+  ))}
+</div>
           </div>
         </div>
       </div>
