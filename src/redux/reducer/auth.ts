@@ -36,9 +36,20 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
       }
     },
+
+    cityStatus(state) {
+      const city = JSON.parse(localStorage.getItem('city') as string);
+      if (city) {
+        state.user = city;
+       
+      } else {
+        state.user = null;
+        
+      }
+    }
   },
 });
 
-export const { login, logout, checkLoginStatus } = authSlice.actions;
+export const { login, logout, checkLoginStatus, cityStatus } = authSlice.actions;
 
 export default authSlice.reducer;
