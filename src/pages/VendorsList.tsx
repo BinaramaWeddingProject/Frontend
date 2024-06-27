@@ -1,6 +1,6 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
-import AllVendors from "../components/card/AllVendors";
+// import AllVendors from "../components/card/AllVendors";
 import ArticleCard from "../components/card/ArticleCard";
 import NavBar from "../components/navbar";
 import Footer from "../components/Footer";
