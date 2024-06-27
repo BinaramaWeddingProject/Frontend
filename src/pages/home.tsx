@@ -35,7 +35,7 @@ const Home: React.FC = () => {
 
 
   const city = useSelector((state : RootState) => state?.auth?.city)
-  console.log("data", city)
+  console.log("data", city,)
 
   // Handle error appropriately based on its type
   const errorMessageVenues = venuesError 
@@ -58,7 +58,7 @@ const Home: React.FC = () => {
 
     const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
       setSelectedCity(event.target.value);
-      dispatch(cityStatus(selectedCity)); // Assuming cityStatus is a Redux action creator
+      dispatch(cityStatus(event.target.value)); // Assuming cityStatus is a Redux action creator
     };
     
     console.log("cityy: ", selectedCity)
