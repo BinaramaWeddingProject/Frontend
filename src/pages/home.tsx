@@ -12,8 +12,9 @@ import SkeletonRealWeddingCard from "../components/skeleton/RealWedding";
 import { AllVenuesResponse } from "../types/api-types";
 import { Blog, RealWeddings } from '../types/types';
 import { useGetAllCitiesQuery } from '../redux/api/user';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
+import { cityStatus } from '../redux/reducer/auth';
 
 const imageUrl = "/wv_cover2.jpg";
 
@@ -32,9 +33,14 @@ const Home: React.FC = () => {
   const realWeddings = realWeddingsData?.data.realWeddings || [];
   const cities = cityData?.cities || [];
 
-  const errorMessageVenues = venuesError
-    ? 'status' in venuesError
-      ? `Error: ${venuesError.status} - ${JSON.stringify(venuesError.data)}`
+
+  const city = useSelector((state : RootState) => state?.auth?.city)
+  console.log("data", city)
+
+  // Handle error appropriately based on its type
+  const errorMessageVenues = venuesError 
+    ? 'status' in venuesError 
+      ? `Error: ${venuesError.status} - ${JSON.stringify(venuesError.data)}` 
       : venuesError.message
     : null;
 
@@ -50,10 +56,11 @@ const Home: React.FC = () => {
       : realWeddingsError.message
     : null;
 
-  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCity(event.target.value);
-    dispatch(cityStatus(selectedCity));
-  };
+    const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedCity(event.target.value);
+      dispatch(cityStatus(selectedCity)); // Assuming cityStatus is a Redux action creator
+    };
+    
     console.log("cityy: ", selectedCity)
   return (
     <div>
@@ -96,8 +103,8 @@ const Home: React.FC = () => {
           <div className="flex justify-center items-center">
             <div className="grid grid-cols-1 sm:grid-cols-2 scale-90 -mt-16">
               {venues
-                .filter(venue => selectedCity ? venue.city.toLowerCase() === selectedCity.toLowerCase() : true)
-                .map((venue, index) => (
+                .filter((venue:any) => selectedCity ? venue.city.toLowerCase() === selectedCity.toLowerCase() : true)
+                .map((venue:any, index:any) => (
                   <VenueCard
                     key={index}
                     venue={{

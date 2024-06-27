@@ -5,11 +5,13 @@ import { User } from '../../types/types';
 interface AuthState {
   user: User | null;
   isLoggedIn: boolean;
+  city?: string;
 }
 
 const initialState: AuthState = {
   user: JSON.parse(localStorage.getItem('user') as string) || null,
   isLoggedIn: !!localStorage.getItem('user'),
+  city: JSON.parse(localStorage.getItem('city') as string) || null
 };
 
 const authSlice = createSlice({
@@ -36,9 +38,16 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
       }
     },
+
+    cityStatus(state, action: PayloadAction<string>) {
+      state.city = action.payload;
+      localStorage.setItem('city', JSON.stringify(action.payload));
+    },
+
+    
   },
 });
 
-export const { login, logout, checkLoginStatus } = authSlice.actions;
+export const { login, logout, checkLoginStatus, cityStatus } = authSlice.actions;
 
 export default authSlice.reducer;
