@@ -27,6 +27,10 @@ const Home: React.FC = () => {
   const blogs = blogData?.data.blog || [];
   const realWeddings = realWeddingsData?.data.realWeddings || [];
 
+
+  // const city = useSelector((state : RootState) => state?.auth?.city)
+  // console.log("data", city)
+
   // Handle error appropriately based on its type
   const errorMessageVenues = venuesError 
     ? 'status' in venuesError 

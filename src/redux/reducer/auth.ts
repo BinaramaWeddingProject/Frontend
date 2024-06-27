@@ -5,11 +5,13 @@ import { User } from '../../types/types';
 interface AuthState {
   user: User | null;
   isLoggedIn: boolean;
+  city?: string | null;
 }
 
 const initialState: AuthState = {
   user: JSON.parse(localStorage.getItem('user') as string) || null,
   isLoggedIn: !!localStorage.getItem('user'),
+  city: JSON.parse(localStorage.getItem('city') as string) || null
 };
 
 const authSlice = createSlice({
