@@ -7,6 +7,8 @@ import { Venue } from '../types/types';
 import { useAllVenueQuery } from '../redux/api/venue';
 import Universal from '../components/skeleton/Universal';
 import FilterBar from '../components/FilterBar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 function VenueList() {
   const [filters, setFilters] = useState({});
@@ -21,6 +23,9 @@ function VenueList() {
       setAllVenues(data.data);
     }
   }, [data]);
+
+  const city = useSelector((state : RootState) => state?.auth?.city)
+  console.log("data", city,)
 
   useEffect(() => {
     updateVenues();

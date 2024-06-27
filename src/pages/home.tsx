@@ -12,6 +12,9 @@ import SkeletonRealWeddingCard from "../components/skeleton/RealWedding";
 import { AllVenuesResponse } from "../types/api-types";
 import { Blog, RealWeddings } from '../types/types';
 import { useGetAllCitiesQuery } from '../redux/api/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
+import { cityStatus } from '../redux/reducer/auth';
 
 const imageUrl = "/wv_cover2.jpg";
 
@@ -23,14 +26,21 @@ const Home: React.FC = () => {
   const { data: realWeddingsData, isLoading: isLoadingRealWeddings, error: realWeddingsError } = useGetAllRealWeddingsQuery();
   const { data: cityData } = useGetAllCitiesQuery();
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const venues = venuesData?.data?.venues as AllVenuesResponse['data']['venues'] || [];
   const blogs = blogData?.data.blog || [];
   const realWeddings = realWeddingsData?.data.realWeddings || [];
   const cities = cityData?.cities || [];
 
-  const errorMessageVenues = venuesError
-    ? 'status' in venuesError
-      ? `Error: ${venuesError.status} - ${JSON.stringify(venuesError.data)}`
+
+  const city = useSelector((state : RootState) => state?.auth?.city)
+  console.log("data", city,)
+
+  // Handle error appropriately based on its type
+  const errorMessageVenues = venuesError 
+    ? 'status' in venuesError 
+      ? `Error: ${venuesError.status} - ${JSON.stringify(venuesError.data)}` 
       : venuesError.message
     : null;
 
@@ -46,10 +56,12 @@ const Home: React.FC = () => {
       : realWeddingsError.message
     : null;
 
-  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCity(event.target.value);
-  };
-
+    const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedCity(event.target.value);
+      dispatch(cityStatus(event.target.value)); // Assuming cityStatus is a Redux action creator
+    };
+    
+    console.log("cityy: ", selectedCity)
   return (
     <div>
       <NavBar />
@@ -60,17 +72,16 @@ const Home: React.FC = () => {
             backgroundImage: `url(${imageUrl})`,
           }}
         >
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
-            <div className="relative">
+          <div className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 -translate-y-16 w-full max-w-md">
+            <div className="relative " >
               <select
                 value={selectedCity}
                 onChange={handleCityChange}
-                className="w-full px-10 py-3 opacity-70 border border-gray-300 rounded-full bg-white bg-opacity-90 text-gray-900 focus:ring focus:ring-indigo-300 focus:outline-none transition duration-300"
-                style={{ direction: 'ltr' }}
+                className="w-full px-10 py-3 border border-gray-300 opacity-80 rounded-full bg-white bg-opacity-90 text-gray-900 focus:ring focus:ring-indigo-300 focus:outline-none transition duration-300"
               >
-                <option value="">Select City</option>
-                {cities.map((city, index) => (
-                  <option key={index} value={city}>{city}</option>
+                <option className='' value="">Select City</option>
+                {cities.map((city:any) => (
+                  <option value={city}>{city}</option>
                 ))}
               </select>
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -92,8 +103,8 @@ const Home: React.FC = () => {
           <div className="flex justify-center items-center">
             <div className="grid grid-cols-1 sm:grid-cols-2 scale-90 -mt-16">
               {venues
-                .filter(venue => selectedCity ? venue.city.toLowerCase() === selectedCity.toLowerCase() : true)
-                .map((venue, index) => (
+                .filter((venue:any) => selectedCity ? venue.city.toLowerCase() === selectedCity.toLowerCase() : true)
+                .map((venue:any, index:any) => (
                   <VenueCard
                     key={index}
                     venue={{

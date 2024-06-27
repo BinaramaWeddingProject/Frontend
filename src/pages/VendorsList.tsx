@@ -1,6 +1,6 @@
 import React from "react";
 import { FaSearch } from "react-icons/fa";
-import AllVendors from "../components/card/AllVendors";
+// import AllVendors from "../components/card/AllVendors";
 import ArticleCard from "../components/card/ArticleCard";
 import NavBar from "../components/navbar";
 import Footer from "../components/Footer";
@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 import SkeletonCard from "../components/skeleton/Vendor";
 import { useGetAllBlogsQuery } from "../redux/api/blog";
+import AllVendors from "../components/card/AllVendors";
 
 interface VendorsListProps {
   NumberOfCards?: number;
@@ -24,8 +25,8 @@ interface VendorsListProps {
 
 const VendorsList: React.FC<VendorsListProps> = ({
   // NumberOfArticleCards = 10,
-  Search = "Search Bridal Mehndi Artists By Name",
-  Img = "/public/mumbai.jpg",
+  Search = "Search Artists By Name",
+  Img = "/public/wv_cover.jpg",
   ImgTitle2 = "mumbai",
 }) => {
   // const ArticleCardsArray = Array.from({ length: NumberOfArticleCards });
@@ -135,8 +136,8 @@ const blogs = blog?.data.blog || [];
                 : Title}
             </p>
             <p className="text-md font-semibold text-gray-600">
-              Showing results of {filteredVendors.length}{" "}
-              {Title === "AllVendors" ? "Vendors" : Title}
+              
+              {/* {Title === "AllVendors" ? "Vendors" : Title} */}
             </p>
           </div>
 

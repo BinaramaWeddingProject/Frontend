@@ -29,6 +29,8 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
 
   const userId = useSelector((state: RootState) => state?.auth?.user?._id);
 
+  
+
   const [showFullDescription, setShowFullDescription] = useState(false);
   
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
