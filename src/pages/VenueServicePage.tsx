@@ -101,7 +101,7 @@ const VenueServicePage = () => {
           </div>
           <div className="flex flex-col lg:flex-row lg:space-x-4">
             <div className="w-full lg:w-1/2">
-              <VenueBooking checkAvailability={checkAvailability} />
+              {/* <VenueBooking checkAvailability={checkAvailability} /> */}
               <VenueSummary summary={venueData?.summary} />
             </div>
             <div className="w-full lg:w-1/2">
@@ -128,12 +128,12 @@ const VenueServicePage = () => {
         </div>
       </div>
       <div className="flex flex-col lg:flex-row lg:justify-end lg:space-x-4">
-        <div className="w-full lg:w-2/3 m-4">
+        {/* <div className="w-full lg:w-2/3 m-4">
           <VenueLocation latitude={12.9716} longitude={77.5946} venueName="My Venue" />
-        </div>
-        <div className="w-full lg:w-1/3 mt-4 lg:mt-20">
+        </div> */}
+        {/* <div className="w-full lg:w-1/3 mt-4 lg:mt-20">
           <ScheduleVisit onScheduleVisit={handleScheduleVisit} />
-        </div>
+        </div> */}
       </div>
       <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
         <VenueImageCarousel images={venueData?.images} />
@@ -145,9 +145,9 @@ const VenueServicePage = () => {
         <h2 className="text-2xl font-thin mb-4 tracking-widest flex justify-center">RELATED ARTICLES</h2>
         <RelatedArticles />
       </div>
-      <div>
+      {/* <div>
         <ContactForm onSubmit={handleContactFormSubmit} />
-      </div>
+      </div> */}
       <div>
         <FAQSection />
       </div>

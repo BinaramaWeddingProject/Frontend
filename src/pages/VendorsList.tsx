@@ -39,8 +39,8 @@ const VendorsList: React.FC<VendorsListProps> = ({
 
   const [currentPage, setCurrentPage] = useState(1);
   const vendorsPerPage = 10;
-const {data: blog} = useGetAllBlogsQuery('');
-const blogs = blog?.data.blog || [];
+  const { data: blog } = useGetAllBlogsQuery('');
+  const blogs = blog?.data.blog || [];
   useEffect(() => {
     if (data) {
       setAllVendors(data.data.vendors);
@@ -88,55 +88,55 @@ const blogs = blog?.data.blog || [];
               {Title === "AllVendors"
                 ? "All Vendors"
                 : Title === "Photographer"
-                ? "Photographers"
-                : Title === "MakeupArtist"
-                ? "Makeup Artists"
-                : Title === "MehendiArtist"
-                ? "Mehendi Artists"
-                : Title === "Decorator"
-                ? "Decorators"
-                : Title === "Caterer"
-                ? "Caterers"
-                : Title === "Band baja"
-                ? "Band Baja"
-                : Title === "dhol"
-                ? "Dhol"
-                : Title === "Tatto Artist"
-                ? "Tatto Artists"
-                : Title === "Messkot"
-                ? "Messkot"
-                : Title === "Magicians"
-                ? "Magicians"
-                : Title === "Fog Event"
-                ? "Fog Events"
-                : Title === "Game Coordinator"
-                ? "Game Coordinators"
-                : Title === "Anchor"
-                ? "Anchor"
-                : Title === "Live singer"
-                ? "Live Singers"
-                : Title === "Welcome Girls"
-                ? "Welcome Girls"
-                : Title === "Waiter service boy"
-                ? "Waiter service boys"
-                : Title === "Vallet parking vendor"
-                ? "Vallet parking vendors"
-                : Title === "Dj"
-                ? "Dj"
-                : Title === "Birthday boy car Entry"
-                ? "Birthday boy car Entries"
-                : Title === "Jagran setup"
-                ? "Jagran setups"
-                : Title === "Mata ki Chowki setup"
-                ? "Mata ki Chowki setups"
-                : Title === "Bar tender boy"
-                ? "Bar tender boys"
-                : Title === "Rooms booking"
-                ? "Rooms bookings"
-                : Title}
+                  ? "Photographers"
+                  : Title === "MakeupArtist"
+                    ? "Makeup Artists"
+                    : Title === "MehendiArtist"
+                      ? "Mehendi Artists"
+                      : Title === "Decorator"
+                        ? "Decorators"
+                        : Title === "Caterer"
+                          ? "Caterers"
+                          : Title === "Band baja"
+                            ? "Band Baja"
+                            : Title === "dhol"
+                              ? "Dhol"
+                              : Title === "Tatto Artist"
+                                ? "Tatto Artists"
+                                : Title === "Messkot"
+                                  ? "Messkot"
+                                  : Title === "Magicians"
+                                    ? "Magicians"
+                                    : Title === "Fog Event"
+                                      ? "Fog Events"
+                                      : Title === "Game Coordinator"
+                                        ? "Game Coordinators"
+                                        : Title === "Anchor"
+                                          ? "Anchor"
+                                          : Title === "Live singer"
+                                            ? "Live Singers"
+                                            : Title === "Welcome Girls"
+                                              ? "Welcome Girls"
+                                              : Title === "Waiter service boy"
+                                                ? "Waiter service boys"
+                                                : Title === "Vallet parking vendor"
+                                                  ? "Vallet parking vendors"
+                                                  : Title === "Dj"
+                                                    ? "Dj"
+                                                    : Title === "Birthday boy car Entry"
+                                                      ? "Birthday boy car Entries"
+                                                      : Title === "Jagran setup"
+                                                        ? "Jagran setups"
+                                                        : Title === "Mata ki Chowki setup"
+                                                          ? "Mata ki Chowki setups"
+                                                          : Title === "Bar tender boy"
+                                                            ? "Bar tender boys"
+                                                            : Title === "Rooms booking"
+                                                              ? "Rooms bookings"
+                                                              : Title}
             </p>
             <p className="text-md font-semibold text-gray-600">
-              
+
               {/* {Title === "AllVendors" ? "Vendors" : Title} */}
             </p>
           </div>
@@ -144,40 +144,40 @@ const blogs = blog?.data.blog || [];
           <hr className="h-1 bg-white my-2"></hr>
 
           <div className="bg-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-6 py-5 justify-center rounded-md">
-  {isLoading ? (
-    Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
-  ) : currentVendors.length > 0 ? (
-    currentVendors.map((vendor, index) => {
-      if (Title === "AllVendors") {
-        return (
-          <VendorCard
-            _id={vendor._id}
-            key={index}
-            businessName={vendor.name ?? "No name provided"}
-            city={vendor.city}
-            packagePrice={vendor.packages?.price}
-            summary={vendor.summary}
-            image={vendor.portfolio ? vendor.portfolio[4] : ""}
-          />
-        );
-      } else if (vendor.type_Of_Business === Title) {
-        return (
-          <VendorCard
-            _id={vendor._id}
-            key={index}
-            businessName={vendor.name ?? "No name provided"}
-            city={vendor.city}
-            packagePrice={vendor.packages?.price}
-            summary={vendor.summary}
-            image={vendor.portfolio ? vendor.portfolio[4] : ""}
-          />
-        );
-      } 
-    })
-  ) : (
-    <h1>No vendors available</h1>
-  )}
-</div>
+            {isLoading ? (
+              Array.from({ length: 10 }).map((_, index) => <SkeletonCard key={index} />)
+            ) : currentVendors.length > 0 ? (
+              currentVendors.map((vendor, index) => {
+                if (Title === "AllVendors") {
+                  return (
+                    <VendorCard
+                      _id={vendor._id}
+                      key={index}
+                      businessName={vendor.name ?? "No name provided"}
+                      city={vendor.city}
+                      packagePrice={vendor.packages?.price}
+                      summary={vendor.summary}
+                      image={vendor.portfolio ? vendor.portfolio[4] : ""}
+                    />
+                  );
+                } else if (vendor.type_Of_Business === Title) {
+                  return (
+                    <VendorCard
+                      _id={vendor._id}
+                      key={index}
+                      businessName={vendor.name ?? "No name provided"}
+                      city={vendor.city}
+                      packagePrice={vendor.packages?.price}
+                      summary={vendor.summary}
+                      image={vendor.portfolio ? vendor.portfolio[4] : ""}
+                    />
+                  );
+                }
+              })
+            ) : (
+              <h1>No vendors available</h1>
+            )}
+          </div>
 
 
 
@@ -203,7 +203,7 @@ const blogs = blog?.data.blog || [];
         </div>
 
         {/* Second section (responsive) */}
-        <div className="hidden lg:block lg:w-1/4 w-full bg-[#fffdd0] p-4">
+        <div className="lg:w-1/4 w-full bg-[#fffdd0] p-4">
           <div className="justify-end">
             <p className="text-xl font-bold">{Search}</p>
             <hr className="h-1 bg-gray-200 my-2"></hr>
@@ -228,21 +228,20 @@ const blogs = blog?.data.blog || [];
             <p className="text-xl font-semibold pt-3 pb-2 shadow">Related Article</p>
 
             <div className="flex flex-wrap justify-center shadow">
-  {/* Render ArticleCard components */}
-  {blogs?.map((items:any, index:any) => (
-    index < 10 ? (
-      <div key={index} className="mx-2 mb-4 shadow-xl">
-        <ArticleCard
-        id={items?._id}
-          image={items?.images[0]}
-          title={items?.title}
-          description={items?.content}
-          date={items?.createdAt}
-        />
-      </div>
-    ) : null
-  ))}
-</div>
+              {blogs?.map((items: any, index: any) => (
+                index < 10 ? (
+                  <div key={index} className="mx-2 mb-4 shadow-xl">
+                    <ArticleCard
+                      id={items?._id}
+                      image={items?.images[0]}
+                      title={items?.title}
+                      description={items?.content}
+                      date={items?.createdAt}
+                    />
+                  </div>
+                ) : null
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -252,3 +251,11 @@ const blogs = blog?.data.blog || [];
 };
 
 export default VendorsList;
+
+{/* <ArticleCard
+id={items?._id}
+  image={items?.images[0]}
+  title={items?.title}
+  description={items?.content}
+  date={items?.createdAt}
+/> */}

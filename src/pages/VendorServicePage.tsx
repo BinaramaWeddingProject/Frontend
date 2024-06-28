@@ -1,3 +1,4 @@
+import React from "react";
 import NavBar from "../components/navbar";
 import Footer from "../components/Footer";
 import Caro from "../components/Carousel3";
@@ -52,29 +53,27 @@ function VendorServicePage() {
       <NavBar />
       <div className="container mx-auto shadow-md bg-slate-100 p-4">
         <div className="flex flex-col lg:flex-row justify-between mb-6">
-          <div className="lg:w-full mb-4 lg:mb-0 flex ">
-
+          <div className="w-full lg:w-3/4 mb-4 lg:mb-0">
             <VendorInfo
               name={vendorData?.name}
               location={vendorData?.city}
               businessName={vendorData?.businessName}
               typeOfBusiness={vendorData?.type_Of_Business}
             />
-                      <div className="w-1/4 scale-90 -mt-8">
+          </div>
+          <div className="w-full lg:w-1/4 scale-90 lg:scale-100 -mt-8 lg:mt-0">
             <AllVendors />
           </div>
-          </div>
-
         </div>
 
         <div className="flex flex-col lg:flex-row max-w-full">
-          <div className="lg:w-3/4 mb-4 lg:mb-0">
-            <Caro portfolio={vendorData?.portfolio } />
+          <div className="w-full lg:w-3/4 mb-4 lg:mb-0">
+            <Caro images={vendorData?.portfolio} />
             <div className="max-w-full">
               <TabView vendorData={vendorData} />
             </div>
           </div>
-          <div className="lg:ml-8 mt-2 lg:mt-0 lg:w-1/4">
+          <div className="w-full lg:w-1/4 lg:ml-8 mt-2 lg:mt-0">
             <PriceCard
               price={vendorData?.packages?.price}
               rating={dummyData.rating}
