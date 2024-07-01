@@ -39,9 +39,9 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
       className="fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-full max-w-md mx-auto">
+      <div className="bg-white text-gray-800 rounded-lg shadow-lg p-6 w-full max-w-4xl mx-auto max-h-[90vh] overflow-y-auto">
         <h2 className="text-2xl font-semibold mb-4 text-center">Send Enquiry</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="name">Name:</label>
             <input
@@ -114,7 +114,7 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
               className="w-full p-2 border border-gray-300 rounded"
             />
           </div>
-          <div>
+          <div className="col-span-2">
             <label className="block text-sm font-medium mb-1" htmlFor="message">Message:</label>
             <textarea
               id="message"
@@ -125,7 +125,7 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
               className="w-full p-2 border border-gray-300 rounded h-24"
             />
           </div>
-          <div className="flex justify-end space-x-2">
+          <div className="col-span-2 flex justify-end space-x-2">
             <button type="button" onClick={onRequestClose} className="bg-gray-400 text-white font-medium py-2 px-4 rounded hover:bg-gray-500 transition duration-300">Close</button>
             <button type="submit" className="bg-blue-500 text-white font-medium py-2 px-4 rounded hover:bg-blue-600 transition duration-300">Send</button>
           </div>
