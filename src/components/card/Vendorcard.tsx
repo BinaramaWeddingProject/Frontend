@@ -68,14 +68,13 @@ const VendorCard: React.FC<VendorCardProps> = ({
 
   return (
     <div className="flex justify-center px-4 sm:px-0">
-      <div className="transform scale-75 sm:scale-100 h-auto sm:h-[400px] w-full sm:w-[425px] rounded shadow-xl flex flex-col">
+      <div className="transform scale-95 sm:scale-100 h-auto sm:h-[400px] w-full sm:w-[425px] rounded shadow-xl flex flex-col">
         <Link to={`/vendor/${type.type}/${_id}`}>
           <div className="relative h-[200px]">
             <img src={image} alt={businessName} className="w-full h-full object-cover rounded-t-lg" />
             <div
-              className={`absolute top-4 right-4 ${
-                isInWishlist ? "text-red-600 transform scale-125" : "text-white"
-              }`}
+              className={`absolute top-4 right-4 ${isInWishlist ? "text-red-600 transform scale-125" : "text-white"
+                }`}
             >
               <FaHeart size={25} />
             </div>
@@ -101,7 +100,11 @@ const VendorCard: React.FC<VendorCardProps> = ({
           <div className="text-center mt-4">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="bg-red-600 text-white hover:text-indigo-800 font-extrabold py-2 px-4 rounded transition duration-300 ease-in-out focus:outline-none w-full"
+              className={`${hasSentEnquiry
+                  ? "bg-red-900 hover:bg-red-900"
+                  : "bg-red-600 hover:bg-red-700"
+                } text-white font-extrabold py-2 px-4 rounded transition duration-300 ease-in-out focus:outline-none w-full`}
+              disabled={hasSentEnquiry}
             >
               {hasSentEnquiry ? "Enquiry Sent" : "Send Enquiry"}
             </button>

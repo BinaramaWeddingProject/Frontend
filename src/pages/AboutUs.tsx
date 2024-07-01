@@ -15,7 +15,7 @@ const AboutUs: React.FC = () => {
       imageUrl: '/SeniorEventConsultant.jpg',
     },
     {
-      name: 'Michael Johnson',
+      name: 'Azra Akram ali khan',
       role: 'Senior Event Director',
       imageUrl: '/SeniorEventDirector.jpg',
     },
@@ -121,7 +121,6 @@ const AboutUs: React.FC = () => {
                     width="100%"
                     height="315"
                     controls
-
                   >
                     <source src={videoPath} type="video/mp4" />
                     Your browser does not support the video tag.
