@@ -15,7 +15,7 @@ interface Props {
 
 const Caro: React.FC<Props> = ({ images }) => {
   const slides = images?.map((image) => ({ image }));
-
+  console.log("jghjgj", slides)
   return (
     <ChakraProvider>
       <Box p={4} color="white">

@@ -1,38 +1,30 @@
-// src/pages/AboutUs.tsx
-
 import React from 'react';
 import Footer from '../components/Footer';
 import NavBar from '../components/navbar';
 
-
 const AboutUs: React.FC = () => {
   const teamMembers = [
     {
-      name: 'John Doe',
+      name: 'ABDUL KAREEM',
       role: 'Founder & CEO',
-      imageUrl: 'https://via.placeholder.com/150',
+      imageUrl: '/founderandCEO.jpg',
     },
     {
-      name: 'Jane Smith',
-      role: 'Marketing Manager',
-      imageUrl: 'https://via.placeholder.com/150',
+      name: 'Raziya Kareem',
+      role: 'Senior Event Consultant',
+      imageUrl: '/SeniorEventConsultant.jpg',
     },
     {
       name: 'Michael Johnson',
-      role: 'Lead Developer',
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      name: 'Emily Davis',
-      role: 'Customer Support',
-      imageUrl: 'https://via.placeholder.com/150',
+      role: 'Senior Event Director',
+      imageUrl: '/SeniorEventDirector.jpg',
     },
   ];
 
-  const youtubeVideos = [
-    'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    'https://www.youtube.com/embed/oHg5SJYRHA0',
-    'https://www.youtube.com/embed/tVj0ZTS4WF4',
+  const localVideos = [
+    '/aboutusvid.mp4', // Update these paths to your actual video file paths
+    '/aboutvid2.mp4',
+    '/aboutvid3.mp4',
   ];
 
   return (
@@ -43,7 +35,7 @@ const AboutUs: React.FC = () => {
           <div className="lg:text-center">
             <h2 className="text-4xl font-extrabold text-gray-900">About Us</h2>
             <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-              Learn more about our company and our mission.
+              Welcome to our wedding planning and vendor services website. We are dedicated to helping you create the wedding of your dreams by connecting you with the best venues and vendors in the industry.
             </p>
           </div>
 
@@ -71,7 +63,7 @@ const AboutUs: React.FC = () => {
                   <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Our Mission</p>
                 </dt>
                 <dd className="mt-2 ml-16 text-base text-gray-500">
-                  Our mission is to provide the best wedding vendor services to couples and make their special day truly memorable.
+                  Our mission is to provide the best wedding vendor services to couples and make their special day truly memorable. We believe that every couple deserves a wedding that reflects their unique love story, and we are committed to making that vision a reality through exceptional service and attention to detail.
                 </dd>
               </div>
 
@@ -97,7 +89,7 @@ const AboutUs: React.FC = () => {
                   <p className="ml-16 text-lg leading-6 font-medium text-gray-900">Our Story</p>
                 </dt>
                 <dd className="mt-2 ml-16 text-base text-gray-500">
-                  We started our journey in 2015 with a passion for creating unforgettable wedding experiences. Since then, we've grown into a leading provider of wedding vendor services, working with talented professionals to make every couple's dream wedding a reality.
+                  Our journey began in 2015 with a passion for creating unforgettable wedding experiences. Founded by John Doe, our company has grown from a small startup into a leading provider of wedding vendor services. With a dedicated team of professionals and a network of top-tier vendors, we have helped hundreds of couples bring their dream weddings to life. Our commitment to excellence and personalized service sets us apart, and we are proud to be a trusted partner in one of life's most important moments.
                 </dd>
               </div>
             </dl>
@@ -105,7 +97,7 @@ const AboutUs: React.FC = () => {
 
           <div className="mt-16">
             <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">Our Team</h3>
-            <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 justify-items-center">
               {teamMembers.map((member, index) => (
                 <div key={index} className="text-center">
                   <img
@@ -122,18 +114,18 @@ const AboutUs: React.FC = () => {
 
           <div className="mt-16">
             <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">Videos</h3>
-            <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-              {youtubeVideos.map((videoUrl, index) => (
-                <div key={index} className="rounded-lg shadow-md overflow-hidden">
-                  <iframe
+            <div className="mt-6  grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+              {localVideos.map((videoPath, index) => (
+                <div key={index} className="rounded-lg shadow-md overflow-hidden ">
+                  <video
                     width="100%"
                     height="315"
-                    src={videoUrl}
-                    title={`YouTube video ${index + 1}`}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+                    controls
+
+                  >
+                    <source src={videoPath} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               ))}
             </div>

@@ -95,7 +95,7 @@ const NavBar: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 bg-[#ff3b3b] text-white flex flex-col items-center justify-center space-y-4 z-10 transition-transform duration-300">
+        <div className="fixed inset-0 bg-[#A31F24]  text-white flex flex-col items-center justify-center space-y-4 z-10 transition-transform duration-300">
           <button onClick={toggleMobileMenu} className="absolute top-4 right-4 text-white">
             <FaTimes size={24} />
           </button>
