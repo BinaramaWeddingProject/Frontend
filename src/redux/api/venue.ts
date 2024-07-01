@@ -53,10 +53,11 @@ export const VenueAPI = createApi({
       invalidatesTags: ["venues"], // Invalidate venues tag after update
     }),
 
-    deleteVenueById: builder.mutation<VenueResponse, string>({
-      query: (id) => ({
+    deleteVenueById: builder.mutation<VenueResponse, {id:string , user:string}>({
+      query: ({id , user}) => ({
         url: `${id}`,
         method: "DELETE",
+        body: user
       }),
       invalidatesTags: ["venues"], // Invalidate venues tag after delete
     }),

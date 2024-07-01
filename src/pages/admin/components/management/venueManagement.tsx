@@ -50,9 +50,9 @@ const VenueManagement: React.FC = () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this Venue?"
     );
-
+    const user = adminId ?? "1213"
     if (confirmDelete) {
-      await deleteVenue(id);
+      await deleteVenue({id , user});
       setReloadTrigger(true);
     }
   };
