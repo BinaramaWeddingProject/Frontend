@@ -1,4 +1,4 @@
-import React from "react";
+
 import NavBar from "../components/navbar";
 import Footer from "../components/Footer";
 import Caro from "../components/Carousel3";

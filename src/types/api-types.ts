@@ -77,6 +77,17 @@ export type AllVenuesResponse = {
   message:string;
   statusCode: number;
   data: Venue[];
+
+};
+
+export type AllTopVenueResponse = {
+  success: boolean;
+  message:string;
+  statusCode: number;
+  data: {
+    venues: Venue[];
+  };
+
 };
 
 export type wishlistResponse = {
@@ -202,3 +213,9 @@ export type BookingResponse= {
   message:string;
   data: Bookings[]
 }
+
+
+export type CitiesResponse = {
+  cities: string[];
+};
+

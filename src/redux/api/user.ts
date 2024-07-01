@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { User } from "../../types/types";
-import { UserResponse , LoggdInUserResponse , AllUserResponse} from "../../types/api-types";
+import { UserResponse , LoggdInUserResponse , AllUserResponse , CitiesResponse} from "../../types/api-types";
 
 const server = import.meta.env.VITE_API_Server;
 export const userAPI =  createApi({
@@ -59,7 +59,7 @@ export const userAPI =  createApi({
             }),
         }),
 
-        getAllCities: builder.query<String[], void>({
+        getAllCities: builder.query<CitiesResponse, void>({
             query: () => ({
                 url: "all/city",
                 method:"GET",

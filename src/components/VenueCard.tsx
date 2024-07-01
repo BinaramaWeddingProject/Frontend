@@ -77,7 +77,7 @@ const VenueCard: React.FC<VenueProps> = ({ venue }) => {
       <div className="relative md:w-1/2 h-56 md:h-80">
         <img
           src={venue?.images[currentImageIndex]}
-          src={venue?.images[currentImageIndex]}
+       
           alt={`Venue ${currentImageIndex}`}
           className="w-full h-full object-cover"
         />
