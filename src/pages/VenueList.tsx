@@ -38,7 +38,7 @@ function VenueList() {
   const handleFilterChange = (newFilters: any) => {
     // Remove undefined values from filters
     const cleanFilters = Object.fromEntries(
-      Object.entries(newFilters).filter(([, v]) => v != null && v !== '')
+      Object.entries(newFilters).filter(([, v]) => v != null && v !== '')//removes spaces
     );
     setFilters(cleanFilters);
   };

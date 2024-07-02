@@ -3,16 +3,14 @@ import Carousel from '../components/Carousel';
 import VenuePriceCard from '../components/VenuePriceCard';
 import SlimVenueCard from '../components/SlimVenueCard';
 import VenueAboutCard from '../components/VenueAboutCard';
-import VenueBooking from '../components/VenueBookings';
+
 import RatingsAndReviews from '../components/RatingsAndReviews';
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
-import VenueLocation from '../components/VenueLocation';
-import ScheduleVisit from '../components/ScheduleVisit';
+
 import VenueImageCarousel from '../components/VenueImageCarousel';
 import VenuePolicies from '../components/VenuePolicies';
 import RelatedArticles from '../components/RelatedArticles';
-import ContactForm from '../components/ContactForm';
 import VenueSummary from '../components/VenueSummary';
 import FAQSection from '../components/FaqSection';
 
@@ -24,9 +22,9 @@ const VenueServicePage = () => {
   const { data: venue } = useGetVenueByIdQuery(id ? id : "");
   const venueData = venue?.data.venue;
 
-  const handleContactFormSubmit = (phoneNumber:string) => {
-    console.log('Phone number submitted:', phoneNumber);
-  };
+  // const handleContactFormSubmit = (phoneNumber:string) => {
+  //   console.log('Phone number submitted:', phoneNumber);
+  // };
 
   const venuePolicies = {
     timings: "11:00 PM",
@@ -77,13 +75,13 @@ const VenueServicePage = () => {
   //   alert('Contact button clicked!');
   // };
 
-  const checkAvailability = (date:any) => {
-    return date.getDay() % 2 === 0; // Example: available on even days
-  };
+  // const checkAvailability = (date:any) => {
+  //   return date.getDay() % 2 === 0; // Example: available on even days
+  // };
 
-  const handleScheduleVisit = (date:any, time:any) => {
-    alert(`Scheduled visit on ${date.toDateString()} at ${time}`);
-  };
+  // const handleScheduleVisit = (date:any, time:any) => {
+  //   alert(`Scheduled visit on ${date.toDateString()} at ${time}`);
+  // };
 
   return (
     <div className="bg-gray-100">

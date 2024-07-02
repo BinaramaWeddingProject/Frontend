@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AllVenuesResponse, MessageResponse, VenueResponse, LoggdInVenueResponse } from "../../types/api-types";
+import { AllVenuesResponse, MessageResponse, VenueResponse, LoggdInVenueResponse , AllTopVenueResponse } from "../../types/api-types";
 import { Venue } from "../../types/types";
 
 // Ensure VITE_API_Server is properly defined in your environment
@@ -62,7 +62,7 @@ export const VenueAPI = createApi({
       invalidatesTags: ["venues"], // Invalidate venues tag after delete
     }),
 
-    rankedVenues: builder.query<AllVenuesResponse, void>({
+    rankedVenues: builder.query<AllTopVenueResponse, void>({
       query: () => ({
         url: "/ranked/venues",
         method: "GET",

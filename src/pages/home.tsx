@@ -9,7 +9,7 @@ import { useGetAllRealWeddingsQuery } from '../redux/api/realWeddings';
 import VenueCard from "../components/VenueCard";
 import SkeletonBlogCard from "../components/skeleton/Blog";
 import SkeletonRealWeddingCard from "../components/skeleton/RealWedding";
-import { AllVenuesResponse } from "../types/api-types";
+
 import { Blog, RealWeddings } from '../types/types';
 import { useGetAllCitiesQuery } from '../redux/api/user';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,13 +28,20 @@ const Home: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const venues = venuesData?.data?.venues as AllVenuesResponse['data']['venues'] || [];
+ 
+
+
+  // setAllvenue(ven)
+  // console.log(sumit)   
+
+  const venues = venuesData?.data || [];
   const blogs = blogData?.data.blog || [];
   const realWeddings = realWeddingsData?.data.realWeddings || [];
   const cities = cityData?.cities || [];
 
   const city = useSelector((state: RootState) => state?.auth?.city);
   console.log("data", city);
+  // console.log("sokhi" , venues)
 
   // Handle error appropriately based on its type
   const errorMessageVenues = venuesError 
@@ -60,7 +67,7 @@ const Home: React.FC = () => {
     dispatch(cityStatus(event.target.value)); // Assuming cityStatus is a Redux action creator
   };
 
-  console.log("cityy: ", selectedCity);
+  // console.log("cityy: ", selectedCity);
   
   return (
     <div>
@@ -81,7 +88,9 @@ const Home: React.FC = () => {
               <select
                 value={selectedCity}
                 onChange={handleCityChange}
-                className="w-full px-6 py-2 sm:px-10 sm:py-3 border border-gray-300 opacity-80 rounded-full bg-white bg-opacity-90 text-gray-900 focus:ring focus:ring-indigo-300 focus:outline-none transition duration-300"
+                className="w-full px-6 py-2 sm:px-10 sm:py-3 border border-gray-300 opacity-80
+                 rounded-full bg-white bg-opacity-90 text-gray-900
+                  focus:ring focus:ring-indigo-300 focus:outline-none transition duration-300"
               >
                 <option value="">Select City</option>
                 {cities.map((city: any) => (

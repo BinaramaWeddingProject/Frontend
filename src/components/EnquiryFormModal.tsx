@@ -17,9 +17,9 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
     guests: '',
     date: '',
     address: '',
-    message: ''
+    message: '',
+    typeOfEvent: ''  // New field added
   });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -109,6 +109,18 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
               id="address"
               name="address"
               value={formData.address}
+              onChange={handleChange}
+              required
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1" htmlFor="typeOfEvent">Type of Event:</label>
+            <input
+              type="text"
+              id="typeOfEvent"
+              name="typeOfEvent"
+              value={formData.typeOfEvent}
               onChange={handleChange}
               required
               className="w-full p-2 border border-gray-300 rounded"

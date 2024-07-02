@@ -227,10 +227,10 @@ const Wishlist = () => {
         (item) => item.itemType === "venue"
       );
 
-      const allVenues = allVenuesData.data.venues;
+      const allVenues = allVenuesData.data;
       const allVendors = allVendorsData.data.vendors;
 
-      const filteredVenues = allVenues.filter((venue) =>
+      const filteredVenues = allVenues.filter((venue:any) =>
         wishlistVenueItems.some((item) => item.itemId === venue._id)
       );
       const filteredVendors = allVendors.filter((vendor) =>
