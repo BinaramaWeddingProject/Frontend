@@ -84,10 +84,8 @@ export type AllTopVenueResponse = {
   success: boolean;
   message:string;
   statusCode: number;
-  data: {
-    venues: Venue[];
-  };
-
+  data :Venue[];
+  
 };
 
 export type wishlistResponse = {

@@ -41,6 +41,7 @@ import {AdminProtectedRoutes , VendorProtectedRoutes , VenueProtectedRoutes , Us
 import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
 
 
+// import PopUp from "./components/PopUp"
 
 
 const App: React.FC = () => {

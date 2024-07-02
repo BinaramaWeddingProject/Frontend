@@ -6,7 +6,7 @@ import { RootState } from '../redux/store';
 
 const PopUp = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
-  const [seconds, setSeconds] = useState(20); // Adjusted back to 60 seconds
+  const [seconds, setSeconds] = useState(10); // Adjusted back to 60 seconds
   // const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const PopUp = () => {
     if (isLoggedIn) {
       setShowLoginPopup(false);
       // Reset timer when logged in
-      setSeconds(20);
+      setSeconds(10);
     }
   }, [isLoggedIn]);
 

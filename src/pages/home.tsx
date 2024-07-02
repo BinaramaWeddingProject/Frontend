@@ -28,19 +28,20 @@ const Home: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  // console.log("sokhi" , cityData)
+ 
 
 
   // setAllvenue(ven)
   // console.log(sumit)   
 
-  const venues = venuesData?.data?.venues || [];
+  const venues = venuesData?.data || [];
   const blogs = blogData?.data.blog || [];
   const realWeddings = realWeddingsData?.data.realWeddings || [];
   const cities = cityData?.cities || [];
 
   const city = useSelector((state: RootState) => state?.auth?.city);
   console.log("data", city);
+  // console.log("sokhi" , venues)
 
   // Handle error appropriately based on its type
   const errorMessageVenues = venuesError 

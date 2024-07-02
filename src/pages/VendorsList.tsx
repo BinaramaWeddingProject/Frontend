@@ -26,8 +26,8 @@ interface VendorsListProps {
 const VendorsList: React.FC<VendorsListProps> = ({
   // NumberOfArticleCards = 10,
   Search = "Search Artists By Name",
-  Img = "/public/wv_cover.jpg",
-  ImgTitle2 = "mumbai",
+  Img = "/wv_cover.jpg",
+  ImgTitle2 = "weddingImage",
 }) => {
   // const ArticleCardsArray = Array.from({ length: NumberOfArticleCards });
   const { data, error, isLoading } = useAllVendorQuery("");
