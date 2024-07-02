@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import React, { useEffect, useState } from "react";
 import { FaCheck, FaEye, FaTimes, FaTrash, FaPencilAlt, FaSave } from "react-icons/fa";
 import { useAllVenueQuery } from "../../../../redux/api/venue";
@@ -50,9 +50,9 @@ const VenueManagement: React.FC = () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this Venue?"
     );
-
+    const user = adminId ?? "1213"
     if (confirmDelete) {
-      await deleteVenue(id);
+      await deleteVenue({id , user});
       setReloadTrigger(true);
     }
   };
@@ -62,7 +62,9 @@ const VenueManagement: React.FC = () => {
   };
 
   const handleRankChange = async (id: string, newRank: number) => {
-    const clampedRank = Math.min(Math.max(newRank, 1), 10);
+    console.log("newrank" ,newRank )
+     const clampedRank = Math.min(Math.max(newRank, 0), 10);
+    // const clampedRank = newRank
 
     const res = await verify({ id, venue: { rank: clampedRank } });
     console.log("Rank updated:", res);

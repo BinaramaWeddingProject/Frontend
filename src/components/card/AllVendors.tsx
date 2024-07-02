@@ -9,7 +9,7 @@ import { GiMagicHat } from "react-icons/gi";
 import { GiFog } from "react-icons/gi";
 // import { GiWaiter } from "react-icons/gi";
 import { GiGlassCelebration } from "react-icons/gi";
-import { GiBeerBottle } from "react-icons/gi";
+// import { GiBeerBottle } from "react-icons/gi";
 import { FiChevronRight } from "react-icons/fi";
 
 // New icons
@@ -19,9 +19,9 @@ import { FaMusic } from "react-icons/fa"; // for AiFillMusic
 import { FaGamepad } from "react-icons/fa"; // for GiBoxTrap
 import { FaMicrophoneAlt } from "react-icons/fa"; // for GiMicrophone
 import { FaMicrophone } from "react-icons/fa"; // for GiSinger
-import { FaUserTie } from "react-icons/fa"; // for GiGirl
+// import { FaUserTie } from "react-icons/fa"; // for GiGirl
 import { FaParking } from "react-icons/fa"; // for GiParkingGarage
-import { FaDoorOpen } from "react-icons/fa"; // for GiTurnstile
+// import { FaDoorOpen } from "react-icons/fa"; // for GiTurnstile
 import { FaCarSide } from "react-icons/fa"; // for GiCarSideview
 import { MdOutlineFoodBank } from "react-icons/md";
 import { GiHeartWings } from "react-icons/gi";
