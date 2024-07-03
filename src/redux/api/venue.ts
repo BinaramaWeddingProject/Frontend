@@ -44,21 +44,13 @@ export const VenueAPI = createApi({
       providesTags: ["venues"], // Tags for caching
     }),
 
-    updateVenue: builder.mutation<MessageResponse, { id: string; venue: Venue, images: File[] }>({
-      query: ({ id, venue, images }) => {
-        const formData = new FormData();
-        formData.append('venue', JSON.stringify(venue));
-        images.forEach((image) => {
-          formData.append('images', image);
-        });
-
-        return {
-          url: `${id}`,
-          method: "PUT",
-          body: formData,
-        };
-      },
-      invalidatesTags: ["venues"],
+    updateVenue: builder.mutation<MessageResponse, { venueId: string; formData: any }>({
+      query: ({ venueId, formData }) => ({
+        url: `${venueId}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["venues"], // Invalidate venues tag after update
     }),
 
     deleteVenueById: builder.mutation<VenueResponse, {id:string , user:string}>({
