@@ -5,7 +5,7 @@ import { Bookings } from "../../types/types";
 export const bookingAPI = createApi({
   reducerPath: "bookingApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api/v1/bookings/",
+    baseUrl: "http://localhost:9000/api/v1/bookings/",
   }),
 
   endpoints: (builder) => ({
@@ -28,6 +28,17 @@ export const bookingAPI = createApi({
         params: {uId}
       }),
     }),
+
+
+    getBookingbyId: builder.query< BookingResponse,
+    { vId: string }
+  >({
+    query: ({ vId }) => ({
+      url: `${vId}`,
+      method: "GET",
+      // params: {uId}
+    }),
+  }),
 
 //     getNotificationById: builder.query<NotificationtResponse, { vId: string }>({
 //       query: ({ vId }) => ({
@@ -65,4 +76,4 @@ export const bookingAPI = createApi({
 })
 });
 
-export const { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery } = bookingAPI;
+export const { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery, useGetBookingbyIdQuery } = bookingAPI;

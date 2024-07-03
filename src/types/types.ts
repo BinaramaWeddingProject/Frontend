@@ -155,6 +155,7 @@ export interface Notification{
   date?: Date;
   address?: string;
   message?: string;
+  typeOfEvent?: string;
   bookingId?: string;   
   isVerified?: 'Approved' | 'Rejected' | 'Pending';
  }
