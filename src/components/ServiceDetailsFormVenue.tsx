@@ -1,15 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useState, ChangeEvent, FormEvent } from "react";
 import Caro from "./Carousel3";
-
 import { useUpdateVenueMutation } from "../redux/api/venue";
-
-// interface Package {
-//     name: string;
-//     days: string;
-//     phone: string;
-//     minAdvance: string;
-// }
 
 interface Props {
   phone?: string;
@@ -18,13 +9,12 @@ interface Props {
   guestCapacity?: string | undefined;
   howToReach?: string | undefined;
   summary?: string;
-  venuePolicies: string | undefined;
+  venuePolicies?: string | undefined;
   id?: string | undefined;
-  foodPackages?:string | undefined;
+  foodPackages?: string | undefined;
   venueType?: string[] | undefined;
   facilities?: string[] | undefined;
 }
-
 const ServiceDetailsFormVenue: React.FC<Props> = ({
   phone,
   images,
@@ -36,127 +26,114 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
   id,
   foodPackages,
   venueType,
-  facilities
+  facilities,
 }) => {
   const [updateVenue] = useUpdateVenueMutation();
-
-  console.log("venuePolicies", venuePolicies);
-
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState<Props>({
-    phone: "", // Initial value for 'phone' property
+    phone: "",
     images: undefined,
     featuresOfVenue: "",
     guestCapacity: "",
     howToReach: "",
     summary: "",
     venuePolicies: "",
-    foodPackages:"",
+    foodPackages: "",
     venueType: [],
-    facilities:[]
-    // Initialize as empty array
+    facilities: [],
   });
-  // Function to handle input changes
+
   // Function to handle input changes
   const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-
-    // If the input name starts with "venuePolicies.", update the venuePolicies state
-    // if (name.startsWith("venuePolicies.")) {
-    //     const packageName = name.split(".")[1]; // Extract the package property name
-    //     setFormData((prevState: Props) => ({
-    //         ...prevState,
-    //         venuePolicies: {
-    //             ...prevState.venuePolicies,
-    //             name: prevState.venuePolicies?.name || '',
-    //             days: prevState.venuePolicies?.days || '',
-    //             phone: prevState.venuePolicies?.phone || '',
-    //             minAdvance: prevState.venuePolicies?.minAdvance || '',
-    //             [packageName]: value
-    //         }
-    //     }));
-
-    // } else {
-    //     // If it's not a package property, update the top-level state properties
-    //     if (type === 'checkbox') {
-    //         const isChecked = (e.target as HTMLInputElement).checked;
-    //         setFormData(prevState => ({
-    //             ...prevState,
-    //             [name]: isChecked
-    //         }));
-    //     } else {
-    setFormData((prevState) => ({
-      ...prevState,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
     }));
-    //         }
-    //     }
+  };
+
+  // Function to handle file input change
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const fileArray = Array.from(e.target.files).map((file: File) =>
+        URL.createObjectURL(file)
+      );
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        images: fileArray, // Update images to be an array of strings (URLs)
+      }));
+    }
+    console.log("form ka data", formData)
+  };
+  // Function to handle checkbox changes for venue type and facilities
+  const handleCheckboxChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    type: "venueType" | "facilities"
+  ) => {
+    const { value, checked } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [type]: checked
+        ? [...(prevFormData[type] || []), value]
+        : (prevFormData[type] || []).filter((item) => item !== value),
+    }));
   };
 
   // Function to handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Here you can submit the updated data (formData) to your backend or perform any other action
-    console.log("Updated Data:", formData);
+    // Prepare form data to send to backend
+    const formDataToSend = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === "images") {
+        // Append each image file to FormData
+        if (value) {
+          (value as File[]).forEach((file, index) => {
+            formDataToSend.append(`images_${index}`, file);
+          });
+        }
+      } else if (Array.isArray(value)) {
+        // Append array values
+        value.forEach((item) => formDataToSend.append(`${key}[]`, item));
+      } else {
+        formDataToSend.append(key, value as string);
+      }
+    });
+
+    // Submit formDataToSend to backend API
+    console.log("FormData to send:", formDataToSend);
     if (!id) return;
-    const res = await updateVenue({ id, venue: formData });
+    const res = await updateVenue({ id, venue: formDataToSend });
+
     // Exit editing mode
-    console.log("here is res", res);
+    console.log("Response from backend:", res);
     setEditing(false);
   };
+  
+    // Function to handle edit button click
+    const handleEditClick = () => {
+      // Populate formData state with current values
+      setFormData({
+        phone: phone || "",
+        images: images || [],
+        featuresOfVenue: featuresOfVenue || "",
+        guestCapacity: guestCapacity || "",
+        howToReach: howToReach || "",
+        summary: summary || "",
+        foodPackages: foodPackages || "",
+        venuePolicies: venuePolicies || "",
+        venueType: venueType || [],
+        facilities: facilities || [],
+      });
+  
+      // Enter editing mode
+      setEditing(true);
+    };
 
-  const handleVenueTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    setFormData((prevState) => {
-      const updatedVenueType = checked
-        ? [...(prevState.venueType || []), value]
-        : (prevState.venueType || []).filter((type) => type !== value);
-      return {
-        ...prevState,
-        venueType: updatedVenueType,
-      };
-     
-    });
-  };
-
-  //facilities
-  const handleFacilitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    setFormData((prevState) => {
-      const updatedFacilities = checked
-        ? [...(prevState.facilities || []), value]
-        : (prevState.facilities || []).filter((type) => type !== value);
-      return {
-        ...prevState,
-        facilities: updatedFacilities,
-      };
-    });
-  };
-
-  // Function to handle edit button click
-  const handleEditClick = () => {
-    // Populate the formData state with the current values
-    setFormData({
-      phone: phone || "",
-      images: images || [],
-      featuresOfVenue: featuresOfVenue || "",
-      guestCapacity: guestCapacity || "",
-      howToReach: howToReach || "",
-      summary: summary || "",
-      foodPackages: foodPackages || "",
-      venuePolicies: venuePolicies || "",
-      venueType: venueType || [], // Ensure this is initialized as an array
-    });
-
-    // Enter editing mode
-    setEditing(true);
-  };
-
+  // Options for venue types and facilities
   const venueTypeOptions = [
     "Conference Halls",
     "Banquet Hall",
@@ -167,31 +144,29 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
     "Resorts",
     "Community Centers",
   ];
-const facilitiesOptions  = [
-       "Food provided by venue",
-        "Alcohol allowed",
-        "Outside food allowed",
-        "Music allowed late",
-        "Valet parking",
-        "Sea view",
-        "Catering services",
-        "Live music",
-        "City view",
-        "Open bar",
-        "AV equipment",
-        "Free WiFi",
-        "Swimming pool",
-        "Spa services",
-        "Ample parking",
-        "Air conditioning",
-        "Private beach",
-        "Water sports",
-        "In-house decor",
-        "DJ services",
-]
 
-  console.log("Pack", venuePolicies);
-  console.log("optikns" , venueType)
+  const facilitiesOptions = [
+    "Food provided by venue",
+    "Alcohol allowed",
+    "Outside food allowed",
+    "Music allowed late",
+    "Valet parking",
+    "Sea view",
+    "Catering services",
+    "Live music",
+    "City view",
+    "Open bar",
+    "AV equipment",
+    "Free WiFi",
+    "Swimming pool",
+    "Spa services",
+    "Ample parking",
+    "Air conditioning",
+    "Private beach",
+    "Water sports",
+    "In-house decor",
+    "DJ services",
+  ];
 
   return (
     <div className="bg-gray-200 rounded-lg p-8 mx-auto max-w-full mb-12">
@@ -204,7 +179,7 @@ const facilitiesOptions  = [
                   htmlFor="phone"
                   className="block mb-4 font-bold text-2xl text-[#110069]"
                 >
-                  Contact :
+                  Contact:
                 </label>
                 <input
                   type="text"
@@ -220,20 +195,21 @@ const facilitiesOptions  = [
                   htmlFor="images"
                   className="block mb-4 font-bold text-2xl text-[#110069]"
                 >
-                  images:
+                  Images:
                 </label>
                 <input
                   type="file"
                   id="images"
                   name="images"
-                  onChange={handleInputChange}
+                  onChange={handleFileChange}
                   multiple
+                  accept="image/*"
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
               <div className="mb-10 border-b pb-8">
                 <label
-                  htmlFor="yearsOffeaturesOfVenue"
+                  htmlFor="featuresOfVenue"
                   className="block mb-4 font-bold text-2xl text-[#110069]"
                 >
                   Features Of Venue:
@@ -247,13 +223,12 @@ const facilitiesOptions  = [
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
-
               <div className="mb-10 border-b pb-8">
                 <label
                   htmlFor="foodPackages"
                   className="block mb-4 font-bold text-2xl text-[#110069]"
                 >
-                  FoodPackages:
+                  Food Packages:
                 </label>
                 <input
                   type="text"
@@ -264,7 +239,6 @@ const facilitiesOptions  = [
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
-
               <div className="mb-10 border-b pb-8">
                 <label
                   htmlFor="venueType"
@@ -281,7 +255,7 @@ const facilitiesOptions  = [
                         name="venueType"
                         value={option}
                         checked={formData.venueType?.includes(option) || false}
-                        onChange={handleVenueTypeChange}
+                        onChange={(e) => handleCheckboxChange(e, "venueType")}
                         className="mr-2"
                       />
                       <label htmlFor={`venueType-${option}`}>{option}</label>
@@ -289,7 +263,6 @@ const facilitiesOptions  = [
                   ))}
                 </div>
               </div>
-
               <div className="mb-10 border-b pb-8">
                 <label
                   htmlFor="facilities"
@@ -306,7 +279,7 @@ const facilitiesOptions  = [
                         name="facilities"
                         value={option}
                         checked={formData.facilities?.includes(option) || false}
-                        onChange={handleFacilitiesChange}
+                        onChange={(e) => handleCheckboxChange(e, "facilities")}
                         className="mr-2"
                       />
                       <label htmlFor={`facilities-${option}`}>{option}</label>
@@ -314,29 +287,9 @@ const facilitiesOptions  = [
                   ))}
                 </div>
               </div>
-
-
               <div className="mb-10 border-b pb-8">
                 <label
-                  htmlFor="yearsOffeaturesOfVenue"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
-                  Features Of Venue:
-                </label>
-                <input
-                  type="text"
-                  id="featuresOfVenue"
-                  name="featuresOfVenue"
-                  value={formData.featuresOfVenue}
-                  onChange={handleInputChange}
-                  className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
-                />
-              </div>
-
-
-              <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="eventsCompleted"
+                  htmlFor="guestCapacity"
                   className="block mb-4 font-bold text-2xl text-[#110069]"
                 >
                   Guest Capacity:
@@ -363,7 +316,7 @@ const facilitiesOptions  = [
                   name="howToReach"
                   value={formData.howToReach}
                   onChange={handleInputChange}
-                  className="mr-2 bg-white text-[#110069]"
+                  className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
               <div className="mb-10 border-b pb-8">
@@ -378,10 +331,9 @@ const facilitiesOptions  = [
                   name="summary"
                   value={formData.summary}
                   onChange={handleInputChange}
-                  className="w-3/4 h-32 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
+                  className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
-
               <div className="mb-10 border-b pb-8">
                 <label
                   htmlFor="venuePolicies"
@@ -389,27 +341,15 @@ const facilitiesOptions  = [
                 >
                   Venue Policies:
                 </label>
-
-                <div className="flex gap-4 mb-4">
-                  <input
-                    type="text"
-                    id="venuePolicies"
-                    name="venuePolicies"
-                    value={formData?.venuePolicies}
-                    onChange={handleInputChange}
-                    placeholder="Package Name"
-                    className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
-                  />
-                </div>
-
-                {/* <button
-                                    type="button"
-                                    //  onClick={() => }
-                                    className="bg-white text-[#110069] px-4 py-2 rounded-md"
-                                >
-                                    Add Package
-                                </button> */}
+                <textarea
+                  id="venuePolicies"
+                  name="venuePolicies"
+                  value={formData.venuePolicies}
+                  onChange={handleInputChange}
+                  className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
+                />
               </div>
+              {/* Submit button */}
               <button
                 type="submit"
                 className="bg-white text-[#110069] px-8 py-4 rounded-md text-xl"
