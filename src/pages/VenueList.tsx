@@ -51,7 +51,7 @@ function VenueList() {
     return <Universal />;
   }
 
-  console.log("venue" , allVenues  , allowedVenues)
+  console.log("venue"   , allowedVenues)
   return (
     <div className="flex flex-col min-h-screen  bg-[#fffdd0]">
       <NavBar />
