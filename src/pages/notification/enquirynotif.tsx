@@ -26,7 +26,7 @@ const EnquiryNotif = () => {
     if(!data){
         return "no new notification"
     };
-
+// const { data: notif } = useGetBookingByUserAndVenueQuery({ vId: vId as string, uId:'' })
 
     // const { data: notif } = useGetAllNotificationByVIdQuery({ vId: vId as string });
     // const [updateNotification] = useUpdateNotificationMutation();
@@ -48,12 +48,12 @@ const EnquiryNotif = () => {
     // }, [notif]);
 
     const handleMarkAsRead = async (notificationId: string) => {
-        // try {
-        //     await updateNotification({ vId: vId as string, nId: notificationId });
-        //     setReadUsers(prevState => [...prevState, notificationId]);
-        // } catch (error) {
-        //     console.error("Error marking notification as read:", error);
-        // }
+        try {
+            await useGetBookingByUserAndVenueQuery({ vId: vId as string, uId:'' })
+            setReadUsers(prevState => [...prevState, notificationId]);
+        } catch (error) {
+            console.error("Error marking notification as read:", error);
+        }
     }
 
     return (
@@ -71,11 +71,11 @@ const EnquiryNotif = () => {
                         <p className="text-gray-600">Message: {user.message}</p>
                     </div>
                     <button
-                        onClick={() => handleMarkAsRead(user._id)}
-                        className={`font-bold py-2 px-4 rounded ${notificationStatus[index] === 'read' || readUsers.includes(user._id) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
+                        onClick={() => handleMarkAsRead(user._uId)}
+                        className={`font-bold py-2 px-4 rounded ${notificationStatus[index] === 'read' || readUsers.includes(user._uId) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
                     >
                         {/* {notificationStatus[index] === 'read' ? 'Marked as Read' : 'Mark as Read' }!! {readUsers.includes(user.notificationId) ? 'Marked as Read' : 'Mark as Read'} */}
-                        {notificationStatus[index] === 'read' || readUsers.includes(user._id) ? 'Marked as Read' : 'Mark as read' }
+                        {notificationStatus[index] === 'read' || readUsers.includes(user._uId) ? 'Marked as Read' : 'Mark as read' }
                     </button>
                 </div>
             ))}

@@ -20,9 +20,9 @@ export const bookingAPI = createApi({
 
     getBookingByUserAndVenue: builder.query<
       BookingResponse,
-      { uId: string; vId: string }
+      { vId: string; uId: string }
     >({
-      query: ({ uId, vId }) => ({
+      query: ({ vId, uId }) => ({
         url: `/bookings/${vId}`,
         method: "GET",
         params: {uId}
