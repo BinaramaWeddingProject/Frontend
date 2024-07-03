@@ -39,7 +39,7 @@ import NewRealWedding from "./pages/admin/components/profile/realWedding/newReal
 
 import {AdminProtectedRoutes , VendorProtectedRoutes , VenueProtectedRoutes , UserProtectedRoutes} from "./utils/ProtectedRoutes";
 import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
-import UpdateVenueComponent from "./pages/Test";
+// import UpdateVenueComponent from "./pages/Test";
 
 // import PopUp from "./components/PopUp"
 
@@ -55,7 +55,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/test" element={<UpdateVenueComponent />} />
+            {/* <Route path="/test" element={<UpdateVenueComponent />} /> */}
           
             <Route path="/Signup" element={<Signup />} />
             <Route path="/userregister" element={<UserRegister />} />

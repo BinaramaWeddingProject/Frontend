@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect } from "react";
 import Caro from "./Carousel3";
 import { useUpdateVenueMutation } from "../redux/api/venue";
 
@@ -9,131 +9,152 @@ interface Props {
   guestCapacity?: string | undefined;
   howToReach?: string | undefined;
   summary?: string;
-  venuePolicies?: string | undefined;
+  venuePolicies?: string | undefined; // Ensure this is optional
   id?: string | undefined;
   foodPackages?: string | undefined;
   venueType?: string[] | undefined;
   facilities?: string[] | undefined;
 }
+
 const ServiceDetailsFormVenue: React.FC<Props> = ({
-  phone,
-  images,
-  featuresOfVenue,
-  guestCapacity,
-  howToReach,
-  summary,
-  venuePolicies,
-  id,
-  foodPackages,
-  venueType,
-  facilities,
+  phone = "",
+  images = [],
+  featuresOfVenue = "",
+  guestCapacity = "",
+  howToReach = "",
+  summary = "",
+  venuePolicies = "",
+  id = "",
+  foodPackages = "",
+  venueType = [],
+  facilities = [],
 }) => {
   const [updateVenue] = useUpdateVenueMutation();
+
   const [editing, setEditing] = useState(false);
+  const [imagedata, setImageData] = useState<File[]>([]);
   const [formData, setFormData] = useState<Props>({
-    phone: "",
-    images: undefined,
-    featuresOfVenue: "",
-    guestCapacity: "",
-    howToReach: "",
-    summary: "",
-    venuePolicies: "",
-    foodPackages: "",
-    venueType: [],
-    facilities: [],
+    phone,
+    images,
+    featuresOfVenue,
+    guestCapacity,
+    howToReach,
+    summary,
+    venuePolicies,
+    id,
+    foodPackages,
+    venueType,
+    facilities,
   });
 
-  // Function to handle input changes
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  // Update formData when props change (e.g., on edit)
+  useEffect(() => {
+    setFormData({
+      phone,
+      images,
+      featuresOfVenue,
+      guestCapacity,
+      howToReach,
+      summary,
+      venuePolicies,
+      id,
+      foodPackages,
+      venueType,
+      facilities,
+    });
+  }, [phone, images, featuresOfVenue, guestCapacity, howToReach, summary, venuePolicies, id, foodPackages, venueType, facilities]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    setFormData((prevState) => ({
+      ...prevState,
       [name]: value,
     }));
   };
 
-  // Function to handle file input change
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const fileArray = Array.from(e.target.files).map((file: File) =>
-        URL.createObjectURL(file)
-      );
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        images: fileArray, // Update images to be an array of strings (URLs)
-      }));
+      setImageData(Array.from(e.target.files));
     }
-    console.log("form ka data", formData)
-  };
-  // Function to handle checkbox changes for venue type and facilities
-  const handleCheckboxChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    type: "venueType" | "facilities"
-  ) => {
-    const { value, checked } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [type]: checked
-        ? [...(prevFormData[type] || []), value]
-        : (prevFormData[type] || []).filter((item) => item !== value),
-    }));
   };
 
-  // Function to handle form submission
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleVenueTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setFormData((prevState) => {
+      const updatedVenueType = checked
+        ? [...(prevState.venueType || []), value]
+        : (prevState.venueType || []).filter((type) => type !== value);
+      return {
+        ...prevState,
+        venueType: updatedVenueType,
+      };
+     
+    });
+  };
+
+  //facilities
+  const handleFacilitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setFormData((prevState) => {
+      const updatedFacilities = checked
+        ? [...(prevState.facilities || []), value]
+        : (prevState.facilities || []).filter((type) => type !== value);
+      return {
+        ...prevState,
+        facilities: updatedFacilities,
+      };
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Prepare form data to send to backend
     const formDataToSend = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key === "images") {
-        // Append each image file to FormData
-        if (value) {
-          (value as File[]).forEach((file, index) => {
-            formDataToSend.append(`images_${index}`, file);
-          });
-        }
-      } else if (Array.isArray(value)) {
-        // Append array values
-        value.forEach((item) => formDataToSend.append(`${key}[]`, item));
-      } else {
-        formDataToSend.append(key, value as string);
+
+    // Append each field from formData that are not files
+    Object.keys(formData).forEach((key) => {
+      if (key !== 'images') {
+        formDataToSend.append(key, String(formData[key]));
       }
     });
 
-    // Submit formDataToSend to backend API
-    console.log("FormData to send:", formDataToSend);
-    if (!id) return;
-    const res = await updateVenue({ id, venue: formDataToSend });
+    // Append images if they exist
+    imagedata.forEach((image) => {
+      formDataToSend.append('images', image);
+    });
 
-    // Exit editing mode
-    console.log("Response from backend:", res);
+    try {
+      const result = await updateVenue({ venueId: id || "", formData: formDataToSend }).unwrap();
+      console.log('Venue updated:', result);
+      // Handle success (e.g., show a success message, redirect)
+    } catch (error) {
+      console.error('Failed to update venue:', error);
+      // Handle error (e.g., show error message)
+    }
+
     setEditing(false);
   };
-  
-    // Function to handle edit button click
-    const handleEditClick = () => {
-      // Populate formData state with current values
-      setFormData({
-        phone: phone || "",
-        images: images || [],
-        featuresOfVenue: featuresOfVenue || "",
-        guestCapacity: guestCapacity || "",
-        howToReach: howToReach || "",
-        summary: summary || "",
-        foodPackages: foodPackages || "",
-        venuePolicies: venuePolicies || "",
-        venueType: venueType || [],
-        facilities: facilities || [],
-      });
-  
-      // Enter editing mode
-      setEditing(true);
-    };
 
-  // Options for venue types and facilities
+  const handleEditClick = () => {
+    // Populate the formData state with the current values
+    setFormData({
+      phone,
+      images,
+      featuresOfVenue,
+      guestCapacity,
+      howToReach,
+      summary,
+      venuePolicies,
+      id,
+      foodPackages,
+      venueType,
+      facilities,
+    });
+
+    // Enter editing mode
+    setEditing(true);
+  };
+
   const venueTypeOptions = [
     "Conference Halls",
     "Banquet Hall",
@@ -175,11 +196,8 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
           {editing ? (
             <form onSubmit={handleSubmit}>
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="phone"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
-                  Contact:
+                <label htmlFor="phone" className="block mb-4 font-bold text-2xl text-[#110069]">
+                  Contact :
                 </label>
                 <input
                   type="text"
@@ -191,27 +209,20 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                 />
               </div>
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="images"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="images" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Images:
                 </label>
                 <input
                   type="file"
                   id="images"
                   name="images"
-                  onChange={handleFileChange}
+                  onChange={handleImageChange}
                   multiple
-                  accept="image/*"
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="featuresOfVenue"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="featuresOfVenue" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Features Of Venue:
                 </label>
                 <input
@@ -219,15 +230,13 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   id="featuresOfVenue"
                   name="featuresOfVenue"
                   value={formData.featuresOfVenue}
-                  onChange={handleInputChange}
+                  onChange={handleVenueTypeChange}
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
+
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="foodPackages"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="foodPackages" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Food Packages:
                 </label>
                 <input
@@ -239,11 +248,9 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
+
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="venueType"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="venueType" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Venue Type:
                 </label>
                 <div className="w-3/4 text-lg text-[#110069]">
@@ -255,7 +262,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                         name="venueType"
                         value={option}
                         checked={formData.venueType?.includes(option) || false}
-                        onChange={(e) => handleCheckboxChange(e, "venueType")}
+                        onChange={handleInputChange}
                         className="mr-2"
                       />
                       <label htmlFor={`venueType-${option}`}>{option}</label>
@@ -263,11 +270,9 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   ))}
                 </div>
               </div>
+
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="facilities"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="facilities" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Facilities:
                 </label>
                 <div className="w-3/4 text-lg text-[#110069]">
@@ -279,7 +284,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                         name="facilities"
                         value={option}
                         checked={formData.facilities?.includes(option) || false}
-                        onChange={(e) => handleCheckboxChange(e, "facilities")}
+                        onChange={handleFacilitiesChange}
                         className="mr-2"
                       />
                       <label htmlFor={`facilities-${option}`}>{option}</label>
@@ -287,11 +292,9 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   ))}
                 </div>
               </div>
+
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="guestCapacity"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="guestCapacity" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Guest Capacity:
                 </label>
                 <input
@@ -303,11 +306,9 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
+
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="howToReach"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="howToReach" className="block mb-4 font-bold text-2xl text-[#110069]">
                   How To Reach:
                 </label>
                 <input
@@ -319,11 +320,9 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
+
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="summary"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="summary" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Summary:
                 </label>
                 <textarea
@@ -334,11 +333,9 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
+
               <div className="mb-10 border-b pb-8">
-                <label
-                  htmlFor="venuePolicies"
-                  className="block mb-4 font-bold text-2xl text-[#110069]"
-                >
+                <label htmlFor="venuePolicies" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Venue Policies:
                 </label>
                 <textarea
@@ -349,129 +346,78 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
-              {/* Submit button */}
+
               <button
                 type="submit"
-                className="bg-white text-[#110069] px-8 py-4 rounded-md text-xl"
+                className="px-8 py-3 bg-[#110069] text-white font-bold rounded-lg text-lg hover:bg-[#a6a6a6] mt-4"
               >
                 Update
               </button>
             </form>
           ) : (
-            <>
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">Contact:</p>
-                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                  {phone}
-                </p>
-              </div>
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">
-                  Features Of Venue:
-                </p>
-                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                  {featuresOfVenue}
-                </p>
-              </div>
-
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">
-                  Food Package:
-                </p>
-                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                  {foodPackages}
-                </p>
-              </div>
-
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">
-                  Venue Type:
-                </p>
-                <div className="flex gap-2">
-                  {venueType &&
-                    venueType.map((type, index) => (
-                      <p
-                        key={index}
-                        className="text-lg bg-white text-[#110069] p-2 rounded-md text-center"
-                      >
-                        {type}
-                      </p>
-                    ))}
-                </div>
-              </div>
-
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">
-                Facilities:
-                </p>
-                <div className="flex gap-2">
-                  {facilities &&
-                    facilities.map((type, index) => (
-                      <p
-                        key={index}
-                        className="text-lg bg-white text-[#110069] p-2 rounded-md text-center"
-                      >
-                        {type}
-                      </p>
-                    ))}
-                </div>
-              </div>
-
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">
-                  Guest Capacity:
-                </p>
-                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                  {guestCapacity}
-                </p>
-              </div>
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">
-                  How To Reach:
-                </p>
-                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
-                  {howToReach ? "Yes" : "No"}
-                </p>
-              </div>
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">Summary:</p>
-                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center h-auto w-3/6 mx-auto">
-                  {summary}
-                </p>
-              </div>
-              <div className="mb-8 border-b pb-4">
-                <p className="text-[#110069] text-xl font-bold">
-                  Venue Policies:
-                </p>
-
-                <div className="flex gap-4 mb-4">
-                  <p className="text-lg bg-white text-[#110069] p-2 rounded-md">
-                    {venuePolicies}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-wrap justify-center">
-                <p className="text-[#110069] text-xl font-bold">images:</p>
-                {images &&
-                  images.map((imageUrl, index) => (
-                    <img
-                      key={index}
-                      src={imageUrl}
-                      alt={`images ${index + 1}`}
-                      className="w-48 h-48 object-cover m-2 rounded-md"
-                    />
-                  ))}
-              </div>
+            <div>
+              <h2 className="font-bold text-2xl text-[#110069] mb-4">Service Details</h2>
               <div>
-                <Caro images={images} />
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Contact:</h3>
+                  <p className="text-lg text-[#110069]">{phone}</p>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Images:</h3>
+                  <Caro images={images} />
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Features of Venue:</h3>
+                  <p className="text-lg text-[#110069]">{featuresOfVenue}</p>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Food Packages:</h3>
+                  <p className="text-lg text-[#110069]">{foodPackages}</p>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Venue Type:</h3>
+                  <ul className="list-disc list-inside">
+                    {venueType?.map((type) => (
+                      <li key={type} className="text-lg text-[#110069]">
+                        {type}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Facilities:</h3>
+                  <ul className="list-disc list-inside">
+                    {facilities?.map((facility) => (
+                      <li key={facility} className="text-lg text-[#110069]">
+                        {facility}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Guest Capacity:</h3>
+                  <p className="text-lg text-[#110069]">{guestCapacity}</p>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">How to Reach:</h3>
+                  <p className="text-lg text-[#110069]">{howToReach}</p>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Summary:</h3>
+                  <p className="text-lg text-[#110069]">{summary}</p>
+                </div>
+                <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Venue Policies:</h3>
+                  <p className="text-lg text-[#110069]">{venuePolicies}</p>
+                </div>
               </div>
               <button
                 onClick={handleEditClick}
-                className="bg-white text-[#110069] px-8 py-4 rounded-md mt-2 text-xl"
+                className="px-8 py-3 bg-[#110069] text-white font-bold rounded-lg text-lg hover:bg-[#a6a6a6] mt-4"
               >
                 Edit
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>

@@ -80,10 +80,6 @@ const Home: React.FC = () => {
           }}
         >
           <div className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 -translate-y-16 w-full max-w-md px-4">
-          <div className="text-center mb-8">
-  <h1 className="text-4xl font-bold text-white" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>Weddingz Venue</h1>
-  <p className="text-xl text-white" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>Your Dream Venue Awaits</p>
-</div>
             <div className="relative">
               <select
                 value={selectedCity}
