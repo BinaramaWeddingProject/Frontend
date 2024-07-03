@@ -37,13 +37,14 @@ const VenueManagement: React.FC = () => {
   const handleApproval = async (id: string) => {
     const verificationStatus = "Approved";
     console.log("data");
-    const res = await verify({ id, venue: { isVerified: verificationStatus } });
+    const res = await verify({  venueId: id || "", formData: { isVerified: verificationStatus } });
     console.log("data", res);
   };
 
   const handleRejection = async (id: string) => {
     const verificationStatus = "Rejected";
-    await verify({ id, venue: { isVerified: verificationStatus } });
+    await verify({  venueId: id || "", formData: { isVerified: verificationStatus } });
+   // { vendorId: id || "", formData: formDataToSend }
   };
 
   const handleDelete = async (id: string) => {
@@ -66,7 +67,7 @@ const VenueManagement: React.FC = () => {
      const clampedRank = Math.min(Math.max(newRank, 0), 10);
     // const clampedRank = newRank
 
-    const res = await verify({ id, venue: { rank: clampedRank } });
+    const res = await verify({ venueId: id || "", formData: { rank: clampedRank } });
     console.log("Rank updated:", res);
 
     toggleEditMode(id);

@@ -45,11 +45,11 @@ export const vendorAPI = createApi({
       }),
       invalidatesTags: ["vendors"],
     }),
-    updateVendor: builder.mutation<MessageResponse, { id: string, vendor: Vendor }>({
-      query: ({ id, vendor }) => ({
-        url: `${id}`, // Assuming your update route is like 'http://localhost:8000/api/v1/vendor/:id'
+    updateVendor: builder.mutation<MessageResponse, { vendorId: string, formData: any}>({
+      query: ({ vendorId, formData }) => ({
+        url: `${vendorId}`, // Assuming your update route is like 'http://localhost:8000/api/v1/vendor/:id'
         method: "PUT",
-        body: vendor,
+        body: formData,
       }),
       invalidatesTags: ["vendors"],
     }),

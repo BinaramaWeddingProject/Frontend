@@ -30,8 +30,8 @@ const VendorManagement: React.FC = () => {
   const handleApproval = async (id: string) => {
     const verificationStatus = "Approved"; // Setting the verification status to "Approved"
    await verify({
-      id,
-      vendor: { isVerified: verificationStatus },
+    vendorId: id,
+    formData: { isVerified: verificationStatus },
     });
     // console.log("isverifies", res);
     // console.log("id of vendor", id);
@@ -41,8 +41,8 @@ const VendorManagement: React.FC = () => {
   const handleRejection = async (id: string) => {
     const verificationStatus = "Rejected"; // Setting the verification status to "Approved"
     await verify({
-      id,
-      vendor: { isVerified: verificationStatus },
+      vendorId: id,
+      formData: { isVerified: verificationStatus },
     });
     // console.log("isverifies", res);
     // You may want to perform other actions related to rejection here

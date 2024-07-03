@@ -7,6 +7,33 @@ import { useSignupVenueMutation } from "../redux/api/venue";
 import { styles } from "../styles/style";
 import { useNavigate } from "react-router-dom";
 
+
+const businessCategories = [
+  "Photographer",
+  "MakeupArtist",
+  "MehendiArtist",
+  "Decorator",
+  "Caterer",
+  "BandBaja",
+  "Dhol",
+  "TattooArtist",
+  "Messkot",
+  "Magicians",
+  "FogEvent",
+  "GameCoordinator",
+  "Anchor",
+  "LiveSinger",
+  "WelcomeGirls",
+  "WaiterService",
+  "ValetParking",
+  "DJ",
+  "BirthdayEntry",
+  "JagranSetup",
+  "MataChowkiSetup",
+  "Bartender",
+  "RoomsBooking",
+];
+
 export const VenueRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [register] = useSignupVenueMutation();
@@ -237,19 +264,18 @@ export const VendorRegistrationForm: React.FC = () => {
     validationSchema: Vendor,
     onSubmit: async (values) => {
       values.city = capitalizeFirstLetter(values.city);
-    const res =   await register(values);
-
-      if(res?.data?.success==true){
-        navigate('/login')
+      const res = await register(values);
+      if(res?.data?.success === true){
+        navigate('/login');
       }
     },
   });
-  
+
   function capitalizeFirstLetter(city:any) {
     return city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
   }
-  
 
+  
   const { errors, touched, values, handleChange, handleSubmit } = formik;
   return (
     <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded shadow-md">
@@ -364,15 +390,19 @@ export const VendorRegistrationForm: React.FC = () => {
           <label htmlFor="type_Of_Business" className="block mb-1 font-medium">
             Type Of Business
           </label>
-          <input
+          <select
             id="type_Of_Business"
             name="type_Of_Business"
-            type="text"
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
             onChange={handleChange}
             onBlur={formik.handleBlur}
             value={values.type_Of_Business}
-          />
+          >
+            <option value="" label="Select type of business" />
+            {businessCategories.map((category, index) => (
+              <option key={index} value={category} label={category} />
+            ))}
+          </select>
           {touched.type_Of_Business && errors.type_Of_Business && (
             <div className="text-red-500 mt-1 text-sm">
               {errors.type_Of_Business}
