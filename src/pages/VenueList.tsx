@@ -1,4 +1,4 @@
-import  { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import VenueCard from '../components/VenueCard';
 import NavBar from '../components/navbar';
 import RelatedArticles from '../components/RelatedArticles';
@@ -11,37 +11,35 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
 function VenueList() {
-  const [filters, setFilters] = useState({});
-  const queryString = new URLSearchParams(
-    Object.entries(filters).filter(([, v]) => v !== undefined) as [string, string][]
-  ).toString();
-  const { data, error, isLoading } = useAllVenueQuery(queryString);
+  const [filters, setFilters] = useState<Record<string, string>>({}); // Ensure filters state type
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
-// console.log('helod', data)
-  const updateVenues = useCallback(() => {
+
+  const city = useSelector((state: RootState) => state?.auth?.city);
+
+  const handleFilterChange = useCallback((newFilters: Record<string, string>) => {
+    // Remove empty string values from filters
+    const cleanFilters = Object.fromEntries(
+      Object.entries(newFilters).filter(([, v]) => v !== '')
+    );
+    setFilters(cleanFilters);
+  }, []);
+
+  // const queryString = Object.keys(filters).length > 0
+  //   ? new URLSearchParams(filters as Record<string, string>).toString()
+  //   : '';
+
+  const filterParams = Object.keys(filters).length > 0 ? filters : undefined;
+const { data, error, isLoading } = useAllVenueQuery(filterParams);
+
+  useEffect(() => {
     if (data && Array.isArray(data.data)) {
       setAllVenues(data.data);
     }
   }, [data]);
 
-  const city = useSelector((state : RootState) => state?.auth?.city)
-  console.log("data", city,)
-
-  useEffect(() => {
-    updateVenues();
-  }, [updateVenues]);
-
   const allowedVenues = allVenues.filter(
-    (venue) => venue.isVerified === "Approved"
+    (venue) => venue.isVerified === 'Approved'
   );
-
-  const handleFilterChange = (newFilters: any) => {
-    // Remove undefined values from filters
-    const cleanFilters = Object.fromEntries(
-      Object.entries(newFilters).filter(([, v]) => v != null && v !== '')//removes spaces
-    );
-    setFilters(cleanFilters);
-  };
 
   if (error) {
     return <h1>Error while loading data</h1>;
@@ -51,9 +49,8 @@ function VenueList() {
     return <Universal />;
   }
 
-  console.log("venue" , allVenues  , allowedVenues)
   return (
-    <div className="flex flex-col min-h-screen  bg-[#fffdd0]">
+    <div className="flex flex-col min-h-screen bg-[#fffdd0]">
       <NavBar />
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8">
@@ -61,29 +58,28 @@ function VenueList() {
             <FilterBar onFilterChange={handleFilterChange} />
           </div>
           <div className="w-full md:w-3/4">
-          <div className="grid grid-cols-1 gap-4">
-            {allowedVenues.length > 0 ? (
-              allowedVenues.map((venue, index) => (
-               
-                <VenueCard
-                  key={index}
-                  venue={{
-                    name: venue?.businessName,
-                    location: venue.city,
-                    maxGuests: venue.guestCapacity,
-                    contact: venue.phone,
-                    description: venue.summary,
-                    vegPrice: venue.foodPackages,
-                    nonVegPrice: 30,
-                    images: venue.images,
-                    id: venue._id,
-                  }}
-                />)
-              )
-            ) : (
-              <div>No Venue found</div>
-            )}
-          </div>
+            <div className="grid grid-cols-1 gap-4">
+              {allowedVenues.length > 0 ? (
+                allowedVenues.map((venue, index) => (
+                  <VenueCard
+                    key={index}
+                    venue={{
+                      name: venue?.businessName,
+                      location: venue.city,
+                      maxGuests: venue.guestCapacity,
+                      contact: venue.phone,
+                      description: venue.summary,
+                      vegPrice: venue.foodPackages,
+                      nonVegPrice: 30, // Adjust this according to your data structure
+                      images: venue.images,
+                      id: venue._id,
+                    }}
+                  />
+                ))
+              ) : (
+                <div>No Venue found</div>
+              )}
+            </div>
           </div>
         </div>
       </div>

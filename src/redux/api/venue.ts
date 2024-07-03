@@ -13,10 +13,13 @@ export const VenueAPI = createApi({
   tagTypes: ["venues"],
 
   endpoints: (builder) => ({
-    allVenue: builder.query<AllVenuesResponse, Record<string, string>>({
+    allVenue: builder.query<AllVenuesResponse, Record<string, string> | void>({
       query: (filters) => {
-        const queryString = new URLSearchParams(filters).toString();
-        return `all?${queryString}`;
+        if (filters && Object.keys(filters).length > 0) {
+          const queryString = new URLSearchParams(filters).toString();
+          return `all?${queryString}`;
+        }
+        return 'all';
       },
       providesTags: ["venues"],
     }),
@@ -44,12 +47,20 @@ export const VenueAPI = createApi({
       providesTags: ["venues"],
     }),
 
-    updateVenue: builder.mutation<MessageResponse, { id: string; venue: FormData }>({
-      query: ({ id, venue }) => ({
-        url: `${id}`,
-        method: "PUT",
-        body: venue,
-      }),
+    updateVenue: builder.mutation<MessageResponse, { id: string; venue: Venue, images: File[] }>({
+      query: ({ id, venue, images }) => {
+        const formData = new FormData();
+        formData.append('venue', JSON.stringify(venue));
+        images.forEach((image) => {
+          formData.append('images', image);
+        });
+
+        return {
+          url: `${id}`,
+          method: "PUT",
+          body: formData,
+        };
+      },
       invalidatesTags: ["venues"],
     }),
 
