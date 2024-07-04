@@ -54,6 +54,7 @@ const VendorProfilePage: React.FC = () => {
           <div className="w-full lg:w-full p-4">
             {/* Pass vendorData as serviceDetails */}
             <ServiceDetailsForm
+              address={vendorData?.address}
               price={vendorData?.packages?.price}
               portfolio={vendorData?.portfolio}
               experience={vendorData?.experience}

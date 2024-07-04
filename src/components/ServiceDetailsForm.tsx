@@ -14,6 +14,7 @@ interface Package {
 }
 
 interface Props {
+    address?:string;
     price?: string;
     portfolio?: string[] | undefined;
     experience?: string;
@@ -26,7 +27,7 @@ interface Props {
     
 }
 
-const ServiceDetailsForm: React.FC<Props> = ({ price, portfolio, experience, event_completed, willingToTravel, summary, packages, id }) => {
+const ServiceDetailsForm: React.FC<Props> = ({ address, price, portfolio, experience, event_completed, willingToTravel, summary, packages, id }) => {
     const [updateVendor ] = useUpdateVendorMutation();
 
     console.log("packages", packages?.days)
@@ -35,6 +36,7 @@ const ServiceDetailsForm: React.FC<Props> = ({ price, portfolio, experience, eve
     const [editing, setEditing] = useState(false);
     const [imagedata, setImageData] = useState<File[]>([]);
     const [formData, setFormData] = useState<Props>({
+        address:'',
         price: '',  // Initial value for 'price' property
         portfolio: undefined,
         experience: '',
@@ -94,12 +96,6 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const formDataToSend = new FormData();
 
-            // Append each field from formData that are not files
-    // Object.keys(formData).forEach((key) => {
-    //     if (key !== 'portfolio') {
-    //       formDataToSend.append(key, String(formData[key]));
-    //     }
-    //   });
   
       // Append images if they exist
       imagedata.forEach((image) => {
@@ -123,6 +119,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const handleEditClick = () => {
         // Populate the formData state with the current values
         setFormData({
+            address : address || '',
             price: price || '',
             portfolio: portfolio || [],
             experience: experience || '',
@@ -145,6 +142,20 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                         <form onSubmit={handleSubmit}>
                             <div className="mb-10 border-b pb-8">
                                 <label htmlFor="price" className="block mb-4 font-bold text-2xl text-[#110069]">
+                                address:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="address"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleInputChange}
+                                    className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
+                                />
+                            </div>
+                            
+                            <div className="mb-10 border-b pb-8">
+                                <label htmlFor="price" className="block mb-4 font-bold text-2xl text-[#110069]">
                                     Price:
                                 </label>
                                 <input
@@ -156,6 +167,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                                     className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                 />
                             </div>
+
                             <div className="mb-10 border-b pb-8">
                                 <label htmlFor="portfolio" className="block mb-4 font-bold text-2xl text-[#110069]">
                                     Portfolio:
@@ -279,6 +291,15 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                         </form>
                     ) : (
                         <>
+
+
+                            <div className="mb-8 border-b pb-4">
+                                <p className="text-[#110069] text-xl font-bold">Address:</p>
+                                <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
+                                    {address}
+                                </p>
+                            </div>
+
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Price:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
