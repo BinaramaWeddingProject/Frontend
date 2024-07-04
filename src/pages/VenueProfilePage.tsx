@@ -64,6 +64,7 @@ const VenueProfilePage: React.FC = () => {
                       
                         <ServiceDetailsFormVenue 
                         phone={venueData?.phone} 
+                        address={venueData?.address}
                         images={venueData?.images} 
                         featuresOfVenue={venueData?.featuresOfVenue} 
                         guestCapacity={venueData?.guestCapacity} 
