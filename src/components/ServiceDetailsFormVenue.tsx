@@ -4,6 +4,7 @@ import { useUpdateVenueMutation } from "../redux/api/venue";
 
 interface Props {
   phone?: string;
+  address?:string;
   images?: string[] | undefined;
   featuresOfVenue?: string;
   guestCapacity?: string | undefined;
@@ -19,6 +20,7 @@ interface Props {
 
 const ServiceDetailsFormVenue: React.FC<Props> = ({
   phone = "",
+  address = "",
   images = [],
   featuresOfVenue = "",
   guestCapacity = "",
@@ -36,6 +38,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
   const [imagedata, setImageData] = useState<File[]>([]);
   const [formData, setFormData] = useState<Props>({
     phone,
+    address,
     images,
     featuresOfVenue,
     guestCapacity,
@@ -52,6 +55,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
   useEffect(() => {
     setFormData({
       phone,
+      address,
       images,
       featuresOfVenue,
       guestCapacity,
@@ -63,7 +67,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
       venueType,
       facilities,
     });
-  }, [phone, images, featuresOfVenue, guestCapacity, howToReach, summary, venuePolicies, id, foodPackages, venueType, facilities]);
+  }, [phone, images, featuresOfVenue, guestCapacity, howToReach, summary, venuePolicies, id, foodPackages, venueType, facilities, address]);
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -312,6 +316,20 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
               </div>
 
               <div className="mb-10 border-b pb-8">
+                <label htmlFor="address" className="block mb-4 font-bold text-2xl text-[#110069]">
+                  Address:
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
+                />
+              </div>
+
+              <div className="mb-10 border-b pb-8">
                 <label htmlFor="howToReach" className="block mb-4 font-bold text-2xl text-[#110069]">
                   How To Reach:
                 </label>
@@ -362,6 +380,11 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
             <div>
               <h2 className="font-bold text-2xl text-[#110069] mb-4">Service Details</h2>
               <div>
+              <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Address:</h3>
+                  <p className="text-lg text-[#110069]">{address}</p>
+                </div>
+
                 <div className="mb-8">
                   <h3 className="font-bold text-lg text-[#110069]">Contact:</h3>
                   <p className="text-lg text-[#110069]">{phone}</p>
