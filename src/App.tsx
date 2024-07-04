@@ -39,6 +39,7 @@ import NewRealWedding from "./pages/admin/components/profile/realWedding/newReal
 
 import {AdminProtectedRoutes , VendorProtectedRoutes , VenueProtectedRoutes , UserProtectedRoutes} from "./utils/ProtectedRoutes";
 import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
+import EnquiryNotif from "./pages/notification/enquirynotif";
 // import UpdateVenueComponent from "./pages/Test";
 
 // import PopUp from "./components/PopUp"
@@ -98,8 +99,8 @@ const App: React.FC = () => {
             <Route path="/realWeddings/new" element={<NewRealWedding />} />
             <Route path="/realWeddings/:id" element={<RealWeddingsPost />} />
          
-            
-            <Route path="/notification" element={<UserNotification/>}/>
+            <Route path="/notification" element={<EnquiryNotif/>}/>
+            {/* <Route path="/notification" element={<UserNotification/>}/> */}
 
             <Route path="/realWedding/:id" element={<RealWeddingsView />} />
             <Route path="/realWedding" element={<RealWeddingsList />} />

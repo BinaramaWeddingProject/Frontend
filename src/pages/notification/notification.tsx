@@ -2,17 +2,25 @@ import  { useState, useEffect } from 'react';
 import { useGetNotificationByIdQuery } from "../../redux/api/notification";
 import { useUpdateNotificationMutation } from '../../redux/api/notification';
 import { useGetAllNotificationByVIdQuery } from '../../redux/api/notification';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 // const vId = "6647077ca07a6f12501a2b84";
-const vId="6654342528aa54d4db416139"
+// const vId="6654342528aa54d4db416139"
+
 
 
 const UserNotification = () => {
 
+    const vId = useSelector((state: RootState) => state?.auth?.user?._id);
+    
+
     const [readUsers, setReadUsers] = useState<string[]>([]);
     const [notificationStatus, setNotificationStatus] = useState<string[]>([]);
-    const { data } = useGetNotificationByIdQuery({ vId });
-    const { data: notif } = useGetAllNotificationByVIdQuery({ vId });
+  
+    const { data } = useGetNotificationByIdQuery({ vId: vId as string });
+    ;
+    const { data: notif } = useGetAllNotificationByVIdQuery({ vId: vId as string });
     const [updateNotification] = useUpdateNotificationMutation();
     
     useEffect(() => {
@@ -33,7 +41,7 @@ const UserNotification = () => {
 
     const handleMarkAsRead = async (notificationId: string) => {
         try {
-            await updateNotification({ vId, nId: notificationId });
+            await updateNotification({ vId: vId as string, nId: notificationId });
             setReadUsers(prevState => [...prevState, notificationId]);
         } catch (error) {
             console.error("Error marking notification as read:", error);
