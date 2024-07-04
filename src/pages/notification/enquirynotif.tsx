@@ -48,12 +48,12 @@ const EnquiryNotif = () => {
     // }, [notif]);
 
     const handleMarkAsRead = async (notificationId: string) => {
-        // try {
-        //     await useGetBookingByUserAndVenueQuery({ vId: vId as string, uId:'' })
-        //     setReadUsers(prevState => [...prevState, notificationId]);
-        // } catch (error) {
-        //     console.error("Error marking notification as read:", error);
-        // }
+        try {
+            await useGetBookingByUserAndVenueQuery({ vId: vId as string, uId: notificationId })
+            setReadUsers(prevState => [...prevState, notificationId]);
+        } catch (error) {
+            console.error("Error marking notification as read:", error);
+        }
     }
 
     return (

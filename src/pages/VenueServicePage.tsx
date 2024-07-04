@@ -15,17 +15,24 @@ import VenueSummary from '../components/VenueSummary';
 import FAQSection from '../components/FaqSection';
 
 import { useGetVenueByIdQuery } from '../redux/api/venue';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import ScrollToTop from '../components/ScrollToTop';
 
 const VenueServicePage = () => {
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    console.log('ScrollToTop: Route changed to', pathname, search);
+    window.scrollTo(0, 0);
+  },);
+
   const { id } = useParams();
   const { data: venue } = useGetVenueByIdQuery(id ? id : "");
   const venueData = venue?.data.venue;
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  
+
 
 
   // const handleContactFormSubmit = (phoneNumber:string) => {
@@ -91,6 +98,7 @@ const VenueServicePage = () => {
 
   return (
     <div className="bg-gray-100">
+     
       <NavBar />
       <div className="mb-8">
         <Carousel images={venueData?.images} />

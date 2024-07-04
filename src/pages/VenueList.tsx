@@ -9,8 +9,18 @@ import Universal from '../components/skeleton/Universal';
 import FilterBar from '../components/FilterBar';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import { useLocation } from 'react-router-dom';
 
 function VenueList() {
+
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    console.log('ScrollToTop: Route changed to', pathname, search);
+    window.scrollTo(0, 0);
+  },);
+
+
   const [filters, setFilters] = useState({});
   const queryString = new URLSearchParams(
     Object.entries(filters).filter(([, v]) => v !== undefined) as [string, string][]
