@@ -15,12 +15,25 @@ import VenueSummary from '../components/VenueSummary';
 import FAQSection from '../components/FaqSection';
 
 import { useGetVenueByIdQuery } from '../redux/api/venue';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import ScrollToTop from '../components/ScrollToTop';
 
 const VenueServicePage = () => {
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    console.log('ScrollToTop: Route changed to', pathname, search);
+    window.scrollTo(0, 0);
+  },);
+
   const { id } = useParams();
   const { data: venue } = useGetVenueByIdQuery(id ? id : "");
   const venueData = venue?.data.venue;
+
+  
+
+
 
   // const handleContactFormSubmit = (phoneNumber:string) => {
   //   console.log('Phone number submitted:', phoneNumber);
@@ -85,6 +98,7 @@ const VenueServicePage = () => {
 
   return (
     <div className="bg-gray-100">
+     
       <NavBar />
       <div className="mb-8">
         <Carousel images={venueData?.images} />
@@ -102,7 +116,7 @@ const VenueServicePage = () => {
               {/* <VenueBooking checkAvailability={checkAvailability} /> */}
               <VenueSummary summary={venueData?.summary} />
             </div>
-            <div className="w-full lg:w-1/2">
+            {/* <div className="w-full lg:w-1/2">
               <RatingsAndReviews
                 overallRating={4.5}
                 reviews={[
@@ -112,7 +126,7 @@ const VenueServicePage = () => {
                   { rating: 3, comment: "Could be better." },
                 ]}
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="w-full lg:w-1/4 h-fit flex justify-center items-center bg-white p-4 rounded-lg shadow-lg lg:sticky lg:top-0">
