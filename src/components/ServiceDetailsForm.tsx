@@ -4,6 +4,7 @@ import Caro from './Carousel3';
 
 
 import { useUpdateVendorMutation } from '../redux/api/vendor';
+import Loader from "../components/skeleton/Loader"
 
 
 interface Package {
@@ -29,6 +30,7 @@ interface Props {
 
 const ServiceDetailsForm: React.FC<Props> = ({ address, price, portfolio, experience, event_completed, willingToTravel, summary, packages, id }) => {
     const [updateVendor ] = useUpdateVendorMutation();
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
 
     console.log("packages", packages?.days)
     
@@ -94,6 +96,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Function to handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true); // Set loading to true when submitting
         const formDataToSend = new FormData();
 
   
@@ -111,7 +114,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             console.error('Failed to update venue:', error);
             // Handle error (e.g., show error message)
           }
-      
+          setIsLoading(false);
           setEditing(false);
     };
 
@@ -136,6 +139,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
      return (
         <div className="bg-gray-200 rounded-lg p-8 mx-auto max-w-full mb-12">
+             {isLoading && <Loader />} {/* Add Loader component */}
             <div className="flex items-center justify-center">
                 <div className="flex-grow">
                     {editing ? (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Caro from "./Carousel3";
 import { useUpdateVenueMutation } from "../redux/api/venue";
+import Loader from "../components/skeleton/Loader"
 
 interface Props {
   phone?: string;
@@ -35,6 +36,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
   const [updateVenue] = useUpdateVenueMutation();
 
   const [editing, setEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
   const [imagedata, setImageData] = useState<File[]>([]);
   const [formData, setFormData] = useState<Props>({
     phone,
@@ -117,6 +119,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading to true when submitting
 
     const formDataToSend = new FormData();
 
@@ -140,7 +143,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
       console.error('Failed to update venue:', error);
       // Handle error (e.g., show error message)
     }
-
+    setIsLoading(false);
     setEditing(false);
   };
 
@@ -200,6 +203,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
 
   return (
     <div className="bg-gray-200 rounded-lg p-8 mx-auto max-w-full mb-12">
+      {isLoading && <Loader />} {/* Add Loader component */}
       <div className="flex items-center justify-center">
         <div className="flex-grow">
           {editing ? (
