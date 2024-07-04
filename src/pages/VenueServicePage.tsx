@@ -16,11 +16,17 @@ import FAQSection from '../components/FaqSection';
 
 import { useGetVenueByIdQuery } from '../redux/api/venue';
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const VenueServicePage = () => {
   const { id } = useParams();
   const { data: venue } = useGetVenueByIdQuery(id ? id : "");
   const venueData = venue?.data.venue;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   // const handleContactFormSubmit = (phoneNumber:string) => {
   //   console.log('Phone number submitted:', phoneNumber);
@@ -102,7 +108,7 @@ const VenueServicePage = () => {
               {/* <VenueBooking checkAvailability={checkAvailability} /> */}
               <VenueSummary summary={venueData?.summary} />
             </div>
-            <div className="w-full lg:w-1/2">
+            {/* <div className="w-full lg:w-1/2">
               <RatingsAndReviews
                 overallRating={4.5}
                 reviews={[
@@ -112,7 +118,7 @@ const VenueServicePage = () => {
                   { rating: 3, comment: "Could be better." },
                 ]}
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="w-full lg:w-1/4 h-fit flex justify-center items-center bg-white p-4 rounded-lg shadow-lg lg:sticky lg:top-0">

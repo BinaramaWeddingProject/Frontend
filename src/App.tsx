@@ -99,7 +99,8 @@ const App: React.FC = () => {
             <Route path="/realWeddings/new" element={<NewRealWedding />} />
             <Route path="/realWeddings/:id" element={<RealWeddingsPost />} />
          
-            <Route path="/notification" element={<EnquiryNotif/>}/>
+            <Route path="/notification" element={<EnquiryNotif/>}/> 
+            {/* //bell link attach */}
             {/* <Route path="/notification" element={<UserNotification/>}/> */}
 
             <Route path="/realWedding/:id" element={<RealWeddingsView />} />
@@ -109,9 +110,6 @@ const App: React.FC = () => {
             <Route element = {<AdminProtectedRoutes/>}>
                  <Route path="/adminDashboard" element={<AdminDashboard />} />
                  <Route path="/adminDashboard/:page" element={<AdminDashboard />} />
-
-               
-                
 
                  <Route path="/UserProfile/:id" element={<UserProfile />} />
                  <Route path="/VendorProfile/:id" element={<VendorProfile />} />
