@@ -56,7 +56,7 @@ const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, email, pa
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!id) return;
-    await updateVenue({ id, venue: formData });
+    await updateVenue({ venueId:id, formData: formData });
     setEditing(false);
   };
 

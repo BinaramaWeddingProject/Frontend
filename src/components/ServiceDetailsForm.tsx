@@ -22,16 +22,18 @@ interface Props {
     summary?: string;
     packages: Package | undefined;
     id?: string |undefined
+    [key: string]: any; 
     
 }
 
 const ServiceDetailsForm: React.FC<Props> = ({ price, portfolio, experience, event_completed, willingToTravel, summary, packages, id }) => {
-    const [updateVendor, ] = useUpdateVendorMutation();
+    const [updateVendor ] = useUpdateVendorMutation();
 
     console.log("packages", packages?.days)
     
 
     const [editing, setEditing] = useState(false);
+    const [imagedata, setImageData] = useState<File[]>([]);
     const [formData, setFormData] = useState<Props>({
         price: '',  // Initial value for 'price' property
         portfolio: undefined,
@@ -79,19 +81,42 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
     }
 };
 
+const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImageData(Array.from(e.target.files));
+    }
+  };
+
     
 
     // Function to handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const formDataToSend = new FormData();
+
+            // Append each field from formData that are not files
+    // Object.keys(formData).forEach((key) => {
+    //     if (key !== 'portfolio') {
+    //       formDataToSend.append(key, String(formData[key]));
+    //     }
+    //   });
+  
+      // Append images if they exist
+      imagedata.forEach((image) => {
+        formDataToSend.append('portfolio', image);
+      });
 
         // Here you can submit the updated data (formData) to your backend or perform any other action
-        console.log('Updated Data:', formData);
-        if (!id) return; 
-        const res = await updateVendor({id , vendor: formData   })
-        // Exit editing mode
-        console.log("here is res" , res);
-        setEditing(false);
+        try {
+            const result = await updateVendor({ vendorId: id || "", formData: formDataToSend }).unwrap();
+            console.log('Venue updated:', result);
+            // Handle success (e.g., show a success message, redirect)
+          } catch (error) {
+            console.error('Failed to update venue:', error);
+            // Handle error (e.g., show error message)
+          }
+      
+          setEditing(false);
     };
 
     // Function to handle edit button click
@@ -139,7 +164,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
                                     type="file"
                                     id="portfolio"
                                     name="portfolio"
-                                    onChange={handleInputChange}
+                                    onChange={handleImageChange}
                                     multiple
                                     className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                 />
@@ -298,20 +323,11 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
 
 
                             </div>
-                            <div className="flex flex-wrap justify-center">
-                                <p className="text-[#110069] text-xl font-bold">Portfolio:</p>
-                                {portfolio && portfolio.map((imageUrl, index) => (
-                                    <img
-                                        key={index}
-                                        src={imageUrl}
-                                        alt={`Portfolio ${index + 1}`}
-                                        className="w-48 h-48 object-cover m-2 rounded-md"
-                                    />
-                                ))}
-                            </div>
-                            <div>
-                                <Caro portfolio={portfolio}/>
-                            </div>
+                           
+                            <div className="mb-8">
+                  <h3 className="font-bold text-lg text-[#110069]">Images:</h3>
+                  <Caro images={portfolio} />
+                </div>
                             <button
                                 onClick={handleEditClick}
                                 className="bg-white text-[#110069] px-8 py-4 rounded-md mt-2 text-xl"

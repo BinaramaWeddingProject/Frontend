@@ -55,7 +55,7 @@ const VendorProfileCard: React.FC<Props> = ({name, profile, phone, email, passwo
     console.log("id is " , "id");
     console.log("dta is :" , formData)
     if (!id) return; // Ensure id is present
-    const res = await updateVendor({id , vendor: formData   })
+    const res = await updateVendor({vendorId:id , formData: formData   })
     console.log(res);
     setEditing(false); 
   }

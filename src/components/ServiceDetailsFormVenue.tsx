@@ -14,6 +14,7 @@ interface Props {
   foodPackages?: string | undefined;
   venueType?: string[] | undefined;
   facilities?: string[] | undefined;
+  [key: string]: any; 
 }
 
 const ServiceDetailsFormVenue: React.FC<Props> = ({
@@ -64,6 +65,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
     });
   }, [phone, images, featuresOfVenue, guestCapacity, howToReach, summary, venuePolicies, id, foodPackages, venueType, facilities]);
 
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -79,33 +81,36 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
   };
 
   const handleVenueTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
     const { value, checked } = e.target;
     setFormData((prevState) => {
       const updatedVenueType = checked
         ? [...(prevState.venueType || []), value]
         : (prevState.venueType || []).filter((type) => type !== value);
       return {
-        ...prevState,
+        ...prevState, 
         venueType: updatedVenueType,
       };
      
     });
   };
 
-  //facilities
   const handleFacilitiesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
     setFormData((prevState) => {
-      const updatedFacilities = checked
-        ? [...(prevState.facilities || []), value]
-        : (prevState.facilities || []).filter((type) => type !== value);
+      const updatedFacilities = new Set(prevState.facilities || []);
+      if (checked) {
+        updatedFacilities.add(value);
+      } else {
+        updatedFacilities.delete(value);
+      }
       return {
         ...prevState,
-        facilities: updatedFacilities,
+        facilities: Array.from(updatedFacilities),
       };
     });
   };
-
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -230,7 +235,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                   id="featuresOfVenue"
                   name="featuresOfVenue"
                   value={formData.featuresOfVenue}
-                  onChange={handleVenueTypeChange}
+                  onChange={handleInputChange}
                   className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                 />
               </div>
@@ -262,7 +267,7 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
                         name="venueType"
                         value={option}
                         checked={formData.venueType?.includes(option) || false}
-                        onChange={handleInputChange}
+                        onChange={handleVenueTypeChange}
                         className="mr-2"
                       />
                       <label htmlFor={`venueType-${option}`}>{option}</label>
@@ -272,27 +277,26 @@ const ServiceDetailsFormVenue: React.FC<Props> = ({
               </div>
 
               <div className="mb-10 border-b pb-8">
-                <label htmlFor="facilities" className="block mb-4 font-bold text-2xl text-[#110069]">
-                  Facilities:
-                </label>
-                <div className="w-3/4 text-lg text-[#110069]">
-                  {facilitiesOptions.map((option) => (
-                    <div key={option} className="flex items-center mb-2">
-                      <input
-                        type="checkbox"
-                        id={`facilities-${option}`}
-                        name="facilities"
-                        value={option}
-                        checked={formData.facilities?.includes(option) || false}
-                        onChange={handleFacilitiesChange}
-                        className="mr-2"
-                      />
-                      <label htmlFor={`facilities-${option}`}>{option}</label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
+  <label htmlFor="facilities" className="block mb-4 font-bold text-2xl text-[#110069]">
+    Facilities:
+  </label>
+  <div className="w-3/4 text-lg text-[#110069]">
+    {facilitiesOptions.map((option) => (
+      <div key={option} className="flex items-center mb-2">
+        <input
+          type="checkbox"
+          id={`facilities-${option}`}
+          name="facilities"
+          value={option}
+          checked={formData.facilities?.includes(option) || false}
+          onChange={handleFacilitiesChange}
+          className="mr-2"
+        />
+        <label htmlFor={`facilities-${option}`}>{option}</label>
+      </div>
+    ))}
+  </div>
+</div>
               <div className="mb-10 border-b pb-8">
                 <label htmlFor="guestCapacity" className="block mb-4 font-bold text-2xl text-[#110069]">
                   Guest Capacity:
