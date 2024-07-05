@@ -30,7 +30,7 @@ import BlogList from "./pages/BlogList";
 import NewBlog from "./pages/admin/components/profile/blog/NewBlog";
 import Loader from "./components/Loader";
 import BlogPost from "./pages/admin/components/profile/blog/BlogPost";
-import UserNotification from "./pages/notification/notification";
+// import UserNotification from "./pages/notification/notification";
 import BlogView from "./pages/BlogView";
 import RealWeddingsList from "./pages/realWeddingsList";
 import RealWeddingsView from "./pages/realWeddingsView";

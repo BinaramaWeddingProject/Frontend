@@ -3,11 +3,8 @@ import Carousel from '../components/Carousel';
 import VenuePriceCard from '../components/VenuePriceCard';
 import SlimVenueCard from '../components/SlimVenueCard';
 import VenueAboutCard from '../components/VenueAboutCard';
-
-import RatingsAndReviews from '../components/RatingsAndReviews';
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
-
 import VenueImageCarousel from '../components/VenueImageCarousel';
 import VenuePolicies from '../components/VenuePolicies';
 import RelatedArticles from '../components/RelatedArticles';
@@ -17,7 +14,6 @@ import FAQSection from '../components/FaqSection';
 import { useGetVenueByIdQuery } from '../redux/api/venue';
 import { useLocation, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import ScrollToTop from '../components/ScrollToTop';
 
 const VenueServicePage = () => {
   const { pathname, search } = useLocation();

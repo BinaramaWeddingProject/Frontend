@@ -1,65 +1,29 @@
-import  { useState, useEffect } from 'react';
-// import { useGetNotificationByIdQuery } from "../../redux/api/notification";
-// import { useUpdateNotificationMutation } from '../../redux/api/notification';
-// import { useGetAllNotificationByVIdQuery } from '../../redux/api/notification';
-
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { useGetBookingbyIdQuery, useGetBookingByUserAndVenueQuery } from '../../redux/api/booking';
 
-// const vId = "6647077ca07a6f12501a2b84";
-// const vId="6654342528aa54d4db416139"
-
-
-
 const EnquiryNotif = () => {
-
     const vId = useSelector((state: RootState) => state?.auth?.user?._id);
-    console.log("iddd", vId)
-    
-
     const [readUsers, setReadUsers] = useState<string[]>([]);
-    const [notificationStatus, setNotificationStatus] = useState<string[]>([]);
+    const [selectedNotificationId, setSelectedNotificationId] = useState<string | null>(null);
     
-    const { data } = useGetBookingbyIdQuery({ vId: vId as string });
-    console.log("data", data)
-    if(!data){
-        return "no new notification"
+    const { data: bookingData } = useGetBookingbyIdQuery({ vId: vId as string });
+    const { data: notificationData } = useGetBookingByUserAndVenueQuery({ vId: vId as string, uId: selectedNotificationId || '' }, { skip: !selectedNotificationId });
+console.log(notificationData)
+    const handleMarkAsRead = (notificationId: string) => {
+        setSelectedNotificationId(notificationId);
+        setReadUsers(prevState => [...prevState, notificationId]);
     };
-// const { data: notif } = useGetBookingByUserAndVenueQuery({ vId: vId as string, uId:'' })
 
-    // const { data: notif } = useGetAllNotificationByVIdQuery({ vId: vId as string });
-    // const [updateNotification] = useUpdateNotificationMutation();
-    
-    // useEffect(() => {
-    //     if (notif && notif.status) {
-    //         const statuses: string[] = [];
-    //         notif.status.forEach((item: any) => {
-    //             const vendor = item.vendors.find((vendor: any) => vendor.vendorId === vId);
-    //             if (vendor) {
-    //                 statuses.push(vendor.status);
-    //             } else {
-    //                 const venue = item.venues.find((venue: any) => venue.venueId === vId);
-    //                 statuses.push(venue.status);
-    //             }
-    //         });
-    //         setNotificationStatus(statuses);
-    //     }
-    // }, [notif]);
-
-    const handleMarkAsRead = async (notificationId: string) => {
-        try {
-            await useGetBookingByUserAndVenueQuery({ vId: vId as string, uId: notificationId })
-            setReadUsers(prevState => [...prevState, notificationId]);
-        } catch (error) {
-            console.error("Error marking notification as read:", error);
-        }
+    if (!bookingData) {
+        return "no new notification";
     }
 
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {data?.map((user: any, index: number) => (
-                <div key={index} className={`p-4 m-4 border border-gray-200 rounded shadow-md ${notificationStatus[index] === 'read' || readUsers.includes(user.notificationId) ? 'bg-gray-100' : ''}`}>
+            {bookingData?.data?.map((user: any, index: number) => (
+                <div key={index} className={`p-4 m-4 border border-gray-200 rounded shadow-md ${readUsers.includes(user.notificationId) ? 'bg-gray-100' : ''}`}>
                     <div className="mb-4">
                         <p className="text-lg font-bold">{user.name}</p>
                         <p className="text-gray-500">{user.address}</p>
@@ -72,10 +36,9 @@ const EnquiryNotif = () => {
                     </div>
                     <button
                         onClick={() => handleMarkAsRead(user._uId)}
-                        className={`font-bold py-2 px-4 rounded ${notificationStatus[index] === 'read' || readUsers.includes(user._uId) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
+                        className={`font-bold py-2 px-4 rounded ${readUsers.includes(user._uId) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
                     >
-                        {/* {notificationStatus[index] === 'read' ? 'Marked as Read' : 'Mark as Read' }!! {readUsers.includes(user.notificationId) ? 'Marked as Read' : 'Mark as Read'} */}
-                        {notificationStatus[index] === 'read' || readUsers.includes(user._uId) ? 'Marked as Read' : 'Mark as read' }
+                        {readUsers.includes(user._uId) ? 'Marked as Read' : 'Mark as Read'}
                     </button>
                 </div>
             ))}
