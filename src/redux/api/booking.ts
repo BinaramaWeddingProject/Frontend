@@ -47,16 +47,16 @@ export const bookingAPI = createApi({
 //       }),
 //     }),
 
-//     updateNotification: builder.mutation<
-//       void,
-//       { nId: string, vId: string }
-//     >({
-//       query: ({ nId, vId }) => ({
-//         url: 'update',
-//         method: "PATCH",
-//         body: { vId, nId },
-//       }),
-//     }),
+    updateIsVerified: builder.mutation<
+      void,
+      {  vId: string, uId: string, bookingId: string }
+    >({
+      query: ({ vId, uId, bookingId }) => ({
+        url: `${vId}`,
+        method: "PATCH",
+        body: { uId, bookingId },
+      }),
+    }),
 
 //     getNotificationIdStatus: builder.query<NotificationtResponse, {nId: string, vId: string}>({
 //       query: ({nId, vId}) => ({
@@ -76,4 +76,4 @@ export const bookingAPI = createApi({
 })
 });
 
-export const { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery, useGetBookingbyIdQuery } = bookingAPI;
+export const { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery, useGetBookingbyIdQuery, useUpdateIsVerifiedMutation } = bookingAPI;

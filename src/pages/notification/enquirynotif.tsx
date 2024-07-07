@@ -1,60 +1,62 @@
-import  { useState, useEffect } from 'react';
-// import { useGetNotificationByIdQuery } from "../../redux/api/notification";
-// import { useUpdateNotificationMutation } from '../../redux/api/notification';
-// import { useGetAllNotificationByVIdQuery } from '../../redux/api/notification';
-
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { useGetBookingbyIdQuery, useGetBookingByUserAndVenueQuery } from '../../redux/api/booking';
-
-// const vId = "6647077ca07a6f12501a2b84";
-// const vId="6654342528aa54d4db416139"
-
+import { useGetBookingbyIdQuery, useGetBookingByUserAndVenueQuery, useUpdateIsVerifiedMutation } from '../../redux/api/booking';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 
 
 const EnquiryNotif = () => {
-
     const vId = useSelector((state: RootState) => state?.auth?.user?._id);
-    console.log("iddd", vId)
-    
-
     const [readUsers, setReadUsers] = useState<string[]>([]);
     const [notificationStatus, setNotificationStatus] = useState<string[]>([]);
-  
-    const { data } = useGetBookingbyIdQuery({ vId: vId as string });
-    console.log("data", data)
-    if(!data){
-        return "no new notification"
-    };
-// const { data: notif } = useGetBookingByUserAndVenueQuery({ vId: vId as string, uId:'' })
+    // const [isVerified, setIsVerified] = useState<string[]>([]);
 
-    // const { data: notif } = useGetAllNotificationByVIdQuery({ vId: vId as string });
-    // const [updateNotification] = useUpdateNotificationMutation();
-    
-    // useEffect(() => {
-    //     if (notif && notif.status) {
-    //         const statuses: string[] = [];
-    //         notif.status.forEach((item: any) => {
-    //             const vendor = item.vendors.find((vendor: any) => vendor.vendorId === vId);
-    //             if (vendor) {
-    //                 statuses.push(vendor.status);
-    //             } else {
-    //                 const venue = item.venues.find((venue: any) => venue.venueId === vId);
-    //                 statuses.push(venue.status);
-    //             }
-    //         });
-    //         setNotificationStatus(statuses);
-    //     }
-    // }, [notif]);
+    const { data, refetch } = useGetBookingbyIdQuery({ vId: vId as string });
+    const [verify]=useUpdateIsVerifiedMutation()
+
+  
 
     const handleMarkAsRead = async (notificationId: string) => {
         try {
-            await useGetBookingByUserAndVenueQuery({ vId: vId as string, uId: notificationId })
+            // Example: Call API to mark notification as read
+            await useGetBookingByUserAndVenueQuery({ vId: vId as string, uId: notificationId });
             setReadUsers(prevState => [...prevState, notificationId]);
         } catch (error) {
             console.error("Error marking notification as read:", error);
         }
-    }
+    };
+
+    
+
+    const handleApproval = async (uId:string) => {
+        try {
+            console.log("approved");
+            await verify({
+                
+                    vId:vId as string,
+                    uId: uId as string,
+                    bookingId: 'approve'
+                
+            });
+            // Example: Call other functions or update local state after mutation
+        } catch (error) {
+            console.error('Error approving:', error);
+        }
+    };
+
+    const handleRejection = async (uId: string) => {
+        try {
+            console.log("rejected");
+            await verify({
+                vId: vId as string,
+                uId: uId as string,
+                bookingId: 'reject'
+            });
+            // Example: Call other functions or update local state after mutation
+        } catch (error) {
+            console.error('Error rejecting:', error);
+        }
+    };
 
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -71,16 +73,60 @@ const EnquiryNotif = () => {
                         <p className="text-gray-600">Message: {user.message}</p>
                     </div>
                     <button
-                        onClick={() => handleMarkAsRead(user._uId)}
-                        className={`font-bold py-2 px-4 rounded ${notificationStatus[index] === 'read' || readUsers.includes(user._uId) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
+                        onClick={() => handleMarkAsRead(user.notificationId)}
+                        className={`font-bold py-2 px-4 rounded ${notificationStatus[index] === 'read' || readUsers.includes(user.notificationId) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
                     >
-                        {/* {notificationStatus[index] === 'read' ? 'Marked as Read' : 'Mark as Read' }!! {readUsers.includes(user.notificationId) ? 'Marked as Read' : 'Mark as Read'} */}
-                        {notificationStatus[index] === 'read' || readUsers.includes(user._uId) ? 'Marked as Read' : 'Mark as read' }
+                        {notificationStatus[index] === 'read' || readUsers.includes(user.notificationId) ? 'Marked as Read' : 'Mark as Read'}
                     </button>
+{/* 
+                    <button
+                        onClick={() => handleIsVerified(user._uId, isVerified[index])}
+                        className={`font-bold py-2 px-4 rounded ${
+                            isVerified[index] === 'approved' ? 'bg-green-500 hover:bg-green-700 text-white' :
+                            isVerified[index] === 'rejected' ? 'bg-red-500 hover:bg-red-700 text-white' :
+                            'bg-blue-500 hover:bg-blue-700 text-white'
+                        }`}
+                    >
+                        {isVerified[index] === 'pending' ? (
+                            <>
+                                <button className="bg-green-500 hover:bg-green-700 text-white px-3 py-1 rounded mr-2">✓</button>
+                                <button className="bg-red-500 hover:bg-red-700 text-white px-3 py-1 rounded">✕</button>
+                            </>
+                        ) : (
+                            isVerified[index] === 'approved' ? 'Approved' : 'Rejected'
+                        )}
+                    </button> */}
+
+                    <div className="w-1/12 p-2 flex justify-center items-center">
+                        {user.isVerified === "Approved" ? (
+                            <span className="bg-green-500 text-white rounded-full px-2 py-1 font-semibold">
+                                Approved
+                            </span>
+                        ) : user.isVerified === "Rejected" ? (
+                            <span className="bg-red-500 text-white rounded-full px-2 py-1 font-semibold">
+                                Rejected
+                            </span>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={() => handleApproval(user.uId)}
+                                    className="bg-green-500 text-white rounded-full p-1 mr-2"
+                                >
+                                    <FaCheck />
+                                </button>
+                                <button
+                                    onClick={() => handleRejection(user.uId)}
+                                    className="bg-red-500 text-white rounded-full p-1"
+                                >
+                                    <FaTimes />
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             ))}
         </div>
     );
-}
+};
 
 export default EnquiryNotif;

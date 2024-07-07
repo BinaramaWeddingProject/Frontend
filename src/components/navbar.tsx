@@ -61,10 +61,10 @@ const NavBar: React.FC = () => {
         <div className="icons flex space-x-4">
           <ul className="space-x-4 hidden md:block">
             {isLoggedIn && (
-              <li className="relative">
-                <button className="text-white hover:text-gray-200">
+              <li className="relative"> 
+                <Link to="/notification" className="text-white hover:text-gray-200">
                   <FaBell />
-                </button>
+                </Link>
               </li>
             )}
           </ul>
