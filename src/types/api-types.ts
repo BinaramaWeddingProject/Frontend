@@ -1,4 +1,4 @@
-import {Admin, User, Vendor, Venue, Blog, Notification, RealWeddings, wishlist , BodyAdmin , Bookings} from "./types.ts"
+import {Admin, User, Vendor, Venue, Blog, Notification, RealWeddings, wishlist , BodyAdmin , Bookings , Enquiry} from "./types.ts"
 
 
 export type AllVendorsResponse = {
@@ -217,3 +217,8 @@ export type CitiesResponse = {
   cities: string[];
 };
 
+export type EnquiryResponse= {
+
+  message:string;
+  data: Enquiry;
+}

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSignupMutation } from "../redux/api/vendor";
-import toast from "react-hot-toast";
+import { toast } from 'react-toastify';
 import { useSignupVenueMutation } from "../redux/api/venue";
 import { styles } from "../styles/style";
 import { useNavigate } from "react-router-dom";
 
+
+import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../components/skeleton/Loader";
 
 const businessCategories = [
   "Photographer",
@@ -37,6 +40,7 @@ const businessCategories = [
 export const VenueRegistrationForm: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [register] = useSignupVenueMutation();
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -58,6 +62,7 @@ export const VenueRegistrationForm: React.FC = () => {
       comments: Yup.string(),
     }),
     onSubmit: async (values) => {
+      setIsLoading(true); // Set loading to true when submitting
       console.log("Vendor registration form submitted:", values);
       values.city = capitalizeFirstLetter(values.city);
       const res = await register(values);
@@ -65,6 +70,7 @@ export const VenueRegistrationForm: React.FC = () => {
       if(res?.data?.success==true){
         navigate('/login')
       }
+      setIsLoading(false);
       setSubmitted(true);
     },
   });
@@ -75,6 +81,7 @@ export const VenueRegistrationForm: React.FC = () => {
 
   return (
     <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded shadow-md">
+       {isLoading && <Loader />} {/* Add Loader component */}
       <form className="w-full" onSubmit={formik.handleSubmit}>
         <div className="mb-4">
           <label htmlFor="businessName" className="block mb-1 font-medium">
@@ -206,6 +213,7 @@ export const VenueRegistrationForm: React.FC = () => {
         <button
           type="submit"
           className={`${styles.button} w-full py-2 px-4 rounded-md text-white bg-blue-500 hover:bg-blue-600`}
+          disabled={isLoading} // Disable button when loading
         >
           Submit
         </button>
@@ -234,6 +242,7 @@ export const VendorRegistrationForm: React.FC = () => {
   const navigate = useNavigate();
 
   const [register, { data, error, isSuccess }] = useSignupMutation();
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
 
   useEffect(() => {
     if (isSuccess) {
@@ -245,7 +254,7 @@ export const VendorRegistrationForm: React.FC = () => {
       if ("data" in error) {
         const errorData = error as any;
         toast.error(errorData.data.message);
-        toast.success("Success message", { duration: 4000 });
+       // toast.success("Success message", { duration: 4000 });
         console.log(errorData);
       }
     }
@@ -263,10 +272,29 @@ export const VendorRegistrationForm: React.FC = () => {
     },
     validationSchema: Vendor,
     onSubmit: async (values) => {
+      setIsLoading(true);
       values.city = capitalizeFirstLetter(values.city);
-      const res = await register(values);
-      if(res?.data?.success === true){
-        navigate('/login');
+      try {
+        const res = await register(values);
+        if (res?.data?.success === true) {
+          toast.success("Registration successful! Please log in.");
+          navigate("/login");
+        } else {
+          toast.error(`Invalid Credentials`, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+        toast.error("Registration failed. Please try again later.");
+      } finally {
+        setIsLoading(false);
       }
     },
   });
@@ -279,6 +307,7 @@ export const VendorRegistrationForm: React.FC = () => {
   const { errors, touched, values, handleChange, handleSubmit } = formik;
   return (
     <div className="w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded shadow-md">
+      {isLoading && <Loader />} {/* Add Loader component */}
       <form className="w-full" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="businessName" className="block mb-1 font-medium">

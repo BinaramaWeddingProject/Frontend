@@ -49,16 +49,22 @@ const VendorsList: React.FC<VendorsListProps> = ({
 
   useEffect(() => {
     const approvedVendors = allVendors.filter(vendor => vendor.isVerified === "Approved");
-    if (searchQuery.trim() === "") {
-      setFilteredVendors(approvedVendors);
-    } else {
-      const filtered = approvedVendors.filter((vendor) =>
+    let filtered = approvedVendors;
+    
+    if (searchQuery.trim() !== "") {
+      filtered = approvedVendors.filter((vendor) =>
         vendor.name?.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredVendors(filtered);
     }
-  }, [searchQuery, allVendors]);
-
+    
+    if (Title !== "AllVendors") {
+      filtered = filtered.filter((vendor) => vendor.type_Of_Business === Title);
+    }
+    
+    setFilteredVendors(filtered);
+    setCurrentPage(1); // Reset to first page when filters change
+  }, [searchQuery, allVendors, Title]);
+  
   const indexOfLastVendor = currentPage * vendorsPerPage;
   const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
   const currentVendors = filteredVendors.slice(indexOfFirstVendor, indexOfLastVendor);

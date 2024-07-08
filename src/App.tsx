@@ -30,7 +30,7 @@ import BlogList from "./pages/BlogList";
 import NewBlog from "./pages/admin/components/profile/blog/NewBlog";
 import Loader from "./components/Loader";
 import BlogPost from "./pages/admin/components/profile/blog/BlogPost";
-import UserNotification from "./pages/notification/notification";
+// import UserNotification from "./pages/notification/notification";
 import BlogView from "./pages/BlogView";
 import RealWeddingsList from "./pages/realWeddingsList";
 import RealWeddingsView from "./pages/realWeddingsView";
@@ -40,110 +40,64 @@ import NewRealWedding from "./pages/admin/components/profile/realWedding/newReal
 import {AdminProtectedRoutes , VendorProtectedRoutes , VenueProtectedRoutes , UserProtectedRoutes} from "./utils/ProtectedRoutes";
 import VenueProfile from "./pages/admin/components/profile/venue/VenueProfilePage";
 import EnquiryNotif from "./pages/notification/enquirynotif";
+import ScrollToTop from "./components/ScrollToTop";
 // import UpdateVenueComponent from "./pages/Test";
 
-// import PopUp from "./components/PopUp"
-
+import PopUp from "./components/PopUp"
 
 const App: React.FC = () => {
   return (
     <ChakraProvider>
-      
+     
       <Router>
-      {/* <PopUp/> */}
         <Suspense fallback={<Loader />}>
-       
+        <PopUp/>
+        <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* <Route path="/popup" element={<PopUp />} /> */}
+
             <Route path="/login" element={<Login />} />
-            {/* <Route path="/test" element={<UpdateVenueComponent />} /> */}
-          
             <Route path="/Signup" element={<Signup />} />
             <Route path="/userregister" element={<UserRegister />} />
-
             <Route path="aboutus1" element={<AboutUs />} />
-            {/* <Route path='aboutus2' element={<AboutUs2 />}/> */}
-
-            {/* <Route path='/forget' element={<ForgetPasswordPage />}/> */}
-
-            {/* <Route path='/passverification' element={<PassVerification/>}/> */}
-            {/* <Route path='/newpassword' element={<NewPassword/>}/> */}
-            {/* <Route path='/verification' element={<Verification/>}/> */}
-
-            {/* <Route path='/forget' element={<ForgetPasswordPage />}/> */}
-
-            {/* <Route path='/passverification' element={<PassVerification/>}/> */}
-            {/* <Route path='/newpassword' element={<NewPassword/>}/> */}
-            {/* <Route path='/verification' element={<Verification/>}/> */}
-
             <Route path="/vendor/:type" element={<VendorsList />} />
-
-          
-            
             <Route path="/vendorCategory" element={<VendorCategory />} />
-
             <Route path="/business" element={<Business />} />
             <Route path="/venuelist" element={<VenueList />} />
-            {/* <Route
-              path="/vendors/category/:category"
-              element={<VendorsListByCategory />}
-            /> */}
-            {/* <Route path="/vendors" element={<Vendor />} /> */}
             <Route path="/vendor/:type/:_id" element={<VendorServicePage />} />
             <Route path="/venuelist/:id" element={<VenueServicePage />} />
-
-            
             <Route path="/blogs" element={<BlogList />} />
             <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/blog/new" element={<NewBlog />} />
             <Route path="/realWeddings/new" element={<NewRealWedding />} />
             <Route path="/realWeddings/:id" element={<RealWeddingsPost />} />
-         
-            <Route path="/notification" element={<EnquiryNotif/>}/>
-            {/* <Route path="/notification" element={<UserNotification/>}/> */}
-
+            <Route path="/notification" element={<EnquiryNotif />} />
             <Route path="/realWedding/:id" element={<RealWeddingsView />} />
             <Route path="/realWedding" element={<RealWeddingsList />} />
-            <Route path="/blogs/:id" element={<BlogView/>}/>
+            <Route path="/blogs/:id" element={<BlogView />} />
 
-            <Route element = {<AdminProtectedRoutes/>}>
-                 <Route path="/adminDashboard" element={<AdminDashboard />} />
-                 <Route path="/adminDashboard/:page" element={<AdminDashboard />} />
-
-               
-                
-
-                 <Route path="/UserProfile/:id" element={<UserProfile />} />
-                 <Route path="/VendorProfile/:id" element={<VendorProfile />} />
-                 <Route path="/VendorProfile/:id" element={<VendorProfile />} />
-                 <Route path="/VenueProfile/:id" element={<VenueProfile />} />
-
-                 
-
-
+            <Route element={<AdminProtectedRoutes />}>
+              <Route path="/adminDashboard" element={<AdminDashboard />} />
+              <Route path="/adminDashboard/:page" element={<AdminDashboard />} />
+              <Route path="/UserProfile/:id" element={<UserProfile />} />
+              <Route path="/VendorProfile/:id" element={<VendorProfile />} />
+              <Route path="/VendorProfile/:id" element={<VendorProfile />} />
+              <Route path="/VenueProfile/:id" element={<VenueProfile />} />
             </Route>
 
-
-            <Route element = {<VendorProtectedRoutes/>}>
-                <Route path="/vendorProfilePage" element={<VendorProfilePage />} />
-               
-
+            <Route element={<VendorProtectedRoutes />}>
+              <Route path="/vendorProfilePage" element={<VendorProfilePage />} />
             </Route>
 
-            <Route element = {<VenueProtectedRoutes/>}>
-                <Route path="/venueProfilePage" element={<VenueProfilePage />} />
-                
+            <Route element={<VenueProtectedRoutes />}>
+              <Route path="/venueProfilePage" element={<VenueProfilePage />} />
             </Route>
 
-            <Route element = {<UserProtectedRoutes/>}>
-                <Route path="/userProfilePage" element={<UserProfilePage />} />
-                
-
+            <Route element={<UserProtectedRoutes />}>
+              <Route path="/userProfilePage" element={<UserProfilePage />} />
             </Route>
-
-            
-            
-            
           </Routes>
         </Suspense>
       </Router>

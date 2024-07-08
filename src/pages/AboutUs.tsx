@@ -9,16 +9,16 @@ const AboutUs: React.FC = () => {
       role: 'Founder & CEO',
       imageUrl: '/founderandCEO.jpg',
     },
-    {
-      name: 'Raziya Kareem',
-      role: 'Senior Event Consultant',
-      imageUrl: '/SeniorEventConsultant.jpg',
-    },
-    {
-      name: 'Azra Akram ali khan',
-      role: 'Senior Event Director',
-      imageUrl: '/SeniorEventDirector.jpg',
-    },
+    // {
+    //   name: 'Raziya Kareem',
+    //   role: 'Senior Event Consultant',
+    //   imageUrl: '/SeniorEventConsultant.jpg',
+    // },
+    // {
+    //   name: 'Azra Akram ali khan',
+    //   role: 'Senior Event Director',
+    //   imageUrl: '/SeniorEventDirector.jpg',
+    // },
   ];
 
   const localVideos = [
@@ -97,7 +97,7 @@ const AboutUs: React.FC = () => {
 
           <div className="mt-16">
             <h3 className="text-2xl font-semibold text-gray-900 text-center mb-8">Our Team</h3>
-            <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8 justify-items-center">
+            <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-1 xl:gap-x-8 justify-items-center">
               {teamMembers.map((member, index) => (
                 <div key={index} className="text-center">
                   <img

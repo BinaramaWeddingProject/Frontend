@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BookingResponse } from "../../types/api-types";
-import { Bookings } from "../../types/types";
+import {  Bookings } from "../../types/types";
 
 export const bookingAPI = createApi({
   reducerPath: "bookingApi",
@@ -30,7 +30,7 @@ export const bookingAPI = createApi({
     }),
 
 
-    getBookingbyId: builder.query< BookingResponse,
+    getBookingbyId: builder.query< Bookings[],
     { vId: string }
   >({
     query: ({ vId }) => ({

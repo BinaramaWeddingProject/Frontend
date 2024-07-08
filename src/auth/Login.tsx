@@ -13,8 +13,10 @@ import { login } from "../redux/reducer/auth.ts";
 import { User } from "../types/types.ts";
 import { useLoginUserMutation } from "../redux/api/user.ts";
 import { useLoginAdminMutation } from "../redux/api/admin.ts";
+import Loader from "../components/skeleton/Loader.tsx" 
 
-// import { setUserId } from "../redux/reducer/login";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const schema = Yup.object().shape({
   email: Yup.string().email("Invalid email!"),
@@ -23,19 +25,19 @@ const schema = Yup.object().shape({
 });
 
 const Login: FC = () => {
-  // const dispatch: AppDispatch = useDispatch();
-
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
   const [loginVendor] = useLoginVendorMutation();
   const [loginVenue] = useLoginVenueMutation();
   const [loginUser] = useLoginUserMutation();
-  const[loginAdmin] = useLoginAdminMutation();
+  const [loginAdmin] = useLoginAdminMutation();
 
   const handleLogin = (_id: string, role: string) => {
-    const user: User = { _id: _id, role }; // Replace this with actual login logic
+    const user: User = { _id: _id, role };
     dispatch(login(user));
     console.log(user);
   };
@@ -44,41 +46,57 @@ const Login: FC = () => {
     initialValues: { email: "", password: "", role: "" },
     validationSchema: schema,
     onSubmit: async (values) => {
+      setIsLoading(true);
+      setSuccessMessage("");
       try {
         let response;
 
         if (values.role === "vendor") {
-          response = await loginVendor(values).unwrap(); // Assuming loginVendor is a function that sends login request for vendor role
-          const id:string = response?.data?.loggedInVendor?._id || ""
-          handleLogin(id , values.role);
+          response = await loginVendor(values).unwrap();
+          const id: string = response?.data?.loggedInVendor?._id || "";
+          handleLogin(id, values.role);
           navigate("/vendorProfilePage");
         }
 
         if (values.role === "venue") {
-          response = await loginVenue(values).unwrap(); // Assuming loginVenue is a function that sends login request for venue role
-          const id:string = response?.data?.loggedInVenue?._id || ""
+          response = await loginVenue(values).unwrap();
+          const id: string = response?.data?.loggedInVenue?._id || "";
           handleLogin(id, values.role);
           navigate("/venueProfilePage");
         }
 
         if (values.role === "user") {
-          response = await loginUser(values).unwrap(); // Assuming loginVenue is a function that sends login request for venue role
-          const id =response?.data?.loggedInUser?._id || ""
+          response = await loginUser(values).unwrap();
+          const id = response?.data?.loggedInUser?._id || "";
           handleLogin(id, values.role);
           navigate("/userProfilePage");
         }
 
         if (values.role === "admin") {
-          response = await loginAdmin(values).unwrap(); // Assuming loginVenue is a function that sends login request for venue role
-          const id = response?.data?.loggedInAdmin?._id || ""
+          response = await loginAdmin(values).unwrap();
+          const id = response?.data?.loggedInAdmin?._id || "";
           handleLogin(id, values.role);
           navigate("/adminDashboard");
         }
 
+        setSuccessMessage("Login successful!");
         console.log("Login successful:", response);
+        
       } catch (err) {
         // Handle login error
         console.error("Login error:", err);
+        toast.error(`Invalid Credentials`, {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        
+      } finally {
+        setIsLoading(false);
       }
     },
   });
@@ -178,12 +196,23 @@ const Login: FC = () => {
             </span>
           </div>
 
+          {/* Loader */}
+          {isLoading && <Loader />}
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="text-black text-center mb-4">
+              {successMessage}
+            </div>
+          )}
+
           {/* Login button */}
           <div className="mb-4">
             <input
               type="submit"
               value="Login"
               className={`${styles.button} `}
+              disabled={isLoading}
             />
           </div>
 

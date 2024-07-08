@@ -15,6 +15,7 @@ import { useGetAllCitiesQuery } from '../redux/api/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { cityStatus } from '../redux/reducer/auth';
+import Universal from "../components/skeleton/Universal"
 
 const imageUrl = "/wv_cover2.jpg";
 
@@ -105,7 +106,7 @@ const Home: React.FC = () => {
       <div className="py-12">
         <h2 className="text-3xl text-gray-900 font-bold text-center mb-8">Top Rated Venues</h2>
         {isLoadingVenues ? (
-          <div>Loading...</div>
+            <Universal />
         ) : venuesError ? (
           <div>{errorMessageVenues}</div>
         ) : (
