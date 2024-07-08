@@ -23,11 +23,13 @@ const PriceCard: React.FC<Props> = ({ price, rating, vendorId, itemType = "vendo
   const { data: wishlistData, refetch } = useGetWishlistQuery(userId); // Replace userId with your actual variable
   const { data: bookingData} = useGetBookingByUserAndVenueQuery({ uId: userId, vId: vendorId as string});
   const itemId = vendorId;
+  
 
   useEffect(() => {
     if (wishlistData) {
       const isWishlisted = wishlistData?.wishlist?.items?.some(item => item.itemId === itemId) ?? false;
       setIsWishlistSelected(isWishlisted);
+      
     }
   }, [wishlistData, itemId]);
 
@@ -77,6 +79,7 @@ const PriceCard: React.FC<Props> = ({ price, rating, vendorId, itemType = "vendo
 
   useEffect(() => {
     if (bookingData && bookingData.message==="True") {
+      
       setHasSentEnquiry(true); // Update the state to reflect the enquiry has been sent
     }
   }, [bookingData]);

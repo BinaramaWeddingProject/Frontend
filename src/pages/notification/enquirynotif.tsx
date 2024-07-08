@@ -55,12 +55,14 @@ const EnquiryNotif = () => {
 
     const handleOTPSubmit = async () => {
       
-    
+        if (otp === '1234') { // Example OTP validation
             if (selectedUserId) {
                 await handleApproval(selectedUserId);
             }
             setShowOTPPopup(false);
-       
+        } else {
+            alert('Invalid OTP');
+        }
     };
 
     return (

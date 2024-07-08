@@ -209,6 +209,7 @@ export type BookingResponse= {
   success: boolean;
   statusCode: number;
   message:string;
+  bookingId:string;
   data: Bookings[]
 }
 

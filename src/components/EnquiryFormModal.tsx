@@ -18,7 +18,7 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
     date: '',
     address: '',
     message: '',
-    typeOfEvent: ''  // New field added
+    typeOfEvent: ''
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
