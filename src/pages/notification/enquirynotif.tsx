@@ -17,6 +17,7 @@ const EnquiryNotif = () => {
 
     const { data } = useGetBookingbyIdQuery({ vId: vId as string });
     const [verify] = useUpdateIsVerifiedMutation();
+    console.log("data",data)
 
     const handleMarkAsRead = async (notificationId: string) => {
         try {
@@ -30,40 +31,84 @@ const EnquiryNotif = () => {
     const handleApproval = async (uId: string) => {
         try {
             console.log("approved");
-            await verify({
+           const res= await verify({
                 vId: vId as string,
                 uId: uId as string,
                 bookingId: otp
             });
+            return res
         } catch (error) {
             console.error('Error approving:', error);
         }
+        
     };
 
     const handleRejection = async (uId: string) => {
         try {
+            console.log("rejected",uId)
             console.log("rejected");
             await verify({
                 vId: vId as string,
                 uId: uId as string,
-                bookingId: 'reject'
+                bookingId: "Rejected"
             });
         } catch (error) {
             console.error('Error rejecting:', error);
         }
     };
 
-    const handleOTPSubmit = async () => {
+    // const handleOTPSubmit = async () => {
       
-        if (otp === '1234') { // Example OTP validation
-            if (selectedUserId) {
-                await handleApproval(selectedUserId);
-            }
-            setShowOTPPopup(false);
-        } else {
-            alert('Invalid OTP');
-        }
-    };
+    
+    //         if (selectedUserId) {
+    //             await handleApproval(selectedUserId);
+    //         }
+    //         setShowOTPPopup(false);
+       
+    // };
+
+
+//     const handleOTPSubmit = async () => {
+      
+//         // if (otp === '1234') { // Example OTP validation
+//             if (selectedUserId) {
+//                 const res = await handleApproval(selectedUserId);
+//                 console.log("res", res);
+//                 if(res){
+//                     setShowOTPPopup(false);
+//                 }
+//             }
+//             // setShowOTPPopup(false);
+//         // } 
+//         else {
+//             alert('Invalid OTP');
+//         }
+//     };
+
+
+const handleOTPSubmit = async () => {
+    // if (otp === '1234') { // Example OTP validation
+    try {
+        if (selectedUserId) {  // Check if selectedUserId exists/truthy
+            const res = await handleApproval(selectedUserId);  // Call handleApproval asynchronously
+            console.log("res", res);  // Log the result of handleApproval
+    
+            // if (res !== undefined && res !== null && res) {
+                if ((res as any).data === 'Approved') {  // Example of type assertion
+                    setShowOTPPopup(false);
+                }
+                
+    
+            // setShowOTPPopup(false);  // This line is commented out or not executed here
+        }}
+     catch (error) {
+        console.error('Error approving:', error);  // Log any errors that occur during approval
+    }
+    
+    // } else {
+    //     alert('Invalid OTP');
+    // }
+};
 
     return (
         <>
@@ -81,12 +126,12 @@ const EnquiryNotif = () => {
                             <p className="text-gray-600">Location: {user.location}</p>
                             <p className="text-gray-600">Message: {user.message}</p>
                         </div>
-                        <button
+                        {/* <button
                             onClick={() => handleMarkAsRead(user.notificationId)}
                             className={`font-bold py-2 px-4 rounded ${notificationStatus[index] === 'read' || readUsers.includes(user.notificationId) ? 'bg-green-500 hover:bg-green-700 text-white' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
                         >
                             {notificationStatus[index] === 'read' || readUsers.includes(user.notificationId) ? 'Marked as Read' : 'Mark as Read'}
-                        </button>
+                        </button> */}
 
                         <div className="w-1/12 p-2 flex justify-center items-center">
                             {user.isVerified === "Approved" ? (

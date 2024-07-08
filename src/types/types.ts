@@ -161,3 +161,14 @@ export interface Notification{
  }
 
 
+ export interface Enquiry{
+  _id?:string
+  name?: string;
+  contact?: string;
+  location?: string;
+  guests?: string;
+  date?: string;
+  address?: string;
+  message?: string;
+  typeOfEvent?: string;
+}

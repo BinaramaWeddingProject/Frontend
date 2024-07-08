@@ -43,16 +43,21 @@ import EnquiryNotif from "./pages/notification/enquirynotif";
 import ScrollToTop from "./components/ScrollToTop";
 // import UpdateVenueComponent from "./pages/Test";
 
-// import PopUp from "./components/PopUp"
+import PopUp from "./components/PopUp"
 
 const App: React.FC = () => {
   return (
     <ChakraProvider>
+     
       <Router>
         <Suspense fallback={<Loader />}>
+        <PopUp/>
         <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* <Route path="/popup" element={<PopUp />} /> */}
+
             <Route path="/login" element={<Login />} />
             <Route path="/Signup" element={<Signup />} />
             <Route path="/userregister" element={<UserRegister />} />
