@@ -22,8 +22,8 @@ const Footer = () => {
           <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
           <p className="mb-2">Shakti Khand 2, Indirapuram</p>
           <p className="mb-2">Ghaziabad, 201014</p>
-          <p className="mb-2">Phone: <a href="tel:+918076207112" className="hover:underline text-red-500">+91 8076207112</a></p>
-          <p>Email: <a href="mailto:Weddingzvenue.in@gmail.com" className="hover:underline text-red-500">Weddingzvenue.in@gmail.com</a></p>
+          <p className="mb-2">Phone: <a href="tel:+918076207112" className="hover:underline text-[#D6BF5E]">+91 8076207112</a></p>
+          <p>Email: <a href="mailto:Weddingzvenue.in@gmail.com" className="hover:underline text-[#D6BF5E]">Weddingzvenue.in@gmail.com</a></p>
         </div>
       </div>
       <div className="mt-8 border-t border-gray-700 pt-6 text-center">

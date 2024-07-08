@@ -146,11 +146,11 @@ const VenueServicePage = () => {
       <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
         <VenueImageCarousel images={venueData?.images} />
       </div>
-      <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
+      {/* <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
         <VenuePolicies policies={venuePolicies} />
-      </div>
+      </div> */}
       <div className="flex flex-col justify-center mt-8">
-        <h2 className="text-2xl font-thin mb-4 tracking-widest flex justify-center">RELATED ARTICLES</h2>
+        {/* <h2 className="text-2xl font-thin mb-4 tracking-widest flex justify-center">RELATED ARTICLES</h2> */}
         <RelatedArticles />
       </div>
       {/* <div>

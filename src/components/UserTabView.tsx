@@ -138,7 +138,7 @@ const UserTabView = () => {
     };
 
     return (
-        <div className="border p-2 border-white overflow-scroll h-screen">
+        <div className="border p-2 border-white overflow-scroll h-screen ">
             <nav className="flex max-w-full">
                 <button
                     className={`${activeTab === 'Profile' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'} py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
@@ -154,7 +154,7 @@ const UserTabView = () => {
                     <FontAwesomeIcon icon={faHeart} className="mr-2" />
                     Wishlist
                 </button>
-                <button
+                {/* <button
                     className={`${activeTab === 'Bookings' ? 'bg-gray-200 border-b-2 border-blue-500' : 'bg-white'} py-4 px-6 text-gray-700 font-semibold focus:outline-none hover:bg-gray-100 transition duration-300 ease-in-out flex items-center justify-center font-roboto w-1/4`}
                     onClick={() => handleTabClick('Bookings')}
                 >
@@ -167,14 +167,14 @@ const UserTabView = () => {
                 >
                     <FontAwesomeIcon icon={faBoxOpen} className="mr-2" />
                     History
-                </button>
+                </button> */}
             </nav>
             <div className="mt-4">
                 {activeTab === 'Profile' && <OverviewTab profileData={profileData} isEditing={isEditing} handleEditClick={handleEditClick} handleSaveClick={handleSaveClick} handleChange={handleChange} />}
                 {activeTab === 'Wishlist' && <Wishlist />}
-                {activeTab === 'Bookings' && <PortfolioTab />}
-                {activeTab === 'History' && <PackageTab packages={dummyPackages} />}
-                {activeTab === 'Ratings' && <RatingsTab />}
+                {/* {activeTab === 'Bookings' && <PortfolioTab />} */}
+                {/* {activeTab === 'History' && <PackageTab packages={dummyPackages} />} */}
+                {/* {activeTab === 'Ratings' && <RatingsTab />} */}
             </div>
         </div>
     );
@@ -416,6 +416,7 @@ const Wishlist = () => {
                                 packagePrice={vendor.packages?.price}
                                 summary={vendor.summary}
                                 image={vendor.portfolio ? vendor.portfolio[4] : ""}
+
                             />
                         </div>
                     )) : <div>No Vendor found</div>}
@@ -423,7 +424,7 @@ const Wishlist = () => {
                 <div className="w-[50%] overflow-scroll border-2 border-white">
                     <h3 className="text-xl font-semibold mt-4 mb-2 font-roboto text-center">Venues</h3>
                     {wishlistVenues.length > 0 ? wishlistVenues.map((venue) => (
-                        <div key={venue._id} className='mix-blend-screen -ml-24 pr-2 scale-75 h-[20%] w-[135%]'>
+                        <div key={venue._id} className='mix-blend-screen -ml-24 pr-2 my-32 text-black scale-75 h-[20%] w-[135%]'>
                             <VenueCard
                                 venue={{
                                     name: venue.businessName,
@@ -455,94 +456,94 @@ const Wishlist = () => {
 
 
 
-const PortfolioTab = () => {
-    return (
-        <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-semibold mb-4 font-roboto">Bookings</h2>
-            <div className="grid grid-cols-4 gap-4">
-                <img
-                    src="https://picsum.photos/200"
-                    alt="Bookings Image 1"
-                    className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                />
-                <img
-                    src="https://picsum.photos/200"
-                    alt="Bookings Image 2"
-                    className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                />
-                <img
-                    src="https://picsum.photos/200"
-                    alt="Bookings Image 3"
-                    className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                />
-                <img
-                    src="https://picsum.photos/200"
-                    alt="Bookings Image 4"
-                    className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                />
-            </div>
-        </div>
-    );
-};
+// const PortfolioTab = () => {
+//     return (
+//         <div className="flex flex-col items-center">
+//             <h2 className="text-2xl font-semibold mb-4 font-roboto">Bookings</h2>
+//             <div className="grid grid-cols-4 gap-4">
+//                 <img
+//                     src="https://picsum.photos/200"
+//                     alt="Bookings Image 1"
+//                     className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+//                 />
+//                 <img
+//                     src="https://picsum.photos/200"
+//                     alt="Bookings Image 2"
+//                     className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+//                 />
+//                 <img
+//                     src="https://picsum.photos/200"
+//                     alt="Bookings Image 3"
+//                     className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+//                 />
+//                 <img
+//                     src="https://picsum.photos/200"
+//                     alt="Bookings Image 4"
+//                     className="w-full h-auto rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+//                 />
+//             </div>
+//         </div>
+//     );
+// };
 
-const PackageTab = ({ packages }: { packages: { name: string; days: string; price: string; minAdvance: string; }[] }) => {
-    return (
-        <div className="flex flex-col items-center">
-            <h2 className="text-2xl font-semibold mb-4 font-roboto">Packages</h2>
-            <div className="grid grid-cols-2 gap-8">
-                {packages.map((pkg, index) => (
-                    <div
-                        key={index}
-                        className="border rounded-lg p-6 shadow-md transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-lg"
-                    >
-                        <h3 className="font-semibold text-lg font-roboto">{pkg.name}</h3>
-                        <p className="font-roboto">Price: {pkg.price}</p>
-                        <p className="font-roboto">Duration: {pkg.days}</p>
-                        <p className="font-roboto">Minimum Advance: {pkg.minAdvance}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+// const PackageTab = ({ packages }: { packages: { name: string; days: string; price: string; minAdvance: string; }[] }) => {
+//     return (
+//         <div className="flex flex-col items-center">
+//             <h2 className="text-2xl font-semibold mb-4 font-roboto">Packages</h2>
+//             <div className="grid grid-cols-2 gap-8">
+//                 {packages.map((pkg, index) => (
+//                     <div
+//                         key={index}
+//                         className="border rounded-lg p-6 shadow-md transition duration-300 ease-in-out transform hover:-translate-y-2 hover:shadow-lg"
+//                     >
+//                         <h3 className="font-semibold text-lg font-roboto">{pkg.name}</h3>
+//                         <p className="font-roboto">Price: {pkg.price}</p>
+//                         <p className="font-roboto">Duration: {pkg.days}</p>
+//                         <p className="font-roboto">Minimum Advance: {pkg.minAdvance}</p>
+//                     </div>
+//                 ))}
+//             </div>
+//         </div>
+//     );
+// };
 
-const RatingsTab = () => {
-    const ratings = [
-        { stars: 5, review: "Excellent service!" },
-        { stars: 4, review: "Very good experience." },
-        { stars: 3, review: "Average service." },
-        { stars: 2, review: "Needs improvement." },
-        { stars: 1, review: "Poor service." },
-    ];
+// const RatingsTab = () => {
+//     const ratings = [
+//         { stars: 5, review: "Excellent service!" },
+//         { stars: 4, review: "Very good experience." },
+//         { stars: 3, review: "Average service." },
+//         { stars: 2, review: "Needs improvement." },
+//         { stars: 1, review: "Poor service." },
+//     ];
 
-    const renderStars = (rating: number) => {
-        const starArray = [];
-        for (let i = 0; i < 5; i++) {
-            if (i < rating) {
-                starArray.push(<FontAwesomeIcon key={i} icon={solidStar} className="text-yellow-400" />);
-            } else {
-                starArray.push(<FontAwesomeIcon key={i} icon={regularStar} className="text-gray-400" />);
-            }
-        }
-        return starArray;
-    };
+//     const renderStars = (rating: number) => {
+//         const starArray = [];
+//         for (let i = 0; i < 5; i++) {
+//             if (i < rating) {
+//                 starArray.push(<FontAwesomeIcon key={i} icon={solidStar} className="text-yellow-400" />);
+//             } else {
+//                 starArray.push(<FontAwesomeIcon key={i} icon={regularStar} className="text-gray-400" />);
+//             }
+//         }
+//         return starArray;
+//     };
 
-    return (
-        <div>
-            <h2 className="text-2xl font-semibold mb-4 font-roboto text-center">Ratings</h2>
-            <div className='flex flex-row justify-center items-center'>
-                {ratings.map((rating, index) => (
-                    <div key={index} className="mb-4 p-4 mx-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
-                        <div className="flex items-center mb-2">
-                            <div className="mr-2">{renderStars(rating.stars)}</div>
-                            <span className="text-gray-600 font-roboto">{rating.stars} stars</span>
-                        </div>
-                        <p className="text-gray-800 font-roboto">{rating.review}</p>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+//     return (
+//         <div>
+//             <h2 className="text-2xl font-semibold mb-4 font-roboto text-center">Ratings</h2>
+//             <div className='flex flex-row justify-center items-center'>
+//                 {ratings.map((rating, index) => (
+//                     <div key={index} className="mb-4 p-4 mx-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
+//                         <div className="flex items-center mb-2">
+//                             <div className="mr-2">{renderStars(rating.stars)}</div>
+//                             <span className="text-gray-600 font-roboto">{rating.stars} stars</span>
+//                         </div>
+//                         <p className="text-gray-800 font-roboto">{rating.review}</p>
+//                     </div>
+//                 ))}
+//             </div>
+//         </div>
+//     );
+// };
 
 export default UserTabView;

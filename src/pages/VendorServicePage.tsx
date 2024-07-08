@@ -91,9 +91,9 @@ function VendorServicePage() {
           <TermsAndPolicyCard />
         </div>
         <div className="bg-[#110069] text-white">
-          <div className="text-2xl flex justify-center my-2">
+          {/* <div className="text-2xl flex justify-center my-2">
             RELATED ARTICLES
-          </div>
+          </div> */}
           <RelatedArticles />
         </div>
       </div>

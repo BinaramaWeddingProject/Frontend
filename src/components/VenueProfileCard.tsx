@@ -158,7 +158,7 @@ const VenueProfileCard: React.FC<Props> = ({ yourName, profile, phone, email, pa
           )}
         </div>
         <div className="mt-16 text-xl w-full">
-          {['My venues', 'My services', 'List a new service', 'Logout'].map(tab => (
+          {['Logout'].map(tab => (
             <div
               key={tab}
               className="cursor-pointer text-white my-4 py-2 px-4 rounded-md border border-transparent hover:bg-blue-500 hover:text-white hover:border-[#110069] transition-colors"

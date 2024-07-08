@@ -123,12 +123,9 @@ const VendorProfileCard: React.FC<Props> = ({name, profile, phone, email, passwo
                 <button onClick={handleEditClick} className="bg-blue-500 text-white px-8 py-2 rounded-md mx-4 my-8">Edit</button>
               </>
             )}
-          </div>
+          </div>  
           <div className="mt-auto text-xl">
             {/* Navigation Tabs */}
-            <div className="cursor-pointer text-white my-4 hover:bg-blue-500 hover:text-white hover:border-[#110069] py-2 px-4 rounded-md border border-transparent" onClick={() => handleTabClick('My venues')}>My venues</div>
-            <div className="cursor-pointer text-white my-4 hover:bg-blue-500 hover:text-white hover:border-[#110069] py-2 px-4 rounded-md border border-transparent" onClick={() => handleTabClick('My services')}>My services</div>
-            <div className="cursor-pointer text-white my-4 hover:bg-blue-500 hover:text-white hover:border-[#110069] py-2 px-4 rounded-md border border-transparent" onClick={() => handleTabClick('List a new service')}>List a new service</div>
             <div className="cursor-pointer text-white my-4 hover:bg-blue-500 hover:text-white hover:border-[#110069] py-2 px-4 rounded-md border border-transparent" onClick={() => handleTabClick('Logout')}>Logout</div>
           </div>
         </div>
