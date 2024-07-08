@@ -6,7 +6,6 @@ import VenueAboutCard from '../components/VenueAboutCard';
 import NavBar from '../components/navbar';
 import Footer from '../components/Footer';
 import VenueImageCarousel from '../components/VenueImageCarousel';
-import VenuePolicies from '../components/VenuePolicies';
 import RelatedArticles from '../components/RelatedArticles';
 import VenueSummary from '../components/VenueSummary';
 import FAQSection from '../components/FaqSection';
@@ -35,50 +34,50 @@ const VenueServicePage = () => {
   //   console.log('Phone number submitted:', phoneNumber);
   // };
 
-  const venuePolicies = {
-    timings: "11:00 PM",
-    morningSlot: "8:00 AM - 11:00 PM",
-    changingRoom: {
-      count: 2,
-      isAc: true,
-    },
-    advance: {
-      amount: 118000,
-      adjustmentPolicy: "6 months",
-    },
-    taxes: {
-      fnb: "18.00%",
-    },
-    parking: {
-      valet: false,
-      space: 100,
-    },
-    cancellation: "Non cancellable",
-    lodging: "No rooms available",
-    alcohol: {
-      allowed: true,
-      outsideAllowed: true,
-      corkageCost: true,
-    },
-    otherPolicies: [
-      "No Music allowed late",
-      "Halls are air conditioned",
-      "No ample parking",
-      "Baarat allowed",
-      "No fire crackers allowed",
-      "Hawan allowed",
-      "No overnight wedding allowed"
-    ],
-    food: [
-      "Food provided by the venue",
-      "No outside food/caterer allowed at the venue",
-      "Non-Veg allowed at the venue"
-    ],
-    decoration: [
-      "No Outside decorators allowed",
-      "Decor provided by the venue"
-    ]
-  };
+  // const venuePolicies = {
+  //   timings: "11:00 PM",
+  //   morningSlot: "8:00 AM - 11:00 PM",
+  //   changingRoom: {
+  //     count: 2,
+  //     isAc: true,
+  //   },
+  //   advance: {
+  //     amount: 118000,
+  //     adjustmentPolicy: "6 months",
+  //   },
+  //   taxes: {
+  //     fnb: "18.00%",
+  //   },
+  //   parking: {
+  //     valet: false,
+  //     space: 100,
+  //   },
+  //   cancellation: "Non cancellable",
+  //   lodging: "No rooms available",
+  //   alcohol: {
+  //     allowed: true,
+  //     outsideAllowed: true,
+  //     corkageCost: true,
+  //   },
+  //   otherPolicies: [
+  //     "No Music allowed late",
+  //     "Halls are air conditioned",
+  //     "No ample parking",
+  //     "Baarat allowed",
+  //     "No fire crackers allowed",
+  //     "Hawan allowed",
+  //     "No overnight wedding allowed"
+  //   ],
+  //   food: [
+  //     "Food provided by the venue",
+  //     "No outside food/caterer allowed at the venue",
+  //     "Non-Veg allowed at the venue"
+  //   ],
+  //   decoration: [
+  //     "No Outside decorators allowed",
+  //     "Decor provided by the venue"
+  //   ]
+  // };
 
   // const handleContactClick = () => {
   //   alert('Contact button clicked!');
