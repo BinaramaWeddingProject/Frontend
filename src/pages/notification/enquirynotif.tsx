@@ -80,11 +80,7 @@ const EnquiryNotif = () => {
         {data?.map((user: any, index: number) => (
           <div
             key={index}
-            className={`p-4 m-4 border border-gray-200 rounded shadow-md 
-                 
-            //   readUsers.includes(user.notificationId) ? "bg-gray-100" : ""
-            // }
-            `}
+            className={`p-4 m-4 border border-gray-200 rounded shadow-md`}
           >
             <div className="mb-4">
               <p className="text-lg font-bold">{user.name}</p>
