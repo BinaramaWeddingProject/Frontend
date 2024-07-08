@@ -22,7 +22,6 @@ const EnquiryNotif = () => {
   console.log("data", data);
 
   useEffect(() => {
-    // Effect to reload data when reloadTrigger state changes
     if (reloadTrigger) {
       refetch();
       setReloadTrigger(false);
