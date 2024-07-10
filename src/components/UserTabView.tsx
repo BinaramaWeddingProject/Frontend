@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as solidStar, faHome, faImages, faBoxOpen, faStar as regularStar } from '@fortawesome/free-solid-svg-icons';
+import {  faHome } from '@fortawesome/free-solid-svg-icons';
 import { faEdit, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useGetWishlistQuery } from '../redux/api/wishlist';
 import { useAllVenueQuery } from '../redux/api/venue';

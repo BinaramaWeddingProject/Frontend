@@ -7,6 +7,7 @@ import { RootState } from '../redux/store';
 // Import your logo image
 import Logo from '/weddingz_venue_logo.png'; // Adjust the path as per your project structure
 
+
 const NavBar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
@@ -22,10 +23,12 @@ const NavBar: React.FC = () => {
   };
 
   return (
+   
     <nav className="bg-[#000000] py-2 pl-2 pr-4  relative z-10 m-0">
       <div className="container mx-0 flex md:justify-between justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex items-center ">
+          <img src={Logo} alt="Logo" className="w-32 h-12 items-stretch my-0 " />
           <img src={Logo} alt="Logo" className="w-32 h-12 items-stretch my-0 " />
           {/* Adjust the class above (w-10 h-10 rounded-full) according to your logo size and shape */}
           
@@ -36,18 +39,23 @@ const NavBar: React.FC = () => {
           <ul className="hidden md:flex justify-center items-center space-x-8 flex-grow static top-0">
             <li className="relative">
               <Link to="/" className="text-[#D6BF5E] hover:text-gray-200">Home</Link>
+              <Link to="/" className="text-[#D6BF5E] hover:text-gray-200">Home</Link>
             </li>
             <li className="relative">
+              <Link to="/venuelist" className="text-[#D6BF5E] hover:text-gray-200">Venues</Link>
               <Link to="/venuelist" className="text-[#D6BF5E] hover:text-gray-200">Venues</Link>
             </li>
             <li className="relative">
               <Link to="/vendor/AllVendors" className="text-[#D6BF5E] hover:text-gray-200">Vendors</Link>
+              <Link to="/vendor/AllVendors" className="text-[#D6BF5E] hover:text-gray-200">Vendors</Link>
             </li>
             <li>
+              <Link to="/blogs" className="text-[#D6BF5E] hover:text-gray-200">Blogs</Link>
               <Link to="/blogs" className="text-[#D6BF5E] hover:text-gray-200">Blogs</Link>
             </li>
             
             <li>
+              <Link to="/realWedding" className="text-[#D6BF5E] hover:text-gray-200">Real Weddings</Link>
               <Link to="/realWedding" className="text-[#D6BF5E] hover:text-gray-200">Real Weddings</Link>
             </li>
 
@@ -62,10 +70,10 @@ const NavBar: React.FC = () => {
           <ul className="space-x-4 hidden md:block">
             {isLoggedIn && (
               <li className="relative">
-                 <Link to="/notification" className="text-[#D6BF5E] hover:text-gray-200">
+                 <Link to="/notification" className="text-white hover:text-gray-200">
                   <FaBell />
                 </Link>
-              </li> 
+              </li>
             )}
           </ul>
 

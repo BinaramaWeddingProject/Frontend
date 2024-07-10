@@ -7,6 +7,7 @@ export const bookingAPI = createApi({
   reducerPath: "bookingApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${server}/api/v1/bookings/`,
+    baseUrl: `${server}/api/v1/bookings/`,
   }),
 
   endpoints: (builder) => ({
@@ -58,6 +59,16 @@ export const bookingAPI = createApi({
         body: { uId, bookingId },
       }),
     }),
+    updateIsVerified: builder.mutation<
+      void,
+      {  vId: string, uId: string, bookingId: string }
+    >({
+      query: ({ vId, uId, bookingId }) => ({
+        url: `${vId}`,
+        method: "PATCH",
+        body: { uId, bookingId },
+      }),
+    }),
 
 //     getNotificationIdStatus: builder.query<NotificationtResponse, {nId: string, vId: string}>({
 //       query: ({nId, vId}) => ({
@@ -77,4 +88,5 @@ export const bookingAPI = createApi({
 })
 });
 
+export const { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery, useGetBookingbyIdQuery, useUpdateIsVerifiedMutation } = bookingAPI;
 export const { useAddBookingEnquiryMutation, useGetBookingByUserAndVenueQuery, useGetBookingbyIdQuery, useUpdateIsVerifiedMutation } = bookingAPI;

@@ -78,6 +78,50 @@ const VenueServicePage = () => {
   //     "Decor provided by the venue"
   //   ]
   // };
+  // const venuePolicies = {
+  //   timings: "11:00 PM",
+  //   morningSlot: "8:00 AM - 11:00 PM",
+  //   changingRoom: {
+  //     count: 2,
+  //     isAc: true,
+  //   },
+  //   advance: {
+  //     amount: 118000,
+  //     adjustmentPolicy: "6 months",
+  //   },
+  //   taxes: {
+  //     fnb: "18.00%",
+  //   },
+  //   parking: {
+  //     valet: false,
+  //     space: 100,
+  //   },
+  //   cancellation: "Non cancellable",
+  //   lodging: "No rooms available",
+  //   alcohol: {
+  //     allowed: true,
+  //     outsideAllowed: true,
+  //     corkageCost: true,
+  //   },
+  //   otherPolicies: [
+  //     "No Music allowed late",
+  //     "Halls are air conditioned",
+  //     "No ample parking",
+  //     "Baarat allowed",
+  //     "No fire crackers allowed",
+  //     "Hawan allowed",
+  //     "No overnight wedding allowed"
+  //   ],
+  //   food: [
+  //     "Food provided by the venue",
+  //     "No outside food/caterer allowed at the venue",
+  //     "Non-Veg allowed at the venue"
+  //   ],
+  //   decoration: [
+  //     "No Outside decorators allowed",
+  //     "Decor provided by the venue"
+  //   ]
+  // };
 
   // const handleContactClick = () => {
   //   alert('Contact button clicked!');
@@ -146,9 +190,12 @@ const VenueServicePage = () => {
         <VenueImageCarousel images={venueData?.images} />
       </div>
       {/* <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
+      {/* <div className="mt-8 bg-white p-4 rounded-lg shadow-lg">
         <VenuePolicies policies={venuePolicies} />
       </div> */}
+      </div> */}
       <div className="flex flex-col justify-center mt-8">
+        {/* <h2 className="text-2xl font-thin mb-4 tracking-widest flex justify-center">RELATED ARTICLES</h2> */}
         {/* <h2 className="text-2xl font-thin mb-4 tracking-widest flex justify-center">RELATED ARTICLES</h2> */}
         <RelatedArticles />
       </div>
