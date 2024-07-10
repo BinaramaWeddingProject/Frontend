@@ -27,6 +27,7 @@ export type Vendor = {
   cancellationPolicy?: string;
   termAndConditions?: string;
   review?: string;
+  price?: string
 };
 
 //venue type

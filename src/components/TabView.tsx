@@ -23,13 +23,13 @@ const TabView: FC<ItabView> = ({ vendorData }) => {
   };
 
   // Dummy ratings data
-  const ratings = [
-    { stars: 5, review: "Excellent service!" },
-    { stars: 4, review: "Very good experience." },
-    { stars: 3, review: "Average service." },
-    { stars: 2, review: "Needs improvement." },
-    { stars: 1, review: "Poor service." },
-  ];
+  // const ratings = [
+  //   { stars: 5, review: "Excellent service!" },
+  //   { stars: 4, review: "Very good experience." },
+  //   { stars: 3, review: "Average service." },
+  //   { stars: 2, review: "Needs improvement." },
+  //   { stars: 1, review: "Poor service." },
+  // ];
 
   return (
     <div className="border-b border-gray-200">
@@ -78,7 +78,7 @@ const TabView: FC<ItabView> = ({ vendorData }) => {
           <FontAwesomeIcon icon={faBoxOpen} className="mr-2" />
           Package
         </button>
-        <button
+        {/* <button
           className={`${
             activeTab === "Ratings"
               ? "bg-gray-200 border-b-2 border-blue-500"
@@ -88,7 +88,7 @@ const TabView: FC<ItabView> = ({ vendorData }) => {
         >
           <FontAwesomeIcon icon={solidStar} className="mr-2" />
           Ratings
-        </button>
+        </button> */}
       </nav>
       <div className="mt-4">
         {activeTab === "Overview" && (
@@ -112,7 +112,7 @@ const TabView: FC<ItabView> = ({ vendorData }) => {
           <PackageTab packages={vendorData?.packages} />
         )}
 
-        {activeTab === "Ratings" && <RatingsTab ratings={ratings} />}
+        {/* {activeTab === "Ratings" && <RatingsTab ratings={ratings} />} */}
       </div>
     </div>
   );
@@ -148,9 +148,9 @@ const OverviewTab = ({
         <div>
           <h3 className="font-semibold font-roboto">Willing to Travel:</h3>
           {willingToTravel ? (
-            <img src="/icons8-tick.svg" alt="Tick" className="w-6 h-6" />
+            <img src="/icons8-tick.svg" alt="Yes" className="w-6 h-6" />
           ) : (
-            <img src="/icons8-cross.svg" alt="Cross" className="w-6 h-6" />
+            <img src="/icons8-cross.svg" alt="No" className="w-6 h-6" />
           )}
         </div>
       </div>

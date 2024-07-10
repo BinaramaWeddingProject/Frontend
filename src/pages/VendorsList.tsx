@@ -36,6 +36,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
   const [filteredVendors, setFilteredVendors] = useState<Vendor[]>([]);
   const { type } = useParams<{ type: string }>();
   const Title = type;
+  console.log("hello",data)
 
   const [currentPage, setCurrentPage] = useState(1);
   const vendorsPerPage = 10;
@@ -163,7 +164,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
                       city={vendor.city}
                       packagePrice={vendor.packages?.price}
                       summary={vendor.summary}
-                      image={vendor.portfolio ? vendor.portfolio[4] : ""}
+                      image={vendor.portfolio ? vendor.portfolio[0] : ""}
                     />
                   );
                 } else if (vendor.type_Of_Business === Title) {
@@ -175,7 +176,7 @@ const VendorsList: React.FC<VendorsListProps> = ({
                       city={vendor.city}
                       packagePrice={vendor.packages?.price}
                       summary={vendor.summary}
-                      image={vendor.portfolio ? vendor.portfolio[4] : ""}
+                      image={vendor.portfolio ? vendor.portfolio[0] : ""}
                     />
                   );
                 }

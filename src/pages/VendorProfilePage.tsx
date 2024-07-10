@@ -55,7 +55,7 @@ const VendorProfilePage: React.FC = () => {
             {/* Pass vendorData as serviceDetails */}
             <ServiceDetailsForm
               address={vendorData?.address}
-              price={vendorData?.packages?.price}
+              price={vendorData?.price}
               portfolio={vendorData?.portfolio}
               experience={vendorData?.experience}
               event_completed={vendorData?.event_completed}

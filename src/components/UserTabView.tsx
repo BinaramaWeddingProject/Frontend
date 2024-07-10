@@ -15,26 +15,26 @@ import { useUpdateUserMutation } from '../redux/api/user';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
-const dummyPackages = [
-    {
-        name: "Basic History",
-        days: "1 day",
-        price: "$100",
-        minAdvance: "$20",
-    },
-    {
-        name: "Standard History",
-        days: "3 days",
-        price: "$250",
-        minAdvance: "$50",
-    },
-    {
-        name: "Premium History",
-        days: "5 days",
-        price: "$500",
-        minAdvance: "$100",
-    },
-];
+// const dummyPackages = [
+//     {
+//         name: "Basic History",
+//         days: "1 day",
+//         price: "$100",
+//         minAdvance: "$20",
+//     },
+//     {
+//         name: "Standard History",
+//         days: "3 days",
+//         price: "$250",
+//         minAdvance: "$50",
+//     },
+//     {
+//         name: "Premium History",
+//         days: "5 days",
+//         price: "$500",
+//         minAdvance: "$100",
+//     },
+// ];
 
 interface ProfileData {
     name: string;

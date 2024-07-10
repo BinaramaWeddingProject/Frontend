@@ -20,19 +20,20 @@ interface Props {
     portfolio?: string[] | undefined;
     experience?: string;
     event_completed?: number;
-    willingToTravel?: boolean;
+    // willingToTravel?: boolean;
     summary?: string;
-    packages: Package | undefined;
+    packages?: Package | undefined;
     id?: string |undefined
     [key: string]: any; 
     
 }
 
-const ServiceDetailsForm: React.FC<Props> = ({ address, price, portfolio, experience, event_completed, willingToTravel, summary, packages, id }) => {
+const ServiceDetailsForm: React.FC<Props> = ({ address, price, portfolio, experience, event_completed, summary, packages, id }) => {
     const [updateVendor ] = useUpdateVendorMutation();
     const [isLoading, setIsLoading] = useState(false); // Add loading state
 
     console.log("packages", packages?.days)
+    console.log("sumit bolaa h",address, price, portfolio, experience, event_completed, summary, packages, id )
     
 
     const [editing, setEditing] = useState(false);
@@ -43,9 +44,9 @@ const ServiceDetailsForm: React.FC<Props> = ({ address, price, portfolio, experi
         portfolio: undefined,
         experience: '',
         event_completed: undefined,
-        willingToTravel: false,
+        // willingToTravel: false,
         summary: '',
-        packages: { name: '', days: '', price: '', minAdvance: '' },
+        // packages: { name: '', days: '', price: '', minAdvance: '' },
         
     });
     // Function to handle input changes
@@ -97,25 +98,57 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true); // Set loading to true when submitting
+        
         const formDataToSend = new FormData();
-
-  
-      // Append images if they exist
-      imagedata.forEach((image) => {
-        formDataToSend.append('portfolio', image);
-      });
-
+        
+        // Append text-based data from the form elements
+        const formElements = e.currentTarget.elements as HTMLFormControlsCollection;
+        for (let i = 0; i < formElements.length; i++) {
+            const element = formElements.item(i) as HTMLInputElement;
+            if (element.name && element.type !== 'file') {
+                formDataToSend.append(element.name, element.value);
+            }
+        }
+    
+        // Manually append price and packages if they are not automatically included
+        // if (formData.price) {
+        //     formDataToSend.append('price', formData.price);
+        // }
+    
+        // if (formData.packages) {
+        //     if (formData.packages.name) {
+        //         formDataToSend.append('packages.name', formData.packages.name);
+        //     }
+        //     if (formData.packages.days) {
+        //         formDataToSend.append('packages.days', formData.packages.days);
+        //     }
+        //     if (formData.packages.price) {
+        //         formDataToSend.append('packages.price', formData.packages.price);
+        //     }
+        //     if (formData.packages.minAdvance) {
+        //         formDataToSend.append('packages.minAdvance', formData.packages.minAdvance);
+        //     }
+        // }
+    
+        // Append images if they exist
+        imagedata.forEach((image) => {
+            formDataToSend.append('portfolio', image);
+        });
+    
+        console.log("FormData being sent:", formDataToSend);
+        
         // Here you can submit the updated data (formData) to your backend or perform any other action
         try {
             const result = await updateVendor({ vendorId: id || "", formData: formDataToSend }).unwrap();
             console.log('Venue updated:', result);
             // Handle success (e.g., show a success message, redirect)
-          } catch (error) {
+        } catch (error) {
             console.error('Failed to update venue:', error);
             // Handle error (e.g., show error message)
-          }
-          setIsLoading(false);
-          setEditing(false);
+        }
+        
+        setIsLoading(false);
+        setEditing(false);
     };
 
     // Function to handle edit button click
@@ -127,7 +160,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             portfolio: portfolio || [],
             experience: experience || '',
             event_completed: event_completed || 0,
-            willingToTravel: willingToTravel || false,
+            // willingToTravel: willingToTravel || false,
             summary: summary || '',
             packages: packages || { name: '', days: '', price: '', minAdvance: '' }
         });
@@ -211,7 +244,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                                     className="w-3/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                 />
                             </div>
-                            <div className="mb-10 border-b pb-8">
+                            {/* <div className="mb-10 border-b pb-8">
                                 <label htmlFor="willingToTravel" className="block mb-4 font-bold text-2xl text-[#110069]">
                                     Willing to Travel:
                                 </label>
@@ -223,7 +256,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                                     onChange={handleInputChange}
                                     className="mr-2 bg-white text-[#110069]"
                                 />
-                            </div>
+                            </div> */}
                             <div className="mb-10 border-b pb-8">
                                 <label htmlFor="summary" className="block mb-4 font-bold text-2xl text-[#110069]">
                                     Summary:
@@ -238,11 +271,11 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                             </div>
 
                             <div className="mb-10 border-b pb-8">
-                                <label htmlFor="packages" className="block mb-4 font-bold text-2xl text-[#110069]">
+                                {/* <label htmlFor="packages" className="block mb-4 font-bold text-2xl text-[#110069]">
                                     Packages:
-                                </label>
+                                </label> */}
                                 
-                                    <div  className="flex gap-4 mb-4">
+                                    {/* <div  className="flex gap-4 mb-4">
                                         <input
                                             type="text"
                                             id="packages.name"
@@ -279,7 +312,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                                             placeholder="Minimum Advance"
                                             className="w-1/4 rounded-md border-gray-300 px-3 py-2 text-lg bg-white text-[#110069]"
                                         />
-                                    </div>
+                                    </div> */}
                                 
                                 {/* <button
                                     type="button"
@@ -322,19 +355,19 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                                     {event_completed}
                                 </p>
                             </div>
-                            <div className="mb-8 border-b pb-4">
+                            {/* <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Willing to Travel:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center w-3/6 mx-auto">
                                     {willingToTravel ? 'Yes' : 'No'}
                                 </p>
-                            </div>
+                            </div> */}
                             <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Summary:</p>
                                 <p className="text-lg bg-white text-[#110069] p-2 rounded-md text-center h-auto w-3/6 mx-auto">
                                     {summary}
                                 </p>
                             </div>
-                            <div className="mb-8 border-b pb-4">
+                            {/* <div className="mb-8 border-b pb-4">
                                 <p className="text-[#110069] text-xl font-bold">Packages:</p>
                                
     
@@ -347,7 +380,7 @@ const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     
 
 
-                            </div>
+                            </div> */}
                            
                             <div className="mb-8">
                   <h3 className="font-bold text-lg text-[#110069]">Images:</h3>
