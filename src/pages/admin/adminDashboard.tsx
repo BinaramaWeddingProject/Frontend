@@ -12,6 +12,7 @@ import UserManagement from "./components/management/userManagement";
 import BlogManagement from "./components/management/blogManagement";
 import RealWeddingManagement from "./components/management/realWeddingManagement";
 // import BookingManagement from './components/bookingManagement';
+import NotificationManagement from "./components/management/notificationManagement"
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -49,8 +50,8 @@ const AdminDashboard = () => {
         return <BlogManagement />;
       case "Real Wedding Management":
         return <RealWeddingManagement />;
-      // case "Booking Management":
-      //   return <BookingManagement />;
+      case "Notification Management":
+        return <NotificationManagement />;
       default:
         return <Profile />; // Render Profile by default
     }
@@ -64,7 +65,7 @@ const AdminDashboard = () => {
           <h1 className=" sm:text-sm lg:text-2xl font-bold">Admin Dashboard</h1>
         </div>
         <ul className="mt-4 w-full space-y-2 flex flex-col items-center">
-          {["Profile", "Admin Management", "Vendor Management", "Venue Management", "User Management", "Blog Management", "Real Wedding Management"].map((section) => (
+          {["Profile", "Admin Management", "Vendor Management", "Venue Management", "User Management", "Blog Management", "Real Wedding Management" , "Notification Management"].map((section) => (
             <li
               key={section}
               className={`py-2 px-4 align-middle rounded-lg hover:bg-blue-800 cursor-pointer text-center lg:w-1/2 ${
