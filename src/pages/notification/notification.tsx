@@ -19,7 +19,7 @@ const UserNotification = () => {
     const [notificationStatus, setNotificationStatus] = useState<string[]>([]);
   
     const { data } = useGetNotificationByIdQuery({ vId: vId as string });
-    ;
+    
     const { data: notif } = useGetAllNotificationByVIdQuery({ vId: vId as string });
     const [updateNotification] = useUpdateNotificationMutation();
     

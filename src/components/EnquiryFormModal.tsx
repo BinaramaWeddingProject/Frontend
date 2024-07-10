@@ -18,18 +18,33 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
     date: '',
     address: '',
     message: '',
-    typeOfEvent: ''  // New field added
+    typeOfEvent: ''
   });
+
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (name === 'contact') {
+      setContactError('');
+    }
   };
+
+  const [contactError, setContactError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if contact is exactly 10 digits
+    if (!/^\d{10}$/.test(formData.contact)) {
+      setContactError('Contact must be exactly 10 digits');
+      return;
+    }
+
     onSubmit(formData);
     onRequestClose();
   };
+
 
   return (
     <Modal
@@ -63,8 +78,9 @@ const EnquiryFormModal: React.FC<EnquiryFormModalProps> = ({ isOpen, onRequestCl
               value={formData.contact}
               onChange={handleChange}
               required
-              className="w-full p-2 border border-gray-300 rounded"
+              className={`w-full p-2 border ${contactError ? 'border-red-500' : 'border-gray-300'} rounded`}
             />
+            {contactError && <p className="text-red-500 text-xs mt-1">{contactError}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1" htmlFor="location">Location:</label>
