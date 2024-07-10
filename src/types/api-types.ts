@@ -223,3 +223,9 @@ export type EnquiryResponse= {
   message:string;
   data: Enquiry;
 }
+
+export type AllEnquiryResponse= {
+
+  message:string;
+  data: Enquiry[];
+}

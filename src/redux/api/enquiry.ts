@@ -3,7 +3,7 @@ const server = import.meta.env.VITE_API_Server;
 console.log(server)
 
 import { Enquiry } from '../../types/types';
-import { EnquiryResponse } from '../../types/api-types';
+import { EnquiryResponse  } from '../../types/api-types';
 
 export const enquiryAPI = createApi({
   reducerPath: 'enquiryAPI',
@@ -18,7 +18,22 @@ export const enquiryAPI = createApi({
         body: formdata,
       }),
     }),
+
+    UpdateEnquiry: builder.mutation<EnquiryResponse, {id:string}>({
+      query: ({id}) => ({
+        url: `${id}`,
+        method: 'PATCH',
+      }),
+    }),
+
+    allEnquiries: builder.query<Enquiry[], void>({
+      query: () => ({
+        url: 'all/enquiry',
+        method: 'GET'
+      }),
+    }),
+
   }),
 });
 
-export const { useSubmitEnquiryMutation } = enquiryAPI;
+export const { useSubmitEnquiryMutation , useAllEnquiriesQuery , useUpdateEnquiryMutation } = enquiryAPI;

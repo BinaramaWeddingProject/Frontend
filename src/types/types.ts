@@ -171,5 +171,6 @@ export interface Notification{
   date?: string;
   address?: string;
   message?: string;
+  isRead?:boolean;
   typeOfEvent?: string;
 }

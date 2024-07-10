@@ -2,10 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BookingResponse } from "../../types/api-types";
 import {  Bookings } from "../../types/types";
 
+const server = import.meta.env.VITE_API_Server;
 export const bookingAPI = createApi({
   reducerPath: "bookingApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:9000/api/v1/bookings/",
+    baseUrl: `${server}/api/v1/bookings/`,
   }),
 
   endpoints: (builder) => ({

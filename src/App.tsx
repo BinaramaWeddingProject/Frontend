@@ -49,12 +49,16 @@ const App: React.FC = () => {
   return (
     <ChakraProvider>
      
+     
       <Router>
         <Suspense fallback={<Loader />}>
         {/* <PopUp/> */}
         <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* <Route path="/popup" element={<PopUp />} /> */}
+
 
             {/* <Route path="/popup" element={<PopUp />} /> */}
 
